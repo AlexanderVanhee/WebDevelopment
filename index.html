@@ -1,11 +1,137 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Web development</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oefeningen Alexander Vanhee</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap CSS -->
+    <style>
+        .preview-container {
+            margin-top: 10px;
+        }
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+        }
+        .btn-external {
+            margin-left: 10px;
+        }
+        .exercise-header {
+            cursor: pointer;
+            position: relative;
+            padding-right: 60px; 
+        }
+        .exercise-header:hover {
+            background-color: #f8f9fa;
+        }
+        .exercise-title {
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+        }
+        .exercise-title::after {
+            transform: rotate(0deg);
+            content: '\25BC';
+            display: inline-block;
+            margin-left: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .exercise-title.collapsed::after {
+            transform: rotate(-90deg);
+        }
+        .btn-external {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
 </head>
-
 <body>
-</body>
+    <div class="container mt-5">
+        <h1 class="text-center">Oefeningen van Alexander Vanhee</h1>
+        <div id="exercises-container">
+            <!-- Dynamic content will be placed in this spot -->
+        </div>
+    </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Creats lists based on the content of exercises.json, these lists contain entries that represent an excerise via an iFrame 
+        // or allows the user to open them externally the old fashioned way.
+        function generateExerciseLists(data) {
+            const container = document.getElementById('exercises-container');
+            data.tasks.forEach((task, taskIndex) => {
+                const taskDiv = document.createElement('div');
+                taskDiv.className = 'mb-4';
+                taskDiv.innerHTML = `<h2>${task.title}</h2>`;
+                
+                const accordion = document.createElement('div');
+                accordion.className = 'accordion';
+                accordion.id = `accordion-${taskIndex}`;
+                
+                task.exercises.forEach((exercise, exerciseIndex) => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="card-header exercise-header" id="heading-${taskIndex}-${exerciseIndex}">
+                            <h5 class="exercise-title mb-0" data-toggle="collapse" 
+                                data-target="#collapse-${taskIndex}-${exerciseIndex}" 
+                                aria-expanded="true" aria-controls="collapse-${taskIndex}-${exerciseIndex}">
+                                ${exercise.title}
+                            </h5>
+                            <button class="btn btn-sm btn-primary btn-external" onclick="openExternal('${exercise.path}'); event.stopPropagation();">Extern openen</button>
+                            <div  data-toggle="collapse" 
+                                 data-target="#collapse-${taskIndex}-${exerciseIndex}" 
+                                 aria-expanded="true" aria-controls="collapse-${taskIndex}-${exerciseIndex}"></div>
+                        </div>
+                        <div id="collapse-${taskIndex}-${exerciseIndex}" class="collapse" 
+                             aria-labelledby="heading-${taskIndex}-${exerciseIndex}" data-parent="#accordion-${taskIndex}">
+                            <div class="card-body">
+                                <div class="preview-container">
+                                    <iframe data-src="${exercise.path}"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    accordion.appendChild(card);
+                });
+                
+                taskDiv.appendChild(accordion);
+                container.appendChild(taskDiv);
+            });
+
+            // Initialize iframe when accordion item is shown
+            $('.collapse').on('shown.bs.collapse', function () {
+                const iframe = this.querySelector('iframe');
+                if (!iframe.src) {
+                    iframe.src = iframe.getAttribute('data-src');
+                }
+
+                // Make sure external links in iframes open in a new page.
+                iframe.onload = function() {
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        const links = iframeDoc.getElementsByTagName('a');
+                        for (let link of links) {
+                            link.target = '_blank';  
+                        }
+                };
+            });
+        }
+        // open external links in a new tab for ease of use.
+        function openExternal(url) {
+            window.open(url, '_blank');
+        }
+
+        // Load from exercises.json
+        $(document).ready(function() {
+            $.getJSON('exercises.json', function(data) {
+                generateExerciseLists(data);
+            });
+        });
+    </script>
+</body>
 </html>

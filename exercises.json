@@ -1,0 +1,21 @@
+{
+    "tasks": [
+      {
+        "title": "Labo 2 HTML",
+        "exercises": [
+          {"title": "Oefening 3", "path": "labo2/oef3.html"},
+          {"title": "Oefening 4", "path": "labo2/oef4.html"},
+          {"title": "Oefening 5", "path": "labo2/oef5.html"},
+          {"title": "Oefening 6", "path": "labo2/oef6.html"},
+          {"title": "Oefening 7", "path": "labo2/oef7.html"},
+          {"title": "Oefening 8", "path": "labo2/oef8.html"},
+          {"title": "Oefening 9", "path": "labo2/oef9.html"},
+          {"title": "Oefening 10", "path": "labo2/oef10.html"},
+          {"title": "Oefening 11", "path": "labo2/oef11.html"},
+          {"title": "Oefening 12", "path": "labo2/oef12.html"},
+          {"title": "Oefening 13", "path": "labo2/oef13.html"}
+        ]
+      }
+    ]
+  }
+  
