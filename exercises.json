@@ -1,7 +1,8 @@
 {
     "tasks": [
       {
-        "title": "Labo 2 HTML",
+        "title": "Labo 2",
+        "subtitle": "HTML",
         "exercises": [
           {"title": "Oefening 3", "path": "labo2/oef3.html"},
           {"title": "Oefening 4", "path": "labo2/oef4.html"},
