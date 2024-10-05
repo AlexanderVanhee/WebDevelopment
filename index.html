@@ -4,15 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oefeningen Alexander Vanhee</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1 0 auto;
+        }
         .preview-container {
             margin-top: 10px;
         }
         iframe {
             width: 100%;
             height: 500px;
-            border: 1px solid #ddd;
         }
         .btn-external {
             margin-left: 10px;
@@ -23,26 +33,7 @@
             padding-right: 60px; 
         }
         .exercise-header:hover {
-            background-color: #f8f9fa;
-        }
-        .exercise-title {
-            margin: 0;
-            padding: 0;
-            display: inline-block;
-        }
-
-        .exercise-title::after {
-            content: '\25BC'; 
-            transform: rotate(-90deg);
-            margin-left: 5px; 
-            font-weight: normal; 
-            color: black; 
-            font-family: Arial, sans-serif;
-        }
-
-        .collapsed.exercise-title::after {
-            content: '\25B6'; 
-            transform: none; 
+            background-color: rgba(var(--bs-secondary-rgb), 0.1);
         }
         .exercise-title {
             margin: 0;
@@ -53,11 +44,11 @@
             content: '\25BC'; 
             margin-left: 5px; 
             font-family: Arial, sans-serif;
+            transition: transform 0.3s ease;
         }
-
-        .collapsed.exercise-title::after {
+        .collapsed .exercise-title::after {
             content: '\25B6'; 
-            transform: none; 
+            transform: rotate(0deg);
         }
         .btn-external {
             position: absolute;
@@ -65,30 +56,56 @@
             top: 50%;
             transform: translateY(-50%);
         }
+        .spinner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 500px;
+        }
+        #github-logo {
+            width: 20px;
+            height: 20px;
+        }
+        footer {
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <div style="display: flex; align-items: center;">
-            <h5 style="margin: 0;">Alexander Vanhee</h5>
-            <a href="https://github.com/AlexanderVanhee/WebDevelopment" target="_blank" style="margin-left: 10px;">
-                <img src="github.svg" alt="GitHub Logo" style="width: 20px; height: 20px;">
-            </a>
-        </div>
+    <div class="content">
+        <div class="container mt-5">
+            <div class="d-flex align-items-center mb-3">
+                <h5 class="mb-0">Alexander Vanhee</h5>
+                <a href="https://github.com/AlexanderVanhee/WebDevelopment" target="_blank" class="ms-2">
+                    <i class="bi bi-github"></i>
+                </a>
+            </div>
 
-        <h1>Oefeningen</h1>
-        <hr>
-        <div id="exercises-container">
-            <!-- Dynamic content will be placed in this spot -->
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>Oefeningen</h1>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="themeSwitch">
+                    <label class="form-check-label" for="themeSwitch">
+                        <i class="bi bi-moon-stars-fill"></i>
+                    </label>
+                </div>
+            </div>
+            <hr>
+            <div id="exercises-container">
+                <!-- Dynamic content will be placed here -->
+            </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <footer class="bg-body-tertiary text-center text-lg-start mt-auto">
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            <a>Voor het navigatiegemak heb ik gebruikgemaakt van iFrames. De aparte pagina's zijn nog steeds zichtbaar via de knop "Extern openen".</a>
+            <br>
+            <a>Alexander Vanhee - Groep A</a>
+            
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Creates lists based on the content of exercises.json, these lists contain entries that represent an exercise via an iFrame 
-        // or allows the user to open them externally the old fashioned way.
         function generateExerciseLists(data) {
             const container = document.getElementById('exercises-container');
             data.tasks.forEach((task, taskIndex) => {
@@ -102,20 +119,25 @@
                 
                 task.exercises.forEach((exercise, exerciseIndex) => {
                     const card = document.createElement('div');
-                    card.className = 'card';
+                    card.className = 'card mb-2';
                     card.innerHTML = `
-                        <div class="card-header exercise-header" id="heading-${taskIndex}-${exerciseIndex}" data-toggle="collapse" 
-                             data-target="#collapse-${taskIndex}-${exerciseIndex}" aria-expanded="true" 
+                        <div class="card-header exercise-header" id="heading-${taskIndex}-${exerciseIndex}" data-bs-toggle="collapse" 
+                             data-bs-target="#collapse-${taskIndex}-${exerciseIndex}" aria-expanded="false" 
                              aria-controls="collapse-${taskIndex}-${exerciseIndex}">
-                            <h5 class="exercise-title mb-0 collapsed">
+                            <h5 class="exercise-title mb-0">
                                 ${exercise.title}
                             </h5>
-                            <button class="btn btn-sm btn-primary btn-external" onclick="openExternal('${exercise.path}'); event.stopPropagation();">Extern openen</button>
+                            <button class="btn btn-sm btn-primary btn-external" onclick="openExternal('${exercise.path}', event);">Extern openen</button>
                         </div>
                         <div id="collapse-${taskIndex}-${exerciseIndex}" class="collapse" 
-                             aria-labelledby="heading-${taskIndex}-${exerciseIndex}" data-parent="#accordion-${taskIndex}">
+                             aria-labelledby="heading-${taskIndex}-${exerciseIndex}" data-bs-parent="#accordion-${taskIndex}">
                             <div class="card-body">
-                                <iframe data-src="${exercise.path}"></iframe>
+                                <div class="spinner-container">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <iframe class="border rounded" data-src="${exercise.path}" style="display: none;"></iframe>
                             </div>
                         </div>
                     `;
@@ -127,42 +149,76 @@
             });
     
             // Initialize iframe when accordion item is shown
-            $('.collapse').on('shown.bs.collapse', function () {
-                const iframe = this.querySelector('iframe');
-                if (!iframe.src) {
-                    iframe.src = iframe.getAttribute('data-src');
-                }
-    
-                // Make sure external links in iframes open in a new page.
-                iframe.onload = function() {
-                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                    const links = iframeDoc.getElementsByTagName('a');
-                    for (let link of links) {
-                        link.target = '_blank';  
+            document.querySelectorAll('.collapse').forEach(collapseEl => {
+                collapseEl.addEventListener('shown.bs.collapse', function () {
+                    const spinner = this.querySelector('.spinner-container');
+                    const iframe = this.querySelector('iframe');
+                    if (!iframe.src) {
+                        iframe.src = iframe.getAttribute('data-src');
+                        iframe.onload = function() {
+                            spinner.style.display = 'none';
+                            iframe.style.display = 'block';
+                            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                            // open links in new tab.
+                            const links = iframeDoc.getElementsByTagName('a');
+                            for (let link of links) {
+                                link.target = '_blank';  
+                            }
+                        };
+                    } else {
+                        spinner.style.display = 'none';
+                        iframe.style.display = 'block';
                     }
-                };
-            });
-            $('.collapse').on('show.bs.collapse', function () {
-                const header = this.previousElementSibling; 
-                const title = header.querySelector('.exercise-title'); 
-                title.classList.remove('collapsed'); 
-            });
+                });
 
-            $('.collapse').on('hide.bs.collapse', function () {
-                const header = this.previousElementSibling; 
-                const title = header.querySelector('.exercise-title'); 
-                title.classList.add('collapsed'); 
+                collapseEl.addEventListener('show.bs.collapse', function () {
+                    const header = this.previousElementSibling; 
+                    const title = header.querySelector('.exercise-title'); 
+                    title.classList.remove('collapsed'); 
+                });
+
+                collapseEl.addEventListener('hide.bs.collapse', function () {
+                    const header = this.previousElementSibling; 
+                    const title = header.querySelector('.exercise-title'); 
+                    title.classList.add('collapsed'); 
+                });
             });
         }
-        // Open external links in a new tab for ease of use.
-        function openExternal(url) {
+
+        // Open html content in new tab instead of iframe.
+        function openExternal(url, event) {
+            event.stopPropagation();
             window.open(url, '_blank');
         }
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-bs-theme', theme);
+            localStorage.setItem('theme', theme);
+        }
     
-        // Load from exercises.json
-        $(document).ready(function() {
-            $.getJSON('exercises.json', function(data) {
-                generateExerciseLists(data);
+        // Startup
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load from exercises.json
+            fetch('exercises.json')
+                .then(response => response.json())
+                .then(data => generateExerciseLists(data));
+
+            // get theme switch
+            const themeSwitch = document.getElementById('themeSwitch');
+            
+            // Load theme from Local Storage
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+                themeSwitch.checked = savedTheme === 'dark';
+            } else {
+                setTheme('light');
+                themeSwitch.checked = false;
+            }
+            // init themeswitch functionality.
+            themeSwitch.addEventListener('change', function() {
+                const newTheme = this.checked ? 'dark' : 'light';
+                setTheme(newTheme);
             });
         });
     </script>
