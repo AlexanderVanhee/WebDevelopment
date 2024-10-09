@@ -1,22 +1,84 @@
 {
-    "tasks": [
-      {
-        "title": "Labo 2",
-        "subtitle": "HTML Deel 1",
-        "exercises": [
-          {"title": "Opdracht 3", "path": "labo2/oef3.html"},
-          {"title": "Opdracht 4", "path": "labo2/oef4.html"},
-          {"title": "Opdracht 5", "path": "labo2/oef5.html"},
-          {"title": "Opdracht 6", "path": "labo2/oef6.html"},
-          {"title": "Opdracht 7", "path": "labo2/oef7.html"},
-          {"title": "Opdracht 8", "path": "labo2/oef8.html"},
-          {"title": "Opdracht 9", "path": "labo2/oef9.html"},
-          {"title": "Opdracht 10", "path": "labo2/oef10.html"},
-          {"title": "Opdracht 11", "path": "labo2/oef11.html"},
-          {"title": "Opdracht 12", "path": "labo2/oef12.html"},
-          {"title": "Opdracht 13", "path": "labo2/oef13.html"}
-        ]
-      }
-    ]
-  }
-  
+  "tasks": [
+    {
+      "title": "Labo 2",
+      "subtitle": "HTML Deel 1",
+      "exercises": [
+        {
+          "title": "Opdracht 3",
+          "path": "labo2/oef3.html"
+        },
+        {
+          "title": "Opdracht 4",
+          "path": "labo2/oef4.html"
+        },
+        {
+          "title": "Opdracht 5",
+          "path": "labo2/oef5.html"
+        },
+        {
+          "title": "Opdracht 6",
+          "path": "labo2/oef6.html"
+        },
+        {
+          "title": "Opdracht 7",
+          "path": "labo2/oef7.html"
+        },
+        {
+          "title": "Opdracht 8",
+          "path": "labo2/oef8.html"
+        },
+        {
+          "title": "Opdracht 9",
+          "path": "labo2/oef9.html"
+        },
+        {
+          "title": "Opdracht 10",
+          "path": "labo2/oef10.html"
+        },
+        {
+          "title": "Opdracht 11",
+          "path": "labo2/oef11.html"
+        },
+        {
+          "title": "Opdracht 12",
+          "path": "labo2/oef12.html"
+        },
+        {
+          "title": "Opdracht 13",
+          "path": "labo2/oef13.html"
+        }
+      ]
+    },
+    {
+      "title": "Labo 3",
+      "subtitle": "HTML Deel 2",
+      "exercises": [
+        {
+          "title": "Opdracht 1",
+          "path": "labo3/oef1.html"
+        },
+        {
+          "title": "Opdracht 2",
+          "path": "labo3/oef2.html"
+        },
+        {
+          "title": "Opdracht 3",
+          "path": "labo3/oef3.html"
+        },
+        {
+          "title": "Homepage",
+          "path": "labo3/homepage/homepage.html"
+        },
+        {
+          "title": "Contact information",
+          "path": "labo3/table.html"
+        },
+        {
+          "title": "Onderwijsaanbod",
+          "path": "labo3/onderwijsaanbod.html"
+        }
+      ]
+    }
+  ]
+}
