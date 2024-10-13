@@ -83,55 +83,102 @@
         footer {
             flex-shrink: 0;
         }
+
+        /* New styles for sidebar */
+        .sidebar {
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar .nav-link {
+            color: var(--bs-body-color);
+            padding: 0.25rem 0.5rem;
+        }
+
+        .sidebar .nav-link.active {
+            font-weight: bold;
+            color: var(--bs-primary);
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: rgba(var(--bs-secondary-rgb), 0.1);
+        }
     </style>
 </head>
 
 <body>
-    <div class="content">
-        <div class="container mt-5">
-            <div class="d-flex align-items-center mb-3">
-                <h5 class="mb-0">Alexander Vanhee</h5>
-                <a href="https://github.com/AlexanderVanhee/WebDevelopment" target="_blank" class="ms-2">
-                    <i class="bi bi-github"></i>
-                </a>
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center">
-                <h1>Oefeningen</h1>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="themeSwitch">
-                    <label class="form-check-label" for="themeSwitch">
-                        <i class="bi bi-moon-stars-fill"></i>
-                    </label>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column" id="sidebar-nav">
+                        <!-- Will be populated dynamically -->
+                    </ul>
                 </div>
-            </div>
-            <hr>
-            <div id="exercises-container">
-                <!-- Dynamic content will be placed here -->
-            </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="content">
+                    <div class="container mt-5">
+                        <div class="d-flex align-items-center mb-3">
+                            <h5 class="mb-0">Alexander Vanhee</h5>
+                            <a href="https://github.com/AlexanderVanhee/WebDevelopment" target="_blank" class="ms-2">
+                                <i class="bi bi-github"></i>
+                            </a>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h1>Oefeningen</h1>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="themeSwitch">
+                                <label class="form-check-label" for="themeSwitch">
+                                    <i class="bi bi-moon-stars-fill"></i>
+                                </label>
+                            </div>
+                        </div>
+                        <hr>
+                        <div id="exercises-container">
+                            <!-- Dynamic content will be placed here -->
+                        </div>
+                    </div>
+                </div>
+                <footer class="bg-body-tertiary text-center text-lg-start mt-auto">
+                    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+                        <a>Voor het navigatiegemak heb ik gebruikgemaakt van iFrames. De aparte pagina's zijn nog steeds
+                            zichtbaar
+                            via de knop "Extern openen".</a>
+                        <br>
+                        <a>Alexander Vanhee - Groep A</a>
+                    </div>
+                </footer>
+            </main>
         </div>
     </div>
-    <footer class="bg-body-tertiary text-center text-lg-start mt-auto">
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-            <a>Voor het navigatiegemak heb ik gebruikgemaakt van iFrames. De aparte pagina's zijn nog steeds zichtbaar
-                via de knop "Extern openen".</a>
-            <br>
-            <a>Alexander Vanhee - Groep A</a>
 
-        </div>
-    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function generateExerciseLists(data) {
             const container = document.getElementById('exercises-container');
+            const sidebar = document.getElementById('sidebar-nav');
+
             data.tasks.forEach((task, taskIndex) => {
                 const taskDiv = document.createElement('div');
                 taskDiv.className = 'mb-4';
+                taskDiv.id = `task-${taskIndex}`;
                 taskDiv.innerHTML = `<h2>${task.title}</h2><h5>${task.subtitle}</h5><br>`;
 
                 const accordion = document.createElement('div');
                 accordion.className = 'accordion';
                 accordion.id = `accordion-${taskIndex}`;
+
+                // Add task to sidebar
+                const taskItem = document.createElement('li');
+                taskItem.className = 'nav-item';
+                taskItem.innerHTML = `<a class="nav-link" href="#task-${taskIndex}"><i style="margin-right:10px" class="bi bi-arrow-right-circle-fill"></i></i>${task.title}</a>`;
+                sidebar.appendChild(taskItem);
 
                 task.exercises.forEach((exercise, exerciseIndex) => {
                     const card = document.createElement('div');
@@ -139,7 +186,6 @@
                     card.innerHTML = `
                         <div class="card-header" style="padding: 0;" id="heading-${taskIndex}-${exerciseIndex}">
                             <div class="btn-group w-100" role="group">
-                                <!-- Accordion toggler button -->
                                 <button type="button" class="btn btn-link text-start w-100 exercise-header" data-bs-toggle="collapse" 
                                     data-bs-target="#collapse-${taskIndex}-${exerciseIndex}" aria-expanded="false" 
                                     aria-controls="collapse-${taskIndex}-${exerciseIndex}">
@@ -165,7 +211,6 @@
                             </div>
                         </div>
                     `;
-
 
                     accordion.appendChild(card);
                 });
@@ -209,12 +254,12 @@
                     title.classList.add('collapsed');
                 });
             });
-        }
 
-        // Open html content in new tab instead of iframe.
-        function openExternal(url, event) {
-            event.stopPropagation();
-            window.open(url, '_blank');
+            // Initialize ScrollSpy
+            var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+                target: '#sidebar-nav',
+                offset: 200
+            });
         }
 
         function setTheme(theme) {
