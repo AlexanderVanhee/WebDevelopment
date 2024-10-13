@@ -82,81 +82,121 @@
 
         footer {
             flex-shrink: 0;
+            width: 100%;
         }
 
-        /* New styles for sidebar */
-        .sidebar {
+
+        .sidebar-box {
             position: fixed;
-            height: 100vh;
+            top: 2em;
+            left: 2em;
+            width: 10em;
+            height: 7em;
+            max-height: 80vh;
             overflow-y: auto;
+            background-color: var(--bs-body-bg);
+            border: 1px solid var(--bs-border-color);
+            border-radius: 10px;
+            padding: 15px;
+            z-index: 1000;
+            transition: all 0.3s ease;
         }
 
-        .sidebar .nav-link {
+        .sidebar-box.minimized {
+            width: 2em;
+            height: 2em;
+            overflow: hidden;
+            border-radius: 50%;
+            padding: 0;
+        }
+        .sidebar-content {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-box.minimized .sidebar-content {
+            opacity: 0;
+        }
+
+        .sidebar-box .nav-link {
             color: var(--bs-body-color);
-            padding: 0.25rem 0.5rem;
         }
 
-        .sidebar .nav-link.active {
+        .sidebar-box .nav-link.active {
             font-weight: bold;
             color: var(--bs-primary);
         }
 
-        .sidebar .nav-link:hover {
+        .sidebar-box .nav-link:hover {
             background-color: rgba(var(--bs-secondary-rgb), 0.1);
+        }
+
+        .sidebar-toggle {
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--bs-body-color);
+            z-index: 1001;
+        }
+
+        main {
+            margin-left: 0;
+            width: 100%;
         }
     </style>
 </head>
 
 <body>
     <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <nav class="col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse">
-                <div class="position-sticky pt-3">
-                    <ul class="nav flex-column" id="sidebar-nav">
-                        <!-- Will be populated dynamically -->
-                    </ul>
-                </div>
-            </nav>
+        <nav class="sidebar-box" id="sidebarBox">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <ul class="nav flex-column sidebar-content" id="sidebar-nav">
+                <!-- Will be populated dynamically -->
+            </ul>
+        </nav>
 
-            <!-- Main content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div class="content">
-                    <div class="container mt-5">
-                        <div class="d-flex align-items-center mb-3">
-                            <h5 class="mb-0">Alexander Vanhee</h5>
-                            <a href="https://github.com/AlexanderVanhee/WebDevelopment" target="_blank" class="ms-2">
-                                <i class="bi bi-github"></i>
-                            </a>
-                        </div>
+        <!-- Main content -->
+        <main class="px-md-4">
+            <div class="content">
+                <div class="container mt-5">
+                    <div class="d-flex align-items-center mb-3">
+                        <h5 class="mb-0">Alexander Vanhee</h5>
+                        <a href="https://github.com/AlexanderVanhee/WebDevelopment" target="_blank" class="ms-2">
+                            <i class="bi bi-github"></i>
+                        </a>
+                    </div>
 
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h1>Oefeningen</h1>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="themeSwitch">
-                                <label class="form-check-label" for="themeSwitch">
-                                    <i class="bi bi-moon-stars-fill"></i>
-                                </label>
-                            </div>
-                        </div>
-                        <hr>
-                        <div id="exercises-container">
-                            <!-- Dynamic content will be placed here -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1>Oefeningen</h1>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="themeSwitch">
+                            <label class="form-check-label" for="themeSwitch">
+                                <i class="bi bi-moon-stars-fill"></i>
+                            </label>
                         </div>
                     </div>
-                </div>
-                <footer class="bg-body-tertiary text-center text-lg-start mt-auto">
-                    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-                        <a>Voor het navigatiegemak heb ik gebruikgemaakt van iFrames. De aparte pagina's zijn nog steeds
-                            zichtbaar
-                            via de knop "Extern openen".</a>
-                        <br>
-                        <a>Alexander Vanhee - Groep A</a>
+                    <hr>
+                    <div id="exercises-container">
+                        <!-- Dynamic content will be placed here -->
                     </div>
-                </footer>
-            </main>
-        </div>
+                </div>
+            </div>
+        </main>
     </div>
+    
+    <footer class="bg-body-tertiary text-center text-lg-start mt-auto">
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            <a>Voor het navigatiegemak heb ik gebruikgemaakt van iFrames. De aparte pagina's zijn nog steeds
+                zichtbaar via de knop "Extern openen".</a>
+            <br>
+            <a>Alexander Vanhee - Groep A</a>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -267,6 +307,27 @@
             localStorage.setItem('theme', theme);
         }
 
+        function toggleSidebar() {
+            const sidebarBox = document.getElementById('sidebarBox');
+            const toggleButton = document.getElementById('sidebarToggle');
+            sidebarBox.classList.toggle('minimized');
+            
+            if (sidebarBox.classList.contains('minimized')) {
+                toggleButton.innerHTML = '<i class="bi bi-chevron-right"></i>';
+            } else {
+                toggleButton.innerHTML = '<i class="bi bi-chevron-left"></i>';
+            }
+        }
+
+        function checkSidebarVisibility() {
+            const sidebarBox = document.getElementById('sidebarBox');
+            if (window.innerWidth >= 1730) { 
+                sidebarBox.classList.remove('minimized');
+            } else {
+                sidebarBox.classList.add('minimized');
+            }
+        }
+
         // Startup
         document.addEventListener('DOMContentLoaded', function () {
             // Load from exercises.json
@@ -274,7 +335,7 @@
                 .then(response => response.json())
                 .then(data => generateExerciseLists(data));
 
-            // get theme switch
+            // Get theme switch
             const themeSwitch = document.getElementById('themeSwitch');
 
             // Load theme from Local Storage
@@ -286,11 +347,19 @@
                 setTheme('light');
                 themeSwitch.checked = false;
             }
-            // init themeswitch functionality.
+
+            // Init theme switch functionality
             themeSwitch.addEventListener('change', function () {
                 const newTheme = this.checked ? 'dark' : 'light';
                 setTheme(newTheme);
             });
+
+            // Init sidebar toggle functionality
+            document.getElementById('sidebarToggle').addEventListener('click', toggleSidebar);
+
+            // Check sidebar visibility on load and resize
+            checkSidebarVisibility();
+            window.addEventListener('resize', checkSidebarVisibility);
         });
     </script>
 </body>
