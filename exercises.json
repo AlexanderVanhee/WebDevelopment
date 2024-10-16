@@ -79,6 +79,24 @@
           "path": "labo3/onderwijsaanbod.html"
         }
       ]
+    },
+    {
+      "title": "Labo 4",
+      "subtitle": "HTML Deel 3",
+      "exercises": [
+        {
+          "title": "Opdracht 2",
+          "path": "labo4/oef2/oef2.html"
+        },
+        {
+          "title": "Opdracht 3",
+          "path": "labo4/oef3/oef3.html"
+        },
+        {
+          "title": "Homepage v2",
+          "path": "labo4/homepage/index.html"
+        }
+      ]
     }
   ]
 }

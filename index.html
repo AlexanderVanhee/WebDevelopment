@@ -85,13 +85,12 @@
             width: 100%;
         }
 
-
         .sidebar-box {
             position: fixed;
             top: 2em;
             left: 2em;
             width: 10em;
-            height: 7em;
+            height: 10em;
             max-height: 80vh;
             overflow-y: auto;
             background-color: var(--bs-body-bg);
@@ -109,6 +108,7 @@
             border-radius: 50%;
             padding: 0;
         }
+
         .sidebar-content {
             opacity: 1;
             transition: opacity 0.3s ease;
@@ -188,7 +188,7 @@
             </div>
         </main>
     </div>
-    
+
     <footer class="bg-body-tertiary text-center text-lg-start mt-auto">
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
             <a>Voor het navigatiegemak heb ik gebruikgemaakt van iFrames. De aparte pagina's zijn nog steeds
@@ -311,7 +311,7 @@
             const sidebarBox = document.getElementById('sidebarBox');
             const toggleButton = document.getElementById('sidebarToggle');
             sidebarBox.classList.toggle('minimized');
-            
+
             if (sidebarBox.classList.contains('minimized')) {
                 toggleButton.innerHTML = '<i class="bi bi-chevron-right"></i>';
             } else {
@@ -321,7 +321,7 @@
 
         function checkSidebarVisibility() {
             const sidebarBox = document.getElementById('sidebarBox');
-            if (window.innerWidth >= 1730) { 
+            if (window.innerWidth >= 1730) {
                 sidebarBox.classList.remove('minimized');
             } else {
                 sidebarBox.classList.add('minimized');
