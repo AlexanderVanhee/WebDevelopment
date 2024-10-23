@@ -97,6 +97,32 @@
           "path": "labo4/homepage/index.html"
         }
       ]
+    },
+    {
+      "title": "Labo 5",
+      "subtitle": "CSS Deel1",
+      "exercises": [
+        {
+          "title": "Opdracht 1",
+          "path": "labo5/oef1.html"
+        },
+        {
+          "title": "Opdracht 3",
+          "path": "labo5/oef3.html"
+        },
+        {
+          "title": "Opdracht 4",
+          "path": "labo5/oef4.html"
+        },
+        {
+          "title": "Opdracht 6",
+          "path": "labo5/oef6/oef6.html"
+        },
+        {
+          "title": "Opdracht 7",
+          "path": "labo5/oef7.html"
+        }
+      ]
     }
   ]
 }
