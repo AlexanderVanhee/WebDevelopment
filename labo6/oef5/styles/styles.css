@@ -1,0 +1,8 @@
+a::before {
+    content: "";
+    background: url("../images/coolblue.png") no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin-right: 6px;
+}

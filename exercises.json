@@ -123,6 +123,32 @@
           "path": "labo5/oef7.html"
         }
       ]
+    },
+    {
+      "title": "Labo 6",
+      "subtitle": "CSS Deel 2",
+      "exercises": [
+        {
+          "title": "Opdracht 1",
+          "path": "labo6/oef1/oef1.html"
+        },
+        {
+          "title": "Opdracht 3",
+          "path": "labo6/oef3/resume.html"
+        },
+        {
+          "title": "Opdracht 4",
+          "path": "labo6/oef4/oef4.html"
+        },
+        {
+          "title": "Opdracht 5",
+          "path": "labo6/oef5/oef5.html"
+        },
+        {
+          "title": "Opdracht 6",
+          "path": "labo6/oef6/oef6.html"
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,19 @@
+body {
+    font-family: "Helvetica", sans-serif;
+    font-size: 1.1em;
+    background-color: silver;
+    color: darkblue;
+}
+
+h1 {
+    background-color: red;
+    font-variant: small-caps;
+}
+
+a:hover {
+    border: solid green 1px;
+}
+
+.dashed {
+    border: dashed black 1px;
+}
