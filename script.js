@@ -63,7 +63,7 @@ function loadIframe(path) {
 
         let linkElements = doc.querySelectorAll('link[rel="stylesheet"]');
         let scriptElements = doc.querySelectorAll('script[src]');
-        const baseURL = new URL(path, window.location.origin);
+        const baseURL = new URL(window.location.pathname, window.location.origin);
 
         linkElements.forEach(link => {
             const cssPath = link.getAttribute('href');
