@@ -63,12 +63,14 @@ function loadIframe(path) {
 
         let linkElements = doc.querySelectorAll('link[rel="stylesheet"]');
         let scriptElements = doc.querySelectorAll('script[src]');
-        const baseURL = new URL(window.location.pathname, window.location.origin);
-        console.log("baseURL: ", baseURL)
+        const baseURL = new URL(path, window.location.origin);
+        console.log(baseURL);
+
         linkElements.forEach(link => {
             const cssPath = link.getAttribute('href');
             if (cssPath) {
                 const cssURL = new URL(cssPath, baseURL).href;
+                console.log(cssURL);
                 fetchAndDisplayFile(cssURL, 'css');
             }
         });
