@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind Exercise Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <link rel="stylesheet" href="styles.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/tabler-icons@1.35.0/iconfont/tabler-icons.css" rel="stylesheet">
+
+
+</head>
+<body class="min-h-screen bg-gray-900 text-gray-300">
+    <div class="grid-background fixed inset-0 -z-10"></div>
+    <nav class="fixed top-8 left-8 w-48 bg-gray-800 bg-opacity-80 rounded-lg p-4 shadow-lg" id="sidebar">
+        <ul class="space-y-2" id="sidebarNav">
+            <!-- Sidebar content populated dynamically -->
+        </ul>
+    </nav>
+    <!-- Content Section and Viewer -->
+    <main id="mainContent" class="ml-64 p-8 max-w-4xl mx-auto transition-all duration-200">
+        <h1 class="text-5xl font-bold">Oefeningen</h1>
+        <h2 class="text-1xl font-bold">Alexander Vanhee</h2>
+        <div id="exercises-container" class="space-y-6">
+            <!-- Exercises content populated dynamically -->
+        </div>
+    </main>
+
+    <!-- Right-side iframe viewer -->
+    <div id="iframeContainer" class="fixed top-0 right-0 w-1/3 h-screen bg-gray-800 " style="display: none;">
+        <div class="resize-handle flex items-center justify-center">
+            <i class="ti ti-grip-vertical"></i>
+        </div>
+        <div class=" m-4">
+            <div class="bg-white border shadow-sm border-gray-400 rounded-lg resize" style="height: 93vh;">
+                <iframe id="iframeViewer" style="height: 93vh; display: none;" class="w-full rounded-lg"></iframe>
+                <div id="sourceViewer" style="height: 93vh; display: none; padding: 1rem; background-color: #111827; color: #f8f8f2; overflow-y: scroll; font-size: 0.875rem;" class="w-full rounded-lg"></div>
+            </div>
+            <div class="flex mt-2">
+                <button id="viewContentBtn" class="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-l-lg">
+                    <i class="ti ti-photo"></i>
+                </button>
+                <button id="viewSourceBtn" class="flex items-center justify-center w-10 h-10 bg-gray-600 text-white rounded-r-lg">
+                    <i class="ti ti-code"></i>           
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
