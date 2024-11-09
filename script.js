@@ -64,7 +64,7 @@ function loadIframe(path) {
         let linkElements = doc.querySelectorAll('link[rel="stylesheet"]');
         let scriptElements = doc.querySelectorAll('script[src]');
         const baseURL = new URL(window.location.pathname, window.location.origin);
-
+        console.log("baseURL: ", baseURL)
         linkElements.forEach(link => {
             const cssPath = link.getAttribute('href');
             if (cssPath) {
@@ -119,7 +119,7 @@ function loadIframe(path) {
         viewSourceBtn.classList.add('bg-blue-600');
     });
 
-    setTimeout(adjustMainContentWidth, 100);
+    setTimeout(adjustMainContentWidth, 300);
 }
 
 const fetchAndDisplayFile = (fileURL, fileType, content = null) => {
