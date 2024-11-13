@@ -32,8 +32,7 @@ function generateExerciseLists(data) {
                             <i class="ti ti-external-link"></i>
                         </a>
 
-                        <!-- Open Externally Button with Icon -->
-                        <button class="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full" onclick="loadIframe('${exercise.path}')">
+                        <button class="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full hidden sm:block" onclick="loadIframe('${exercise.path}')">
                             <i class="ti ti-arrow-right"></i>
                         </button>
                     </div>
@@ -53,25 +52,25 @@ function loadIframe(path) {
     const sourceViewer = document.getElementById('sourceViewer');
     const viewContentBtn = document.getElementById('viewContentBtn');
     const viewSourceBtn = document.getElementById('viewSourceBtn');
-    
+
     const loadSource = (html) => {
         sourceViewer.innerHTML = "";
         const htmlFileName = path.split('/').pop();
-        fetchAndDisplayFile(path, 'html', html);  
+        fetchAndDisplayFile(path, 'html', html);
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
 
         let linkElements = doc.querySelectorAll('link[rel="stylesheet"]');
         let scriptElements = doc.querySelectorAll('script[src]');
 
-        const basePath = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1) + path.substring(0,path.lastIndexOf('/')+1);
+        const basePath = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1) + path.substring(0, path.lastIndexOf('/') + 1);
         console.log("basepath", basePath)
 
         linkElements.forEach(link => {
             const cssPath = link.getAttribute('href');
             if (cssPath) {
                 const cssURL = new URL(cssPath, basePath).href;
-                
+
                 console.log(cssURL);
                 fetchAndDisplayFile(cssURL, 'css');
             }
@@ -142,7 +141,7 @@ const fetchAndDisplayFile = (fileURL, fileType, content = null) => {
 const displayFileContent = (fileURL, fileType, content) => {
     const language = fileType === 'css' ? 'css' : fileType === 'js' ? 'javascript' : 'markup';
     const fileName = fileURL.split('/').pop();
-    
+
     const fileDivider = `
         <div class="flex justify-between items-center text-white bg-gray-600 px-3 py-1 rounded-lg mt-3 mb-1">
             <span>${fileName}</span>
@@ -151,7 +150,7 @@ const displayFileContent = (fileURL, fileType, content) => {
             </a>
         </div>
     `;
-    
+
     const highlightedCode = Prism.highlight(content.trim(), Prism.languages[language], language);
 
     sourceViewer.innerHTML += fileDivider + `<pre><code class="language-${language}">${highlightedCode}</code></pre>`;
@@ -189,11 +188,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('resize-overlay').addEventListener('mousemove', (e) => {
         if (!isResizing) return;
-    
+
         const maxWidth = window.innerWidth * 0.6;
-    
+
         const width = Math.max(300, Math.min(maxWidth, window.innerWidth - e.pageX));
-    
+
         iframeContainer.style.width = `${width}px`;
         adjustMainContentWidth();
     });
@@ -209,19 +208,19 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => generateExerciseLists(data));
 
-        window.addEventListener('resize', () => {
-            const iframeContainer = document.getElementById('iframeContainer');
-            
-            const maxWidth = window.innerWidth * 0.6;
+    window.addEventListener('resize', () => {
+        const iframeContainer = document.getElementById('iframeContainer');
 
-            const currentWidth = iframeContainer.offsetWidth;
-        
-            if (currentWidth > maxWidth) {
-                iframeContainer.style.width = `${maxWidth}px`;
-            }
-        
-            if (iframeContainer.style.display !== 'none') {
-                adjustMainContentWidth();
-            }
-        });
+        const maxWidth = window.innerWidth * 0.6;
+
+        const currentWidth = iframeContainer.offsetWidth;
+
+        if (currentWidth > maxWidth) {
+            iframeContainer.style.width = `${maxWidth}px`;
+        }
+
+        if (iframeContainer.style.display !== 'none') {
+            adjustMainContentWidth();
+        }
+    });
 });
