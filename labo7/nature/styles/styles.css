@@ -1,0 +1,39 @@
+section>header {
+    background-image: url("../images/header.jpg");
+    color: white;
+    padding-bottom: 25px;
+    font-size: 2em;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/*section>header niet aanspreken*/
+section:has(>article) {
+    width: 95%;
+    margin: 5px auto;
+}
+
+article {
+    background-color: #eeeeee;
+    padding: 0px 5px 5px 5px;
+}
+
+article>header>h1 {
+    color: #444444;
+    font-size: 1.5em;
+    text-decoration: underline;
+    padding-top: 30px;
+}
+
+nav>a {
+    color: #56f582;
+    text-decoration: none;
+}
+
+nav {
+    padding-top: 5px;
+    padding: 0 5px;
+    background-color: #444444;
+}
