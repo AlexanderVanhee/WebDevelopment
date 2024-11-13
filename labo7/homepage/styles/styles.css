@@ -80,6 +80,7 @@ figure > img {
 }
 figcaption {
     text-align: center;
+    margin: 10px;
 }
 
 
@@ -120,6 +121,10 @@ figcaption {
    color: #ff0000;
 }
 
+.scores div{
+    overflow-x: auto;
+}
+
 /* Responsive Media */
 @media (max-width: 768px) {
     .basic-info {
@@ -131,10 +136,14 @@ figcaption {
 }
 
 /* Table exercise 2 */
+div .vrienden{
+    overflow-x: auto;
+}
 .vrienden table {
     border-collapse: collapse;
     text-align: left;
     width: 100%;
+    
 }
 
 .vrienden {
