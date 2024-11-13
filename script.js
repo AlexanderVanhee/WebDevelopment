@@ -183,9 +183,11 @@ document.addEventListener('DOMContentLoaded', () => {
         startWidth = iframeContainer.offsetWidth;
         document.body.classList.add('resizing');
         resizeHandle.classList.add('active');
+
+        document.getElementById('resize-overlay').style.display = 'block';
     });
 
-    document.addEventListener('mousemove', (e) => {
+    document.getElementById('resize-overlay').addEventListener('mousemove', (e) => {
         if (!isResizing) return;
     
         const maxWidth = window.innerWidth * 0.6;
@@ -200,6 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isResizing = false;
         document.body.classList.remove('resizing');
         resizeHandle.classList.remove('active');
+        document.getElementById('resize-overlay').style.display = 'none';
     });
 
     fetch('exercises.json')

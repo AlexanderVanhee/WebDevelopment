@@ -1,3 +1,6 @@
+:root{
+    --corner-radius: 10px;
+}
 /* Global Styles */
 body {
     font-family: "Inter", sans-serif;
@@ -23,12 +26,14 @@ a {
 
 article {
     background-color: white;
-    border-radius: 5px;
+    border-radius: var(--corner-radius);
     padding: 20px;
     box-shadow: 2px 5px 10px #dddddd;
+    margin: 10px 0;
+    overflow:hidden;
 }
 
-.basic-info,article {
+.basic-info,.centered {
     max-width: 50%;
     margin: 5px auto;
 }
@@ -37,7 +42,9 @@ figure {
     margin: 20px auto;
     width: 300px;
     box-shadow: 2px 5px 10px #dddddd;
-    border-radius: 5px;
+    background-color: #ebebeb;
+    border-radius: var(--corner-radius);
+    overflow: hidden;
 }
 
 footer {
@@ -118,7 +125,7 @@ figcaption {
     .basic-info {
         flex-direction: column; 
     }
-    article, .basic-info  {
+    .centered, .basic-info {
         max-width: 90%;
     }
 }
