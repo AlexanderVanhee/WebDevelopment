@@ -149,6 +149,24 @@
           "path": "labo6/oef6/oef6.html"
         }
       ]
+    },
+    {
+      "title": "Labo 7",
+      "subtitle": "CSS Deel 3",
+      "exercises": [
+        {
+          "title": "Nature",
+          "path": "labo7/nature/index.html"
+        },
+        {
+          "title": "Homepage CSS",
+          "path": "labo7/homepage/index.html"
+        },
+        {
+          "title": "Kalender",
+          "path": "labo7/kalender/index.html"
+        }
+      ]
     }
   ]
 }

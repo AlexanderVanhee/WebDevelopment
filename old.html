@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oefeningen Alexander Vanhee</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1 0 auto;
+        }
+
+        .preview-container {
+            margin-top: 10px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+        }
+
+        .btn-external {
+            margin-left: 10px;
+        }
+
+        .exercise-header {
+            cursor: pointer;
+            position: relative;
+            padding-right: 60px;
+        }
+
+        .exercise-header:hover {
+            background-color: rgba(var(--bs-secondary-rgb), 0.1);
+        }
+
+        .exercise-title {
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+        }
+
+        .exercise-title::after {
+            content: '\25BC';
+            margin-left: 5px;
+            font-family: Arial, sans-serif;
+            transition: transform 0.3s ease;
+        }
+
+        .collapsed .exercise-title::after {
+            content: '\25B6';
+            transform: rotate(0deg);
+        }
+
+        .btn-external {
+            position: absolute;
+            top: 50%;
+        }
+
+        .spinner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 500px;
+        }
+
+        #github-logo {
+            width: 20px;
+            height: 20px;
+        }
+
+        footer {
+            flex-shrink: 0;
+            width: 100%;
+        }
+
+        .sidebar-box {
+            position: fixed;
+            top: 2em;
+            left: 2em;
+            width: 10em;
+            height: 12em;
+            max-height: 80vh;
+            overflow-y: auto;
+            background-color: var(--bs-body-bg);
+            border: 1px solid var(--bs-border-color);
+            border-radius: 10px;
+            padding: 15px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-box.minimized {
+            width: 2em;
+            height: 2em;
+            overflow: hidden;
+            border-radius: 50%;
+            padding: 0;
+        }
+
+        .sidebar-content {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-box.minimized .sidebar-content {
+            opacity: 0;
+        }
+
+        .sidebar-box .nav-link {
+            color: var(--bs-body-color);
+        }
+
+        .sidebar-box .nav-link.active {
+            font-weight: bold;
+            color: var(--bs-primary);
+        }
+
+        .sidebar-box .nav-link:hover {
+            background-color: rgba(var(--bs-secondary-rgb), 0.1);
+        }
+
+        .sidebar-toggle {
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--bs-body-color);
+            z-index: 1001;
+        }
+
+        main {
+            margin-left: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="sidebar-box" id="sidebarBox">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <ul class="nav flex-column sidebar-content" id="sidebar-nav">
+                <!-- Will be populated dynamically -->
+            </ul>
+        </nav>
+
+        <!-- Main content -->
+        <main class="px-md-4">
+            <div class="content">
+                <div class="container mt-5">
+                    <div class="d-flex align-items-center mb-3">
+                        <h5 class="mb-0">Alexander Vanhee</h5>
+                        <a href="https://github.com/AlexanderVanhee/WebDevelopment" target="_blank" class="ms-2">
+                            <i class="bi bi-github"></i>
+                        </a>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1>Oefeningen</h1>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="themeSwitch">
+                            <label class="form-check-label" for="themeSwitch">
+                                <i class="bi bi-moon-stars-fill"></i>
+                            </label>
+                        </div>
+                    </div>
+                    <hr>
+                    <div id="exercises-container">
+                        <!-- Dynamic content will be placed here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-body-tertiary text-center text-lg-start mt-auto">
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            <a>Voor het navigatiegemak heb ik gebruikgemaakt van iFrames. De aparte pagina's zijn nog steeds
+                zichtbaar via de knop "Extern openen".</a>
+            <br>
+            <a>Alexander Vanhee - Groep A</a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function generateExerciseLists(data) {
+            const container = document.getElementById('exercises-container');
+            const sidebar = document.getElementById('sidebar-nav');
+
+            data.tasks.forEach((task, taskIndex) => {
+                const taskDiv = document.createElement('div');
+                taskDiv.className = 'mb-4';
+                taskDiv.id = `task-${taskIndex}`;
+                taskDiv.innerHTML = `<h2>${task.title}</h2><h5>${task.subtitle}</h5><br>`;
+
+                const accordion = document.createElement('div');
+                accordion.className = 'accordion';
+                accordion.id = `accordion-${taskIndex}`;
+
+                // Add task to sidebar
+                const taskItem = document.createElement('li');
+                taskItem.className = 'nav-item';
+                taskItem.innerHTML = `<a class="nav-link" href="#task-${taskIndex}"><i style="margin-right:10px" class="bi bi-arrow-right-circle-fill"></i></i>${task.title}</a>`;
+                sidebar.appendChild(taskItem);
+
+                task.exercises.forEach((exercise, exerciseIndex) => {
+                    const card = document.createElement('div');
+                    card.className = 'card mb-2';
+                    card.innerHTML = `
+                        <div class="card-header" style="padding: 0;" id="heading-${taskIndex}-${exerciseIndex}">
+                            <div class="btn-group w-100" role="group">
+                                <button type="button" class="btn btn-link text-start w-100 exercise-header" data-bs-toggle="collapse" 
+                                    data-bs-target="#collapse-${taskIndex}-${exerciseIndex}" aria-expanded="false" 
+                                    aria-controls="collapse-${taskIndex}-${exerciseIndex}">
+                                    <h5 class="exercise-title mb-0">
+                                        ${exercise.title}
+                                    </h5>
+                                </button>
+                                
+                                <a class="btn btn-sm btn-primary btn-external" href="${exercise.path}" rel="noopener noreferrer" onclick="event.stopPropagation();">
+                                    Extern openen
+                                </a>
+                            </div>
+                        </div>
+                        <div id="collapse-${taskIndex}-${exerciseIndex}" class="collapse" 
+                            aria-labelledby="heading-${taskIndex}-${exerciseIndex}" data-bs-parent="#accordion-${taskIndex}">
+                            <div class="card-body">
+                                <div class="spinner-container">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <iframe class="border rounded" data-src="${exercise.path}" style="display: none;"></iframe>
+                            </div>
+                        </div>
+                    `;
+
+                    accordion.appendChild(card);
+                });
+
+                taskDiv.appendChild(accordion);
+                container.appendChild(taskDiv);
+            });
+
+            // Initialize iframe when accordion item is shown
+            document.querySelectorAll('.collapse').forEach(collapseEl => {
+                collapseEl.addEventListener('shown.bs.collapse', function () {
+                    const spinner = this.querySelector('.spinner-container');
+                    const iframe = this.querySelector('iframe');
+                    if (!iframe.src) {
+                        iframe.src = iframe.getAttribute('data-src');
+                        iframe.onload = function () {
+                            spinner.style.display = 'none';
+                            iframe.style.display = 'block';
+                            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                            // open links in new tab.
+                            const links = iframeDoc.getElementsByTagName('a');
+                            for (let link of links) {
+                                link.target = '_blank';
+                            }
+                        };
+                    } else {
+                        spinner.style.display = 'none';
+                        iframe.style.display = 'block';
+                    }
+                });
+
+                collapseEl.addEventListener('show.bs.collapse', function () {
+                    const header = this.previousElementSibling;
+                    const title = header.querySelector('.exercise-title');
+                    title.classList.remove('collapsed');
+                });
+
+                collapseEl.addEventListener('hide.bs.collapse', function () {
+                    const header = this.previousElementSibling;
+                    const title = header.querySelector('.exercise-title');
+                    title.classList.add('collapsed');
+                });
+            });
+
+            // Initialize ScrollSpy
+            var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+                target: '#sidebar-nav',
+                offset: 200
+            });
+        }
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-bs-theme', theme);
+            localStorage.setItem('theme', theme);
+        }
+
+        function toggleSidebar() {
+            const sidebarBox = document.getElementById('sidebarBox');
+            const toggleButton = document.getElementById('sidebarToggle');
+            sidebarBox.classList.toggle('minimized');
+
+            if (sidebarBox.classList.contains('minimized')) {
+                toggleButton.innerHTML = '<i class="bi bi-chevron-right"></i>';
+            } else {
+                toggleButton.innerHTML = '<i class="bi bi-chevron-left"></i>';
+            }
+        }
+
+        function checkSidebarVisibility() {
+            const sidebarBox = document.getElementById('sidebarBox');
+            if (window.innerWidth >= 1730) {
+                sidebarBox.classList.remove('minimized');
+            } else {
+                sidebarBox.classList.add('minimized');
+            }
+        }
+
+        // Startup
+        document.addEventListener('DOMContentLoaded', function () {
+            // Load from exercises.json
+            fetch('exercises.json')
+                .then(response => response.json())
+                .then(data => generateExerciseLists(data));
+
+            // Get theme switch
+            const themeSwitch = document.getElementById('themeSwitch');
+
+            // Load theme from Local Storage
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+                themeSwitch.checked = savedTheme === 'dark';
+            } else {
+                setTheme('light');
+                themeSwitch.checked = false;
+            }
+
+            // Init theme switch functionality
+            themeSwitch.addEventListener('change', function () {
+                const newTheme = this.checked ? 'dark' : 'light';
+                setTheme(newTheme);
+            });
+
+            // Init sidebar toggle functionality
+            document.getElementById('sidebarToggle').addEventListener('click', toggleSidebar);
+
+            // Check sidebar visibility on load and resize
+            checkSidebarVisibility();
+            window.addEventListener('resize', checkSidebarVisibility);
+        });
+    </script>
+</body>
+
+</html>
