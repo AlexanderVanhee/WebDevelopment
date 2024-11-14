@@ -28,16 +28,25 @@ function generateExerciseLists(data) {
                         ${exercise.title}
                     </p>
                     <div class="flex items-center space-x-2">
-                        <a href="${exercise.path}" class="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full">
+                        <a aria-label="Open external link to exercise" role="button"  href="${exercise.path}" class="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full">
                             <i class="ti ti-external-link"></i>
                         </a>
 
-                        <button class="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full hidden sm:block" onclick="loadIframe('${exercise.path}')">
+                        <button aria-label="Open exercise in embedded view" class="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full hidden sm:block" onclick="loadIframe('${exercise.path}')">
                             <i class="ti ti-arrow-right"></i>
                         </button>
                     </div>
                 </div>
             `;
+            if (exercise.note != null){
+                card.innerHTML = card.innerHTML.concat(`
+                    <p class="text-blue-600 flex items-center">
+                      <i class="ti ti-arrow-right mr-2"></i>
+                      <span class="font-bold">${exercise.note}</span>
+                    </p>
+                  `);                  
+            }
+            
             accordion.appendChild(card);
         });
 
