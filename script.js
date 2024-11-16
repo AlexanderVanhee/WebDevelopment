@@ -38,15 +38,14 @@ function generateExerciseLists(data) {
                     </div>
                 </div>
             `;
-            if (exercise.note != null){
+            if (exercise.note != null) {
                 card.innerHTML = card.innerHTML.concat(`
-                    <p class="text-blue-600 flex items-center">
-                      <i class="ti ti-arrow-right mr-2"></i>
-                      <span class="font-bold">${exercise.note}</span>
+                    <p class="text-blue-600 flex items-center font-bold">
+                    <span class="font-bold"><i class="ti ti-arrow-right mr-2 align-middle"></i>${exercise.note}</span>
                     </p>
-                  `);                  
+                  `);
             }
-            
+
             accordion.appendChild(card);
         });
 
