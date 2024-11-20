@@ -168,6 +168,36 @@
           "path": "labo7/kalender/index.html"
         }
       ]
+    },
+    {
+      "title": "Labo 8",
+      "subtitle": "CSS Deel 4",
+      "exercises": [
+        {
+          "title": "Oefening 1",
+          "path": "labo8/oef1/voorbeeld1.html"
+        },
+        {
+          "title": "Oefening 2",
+          "path": "labo8/oef2/voorbeeld1.html"
+        },
+        {
+          "title": "Oefening 3",
+          "path": "labo8/oef3/voorbeeld2.html"
+        },
+        {
+          "title": "Oefening 4",
+          "path": "labo8/oef4/voorbeeld3.html"
+        },
+        {
+          "title": "Oefening 5",
+          "path": "labo8/oef5/voorbeeld4.html"
+        },
+        {
+          "title": "Lorem Ipsum",
+          "path": "labo8/LoremIpsum/index.html"
+        }
+      ]
     }
   ]
 }
