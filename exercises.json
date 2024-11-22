@@ -196,6 +196,14 @@
         {
           "title": "Lorem Ipsum",
           "path": "labo8/LoremIpsum/index.html"
+        },
+        {
+          "title": "Lorem Ipsum Extra",
+          "path": "labo8/LoremIpsumExtra/index.html"
+        },
+        {
+          "title": "Cocktail bar",
+          "path": "labo8/CocktailBar/index.html"
         }
       ]
     }

@@ -1,0 +1,100 @@
+body {
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin: 0 5% 5% 5%;
+}
+
+h1,
+h2 {
+    color: #007e7e;
+}
+
+h1 {
+    font-size: 1.8em;
+    /*1.2 * 1.5*/
+}
+
+h2 {
+    font-size: 1.56em;
+    /*1.2 * 1.3*/
+}
+
+a {
+    text-decoration: underline;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: inherit;
+}
+
+.sidebar a:hover {
+    color: brown;
+}
+
+header p img {
+    width: auto;
+    height: 300px;
+    margin-top: 0;
+}
+
+.sidebar>h1 {
+    color: black;
+}
+
+.sidebar>h2 {
+    color: red;
+}
+
+.content {
+    overflow: hidden;
+}
+
+.main-content {
+    float: left;
+    width: calc(70% - 20px);
+    margin: 10px;
+}
+
+.sidebar {
+    float: right;
+    width: calc(30% - 30px);
+    margin: 10px;
+    background: url('../images/cocktail.gif') repeat-x top center;
+    background-size: 10% auto;
+    padding: 5px;
+}
+
+p img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sidebar p,
+.sidebar h1,
+.sidebar h2 {
+    text-align: center;
+}
+
+#guarantee {
+    background-color: #a7cdce;
+    color: #444444;
+    padding: 20px;
+    border: dotted white 2px;
+}
+
+#guarantee::before {
+    content: "";
+    display: block;
+    float: left;
+    background: url('../images/background.gif') no-repeat center center;
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+}
+
+footer {
+    font-size: 0.5em;
+}
