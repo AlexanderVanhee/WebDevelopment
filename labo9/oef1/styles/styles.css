@@ -1,0 +1,31 @@
+article:nth-child(2n+1) img {
+    float: left;
+}
+
+article:nth-child(2n) img {
+    float: right;
+}
+
+article {
+    border: 1px solid black;
+    height: 250px;
+    padding: 10px;
+    margin: 10px;
+    background-color: #fefefe;
+}
+
+article img {
+    margin-right: 10px;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+p {
+    font-size: 1.25em;
+}
+
+h2 {
+    margin-top: 0;
+}
