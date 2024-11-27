@@ -1,5 +1,7 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
+    display: grid;
+    grid-template-columns: 70% 25%;
 }
 
 h1,
@@ -19,9 +21,17 @@ h2 {
     margin-bottom: 0;
 }
 
+h3 {
+    background-color: blue;
+    color: white;
+    text-align: center;
+    font-size: 1.2em;
+}
+
 header {
     background-image: url(../images/bgsky3.jpg);
     background-size: cover;
+    grid-column: span 2;
 }
 
 header>img {
@@ -31,9 +41,8 @@ header>img {
     right: 25%;
 }
 
-
-figure>img {
-    float: left
+figure {
+    float: left;
 }
 
 p>span {
@@ -43,48 +52,60 @@ p>span {
 aside {
     border: 1px solid #999999;
     background-color: #dddddd;
+    grid-column: 2;
+    box-sizing: border-box;
 }
 
-h3 {
-    background-color: blue;
-    color: white;
-    text-align: center;
-    font-size: 1.2em;
+.content {
+    grid-column: 1;
+    box-sizing: border-box;
 }
 
-aside>p {
-    color: #666666;
-    font-size: 0.9em;
-}
-
-.gallery {
-    background-color: #999999;
-    display: inline-block;
-
-}
-
-.foto>img {
-    height: 180px;
-    width: 180px;
-    border: 10px solid white;
+footer,
+.bottom {
+    grid-column: span 2;
 }
 
 .bottom {
     width: 100%;
     background-color: #666666;
     color: white;
-    font-size: 2em;
-    display: inline-block;
-
+    line-height: 2em;
 }
 
 .bottom>div {
     width: 200px;
-    margin-left: 120px
+    margin-left: 120px;
+    display: inline-block;
+}
+
+.bottom a {
+    color: inherit;
+}
+
+.bottom a:hover {
+    color: red;
 }
 
 footer>p {
     text-align: center;
     background-color: white;
+}
 
+.gallery {
+    background-color: #999999;
+    line-height: 0;
+}
+
+.foto {
+    display: inline-block;
+    border: 1px dotted white;
+    margin: 20px;
+}
+
+.foto>img {
+    height: 180px;
+    width: 180px;
+    border: 10px solid white;
+    box-sizing: border-box;
 }
