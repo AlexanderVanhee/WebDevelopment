@@ -1,9 +1,11 @@
 .row>div {
     background-color: #abb1b8;
     min-height: 150px;
+    min-width: 150px;
     background-clip: content-box;
 }
 
 .row>div:nth-child(odd) {
     background-color: #dbdfe5;
+
 }

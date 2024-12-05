@@ -220,6 +220,46 @@
           "path": "labo9/airbus/airbus.html"
         }
       ]
+    },
+    {
+      "title": "Labo 9",
+      "subtitle": "CSS Deel 5",
+      "exercises": [
+        {
+          "title": "Oefening 1",
+          "path": "labo9/oef1/index.html"
+        },
+        {
+          "title": "Airbus",
+          "path": "labo9/airbus/airbus.html"
+        }
+      ]
+    },
+    {
+      "title": "Labo 10",
+      "subtitle": "CSS Deel 6 - Boostrap 1",
+      "exercises": [
+        {
+          "title": "Media Query Demo",
+          "path": "labo10/oef1/oef1.html"
+        },
+        {
+          "title": "Oefening 1",
+          "path": "labo10/oef2/index.htm"
+        },
+        {
+          "title": "Oefening 2",
+          "path": "labo10/oef3/index.htm"
+        },
+        {
+          "title": "Oefening 3",
+          "path": "labo10/oef4/index.htm"
+        },
+        {
+          "title": "Homepage Boostrap",
+          "path": "labo10/homepage/index.html"
+        }
+      ]
     }
   ]
 }
