@@ -260,6 +260,36 @@
           "path": "labo10/homepage/index.html"
         }
       ]
+    },
+    {
+      "title": "Labo 11",
+      "subtitle": "CSS Deel 7 - CSS grid",
+      "exercises": [
+        {
+          "title": "Oefening 1",
+          "path": "labo11/oef1/exercise1.html"
+        },
+        {
+          "title": "Oefening 2",
+          "path": "labo11/oef2/exercise2.html"
+        },
+        {
+          "title": "Oefening 3",
+          "path": "labo11/oef3/exercise3.html"
+        },
+        {
+          "title": "Oefening 4",
+          "path": "labo11/oef4/exercise4.html"
+        },
+        {
+          "title": "Oefening 5",
+          "path": "labo11/oef5/exercise5.html"
+        },
+        {
+          "title": "Oefening 6",
+          "path": "labo11/oef6/exercise6.html"
+        }
+      ]
     }
   ]
 }
