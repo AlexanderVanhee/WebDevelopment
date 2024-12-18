@@ -294,6 +294,24 @@
           "path": "labo11/oef7/index.html"
         }
       ]
+    },
+    {
+      "title": "Labo 12",
+      "subtitle": "CSS Deel 8 - FlexBox",
+      "exercises": [
+        {
+          "title": "Oefening 2",
+          "path": "labo12/oef2/index.html"
+        },
+        {
+          "title": "Oefening 3",
+          "path": "labo12/oef3/index.html"
+        },
+        {
+          "title": "Oefening 4",
+          "path": "labo12/oef4/index.html"
+        }
+      ]
     }
   ]
 }
