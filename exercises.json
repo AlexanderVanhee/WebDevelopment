@@ -312,6 +312,24 @@
           "path": "labo12/oef4/index.html"
         }
       ]
+    },
+    {
+      "title": "Herhaling",
+      "subtitle": "Herhaling HTML",
+      "exercises": [
+        {
+          "title": "Oefening 1",
+          "path": "herhalingsoefeningen/oef1/index.html"
+        },
+        {
+          "title": "Cocktail bar Boostrap",
+          "path": "herhalingsoefeningen/CocktailBar/index.html"
+        },
+        {
+          "title": "Kitchn",
+          "path": "herhalingsoefeningen/kitchn/start.html"
+        }
+      ]
     }
   ]
 }

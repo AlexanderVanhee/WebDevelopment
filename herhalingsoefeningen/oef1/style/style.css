@@ -1,0 +1,56 @@
+.caption {
+    font-family: helvetica;
+    font-size: 16px;
+    margin-top: 12px;
+}
+
+body {
+    text-align: center;
+}
+
+.gridHeader,
+.gridFooter {
+    min-height: 50px;
+}
+
+span {
+    padding: 10px;
+
+}
+
+.gridHeader {
+    background-color: #dcd6fe;
+    grid-area: a;
+}
+
+.gridNav {
+    background-color: #c6c0ff;
+    grid-area: c;
+}
+
+.gridMain {
+    background-color: #f9f6d2;
+    grid-area: d;
+
+}
+
+.gridAside {
+    background-color: #d4ffd1;
+    grid-area: e;
+}
+
+.gridFooter {
+    background-color: #ffd1d1;
+    grid-area: g;
+}
+
+@media only screen and (min-width: 768px) {
+    .grid {
+        display: grid;
+        grid-template-columns: 5% 10% auto 10% 5%;
+        grid-template-areas:
+            "a a a a a"
+            ". c d e ."
+            "g g g g g";
+    }
+}
