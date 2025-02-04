@@ -330,6 +330,16 @@
           "path": "herhalingsoefeningen/kitchn/start.html"
         }
       ]
+    },
+    {
+      "title": "JavaScript 1",
+      "subtitle": "Intro",
+      "exercises": [
+        {
+          "title": "Oefening 2",
+          "path": "js1/oef2/index.html"
+        }
+      ]
     }
   ]
 }
