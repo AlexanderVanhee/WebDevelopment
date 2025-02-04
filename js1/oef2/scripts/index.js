@@ -19,7 +19,7 @@ const berekening = (func, symbol) => {
   let g2 = parseInt(txtRechts.value, 10);
   let resultaat = func(g1, g2);
 
-  let resultaatTekst = g1 + " " + symbol + " " + g2 + "=" + resultaat;
+  let resultaatTekst = g1 + " " + symbol + " " + g2 + "= " + resultaat;
   txtOutput.innerHTML = resultaatTekst;
 };
 
