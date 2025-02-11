@@ -1,5 +1,8 @@
 const setup = () => {
   // deze code wordt pas uitgevoerd als de pagina volledig is ingeladen
+  document.getElementById("alert").addEventListener("click", alert);
+  document.getElementById("confirm").addEventListener("click", confirm);
+  document.getElementById("prompt").addEventListener("click", prompt);
 };
 
 window.addEventListener("load", setup);

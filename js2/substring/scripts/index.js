@@ -1,5 +1,6 @@
 const setup = () => {
   // deze code wordt pas uitgevoerd als de pagina volledig is ingeladen
+  document.getElementById("calculate").addEventListener("click", calculate);
 };
 
 const calculate = () => {
