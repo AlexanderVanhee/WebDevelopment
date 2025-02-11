@@ -1,6 +1,283 @@
 {
   "tasks": [
     {
+      "title": "JavaScript 1",
+      "subtitle": "Intro",
+      "exercises": [
+        {
+          "title": "Oefening 2",
+          "path": "js1/oef2/index.html"
+        }
+      ]
+    },
+    {
+      "title": "Herhaling",
+      "subtitle": "Herhaling HTML",
+      "exercises": [
+        {
+          "title": "Oefening 1",
+          "path": "herhalingsoefeningen/oef1/index.html"
+        },
+        {
+          "title": "Cocktail bar Boostrap",
+          "path": "herhalingsoefeningen/CocktailBar/index.html"
+        },
+        {
+          "title": "Kitchn",
+          "path": "herhalingsoefeningen/kitchn/start.html"
+        }
+      ]
+    },
+    {
+      "title": "Labo 12",
+      "subtitle": "CSS Deel 8 - FlexBox",
+      "exercises": [
+        {
+          "title": "Oefening 2",
+          "path": "labo12/oef2/index.html"
+        },
+        {
+          "title": "Oefening 3",
+          "path": "labo12/oef3/index.html"
+        },
+        {
+          "title": "Oefening 4",
+          "path": "labo12/oef4/index.html"
+        }
+      ]
+    },
+    {
+      "title": "Labo 11",
+      "subtitle": "CSS Deel 7 - CSS grid",
+      "exercises": [
+        {
+          "title": "Oefening 1",
+          "path": "labo11/oef1/exercise1.html"
+        },
+        {
+          "title": "Oefening 2",
+          "path": "labo11/oef2/exercise2.html"
+        },
+        {
+          "title": "Oefening 3",
+          "path": "labo11/oef3/exercise3.html"
+        },
+        {
+          "title": "Oefening 4",
+          "path": "labo11/oef4/exercise4.html"
+        },
+        {
+          "title": "Oefening 5",
+          "path": "labo11/oef5/exercise5.html"
+        },
+        {
+          "title": "Oefening 6",
+          "path": "labo11/oef6/exercise6.html"
+        },
+        {
+          "title": "Extra",
+          "path": "labo11/oef7/index.html"
+        }
+      ]
+    },
+    {
+      "title": "Labo 10",
+      "subtitle": "CSS Deel 6 - Boostrap 1",
+      "exercises": [
+        {
+          "title": "Media Query Demo",
+          "path": "labo10/oef1/oef1.html"
+        },
+        {
+          "title": "Oefening 1",
+          "path": "labo10/oef2/index.htm"
+        },
+        {
+          "title": "Oefening 2",
+          "path": "labo10/oef3/index.htm"
+        },
+        {
+          "title": "Oefening 3",
+          "path": "labo10/oef4/index.htm"
+        },
+        {
+          "title": "Homepage Boostrap",
+          "path": "labo10/homepage/index.html"
+        }
+      ]
+    },
+    {
+      "title": "Labo 9",
+      "subtitle": "CSS Deel 5",
+      "exercises": [
+        {
+          "title": "Oefening 1",
+          "path": "labo9/oef1/index.html"
+        },
+        {
+          "title": "Airbus",
+          "path": "labo9/airbus/airbus.html"
+        }
+      ]
+    },
+    {
+      "title": "Labo 8",
+      "subtitle": "CSS Deel 4",
+      "exercises": [
+        {
+          "title": "Oefening 1",
+          "path": "labo8/oef1/voorbeeld1.html"
+        },
+        {
+          "title": "Oefening 2",
+          "path": "labo8/oef2/voorbeeld1.html"
+        },
+        {
+          "title": "Oefening 3",
+          "path": "labo8/oef3/voorbeeld2.html"
+        },
+        {
+          "title": "Oefening 4",
+          "path": "labo8/oef4/voorbeeld3.html"
+        },
+        {
+          "title": "Oefening 5",
+          "path": "labo8/oef5/voorbeeld4.html"
+        },
+        {
+          "title": "Lorem Ipsum",
+          "path": "labo8/LoremIpsum/index.html"
+        },
+        {
+          "title": "Lorem Ipsum Extra",
+          "path": "labo8/LoremIpsumExtra/index.html"
+        },
+        {
+          "title": "Cocktail bar",
+          "path": "labo8/CocktailBar/index.html"
+        }
+      ]
+    },
+    {
+      "title": "Labo 7",
+      "subtitle": "CSS Deel 3",
+      "exercises": [
+        {
+          "title": "Nature",
+          "path": "labo7/nature/index.html"
+        },
+        {
+          "title": "Homepage CSS",
+          "path": "labo7/homepage/index.html",
+          "note": "Oefening 2 en 3 is te vinden onder sectie 'Vrienden'."
+        },
+        {
+          "title": "Kalender",
+          "path": "labo7/kalender/index.html"
+        }
+      ]
+    },
+    {
+      "title": "Labo 6",
+      "subtitle": "CSS Deel 2",
+      "exercises": [
+        {
+          "title": "Opdracht 1",
+          "path": "labo6/oef1/oef1.html"
+        },
+        {
+          "title": "Opdracht 3",
+          "path": "labo6/oef3/resume.html"
+        },
+        {
+          "title": "Opdracht 4",
+          "path": "labo6/oef4/oef4.html"
+        },
+        {
+          "title": "Opdracht 5",
+          "path": "labo6/oef5/oef5.html"
+        },
+        {
+          "title": "Opdracht 6",
+          "path": "labo6/oef6/oef6.html"
+        }
+      ]
+    },
+    {
+      "title": "Labo 5",
+      "subtitle": "CSS Deel1",
+      "exercises": [
+        {
+          "title": "Opdracht 1",
+          "path": "labo5/oef1.html"
+        },
+        {
+          "title": "Opdracht 3",
+          "path": "labo5/oef3.html"
+        },
+        {
+          "title": "Opdracht 4",
+          "path": "labo5/oef4.html"
+        },
+        {
+          "title": "Opdracht 6",
+          "path": "labo5/oef6/oef6.html"
+        },
+        {
+          "title": "Opdracht 7",
+          "path": "labo5/oef7.html"
+        }
+      ]
+    },
+    {
+      "title": "Labo 4",
+      "subtitle": "HTML Deel 3",
+      "exercises": [
+        {
+          "title": "Opdracht 2",
+          "path": "labo4/oef2/oef2.html"
+        },
+        {
+          "title": "Opdracht 3",
+          "path": "labo4/oef3/oef3.html"
+        },
+        {
+          "title": "Homepage v2",
+          "path": "labo4/homepage/index.html"
+        }
+      ]
+    },
+    {
+      "title": "Labo 3",
+      "subtitle": "HTML Deel 2",
+      "exercises": [
+        {
+          "title": "Opdracht 1",
+          "path": "labo3/oef1.html"
+        },
+        {
+          "title": "Opdracht 2",
+          "path": "labo3/oef2.html"
+        },
+        {
+          "title": "Opdracht 3",
+          "path": "labo3/oef3.html"
+        },
+        {
+          "title": "Homepage",
+          "path": "labo3/homepage/homepage.html"
+        },
+        {
+          "title": "Contact information",
+          "path": "labo3/table.html"
+        },
+        {
+          "title": "Onderwijsaanbod",
+          "path": "labo3/onderwijsaanbod.html"
+        }
+      ]
+    },
+    {
       "title": "Labo 2",
       "subtitle": "HTML Deel 1",
       "exercises": [
@@ -47,297 +324,6 @@
         {
           "title": "Opdracht 13",
           "path": "labo2/oef13.html"
-        }
-      ]
-    },
-    {
-      "title": "Labo 3",
-      "subtitle": "HTML Deel 2",
-      "exercises": [
-        {
-          "title": "Opdracht 1",
-          "path": "labo3/oef1.html"
-        },
-        {
-          "title": "Opdracht 2",
-          "path": "labo3/oef2.html"
-        },
-        {
-          "title": "Opdracht 3",
-          "path": "labo3/oef3.html"
-        },
-        {
-          "title": "Homepage",
-          "path": "labo3/homepage/homepage.html"
-        },
-        {
-          "title": "Contact information",
-          "path": "labo3/table.html"
-        },
-        {
-          "title": "Onderwijsaanbod",
-          "path": "labo3/onderwijsaanbod.html"
-        }
-      ]
-    },
-    {
-      "title": "Labo 4",
-      "subtitle": "HTML Deel 3",
-      "exercises": [
-        {
-          "title": "Opdracht 2",
-          "path": "labo4/oef2/oef2.html"
-        },
-        {
-          "title": "Opdracht 3",
-          "path": "labo4/oef3/oef3.html"
-        },
-        {
-          "title": "Homepage v2",
-          "path": "labo4/homepage/index.html"
-        }
-      ]
-    },
-    {
-      "title": "Labo 5",
-      "subtitle": "CSS Deel1",
-      "exercises": [
-        {
-          "title": "Opdracht 1",
-          "path": "labo5/oef1.html"
-        },
-        {
-          "title": "Opdracht 3",
-          "path": "labo5/oef3.html"
-        },
-        {
-          "title": "Opdracht 4",
-          "path": "labo5/oef4.html"
-        },
-        {
-          "title": "Opdracht 6",
-          "path": "labo5/oef6/oef6.html"
-        },
-        {
-          "title": "Opdracht 7",
-          "path": "labo5/oef7.html"
-        }
-      ]
-    },
-    {
-      "title": "Labo 6",
-      "subtitle": "CSS Deel 2",
-      "exercises": [
-        {
-          "title": "Opdracht 1",
-          "path": "labo6/oef1/oef1.html"
-        },
-        {
-          "title": "Opdracht 3",
-          "path": "labo6/oef3/resume.html"
-        },
-        {
-          "title": "Opdracht 4",
-          "path": "labo6/oef4/oef4.html"
-        },
-        {
-          "title": "Opdracht 5",
-          "path": "labo6/oef5/oef5.html"
-        },
-        {
-          "title": "Opdracht 6",
-          "path": "labo6/oef6/oef6.html"
-        }
-      ]
-    },
-    {
-      "title": "Labo 7",
-      "subtitle": "CSS Deel 3",
-      "exercises": [
-        {
-          "title": "Nature",
-          "path": "labo7/nature/index.html"
-        },
-        {
-          "title": "Homepage CSS",
-          "path": "labo7/homepage/index.html",
-          "note": "Oefening 2 en 3 is te vinden onder sectie 'Vrienden'."
-        },
-        {
-          "title": "Kalender",
-          "path": "labo7/kalender/index.html"
-        }
-      ]
-    },
-    {
-      "title": "Labo 8",
-      "subtitle": "CSS Deel 4",
-      "exercises": [
-        {
-          "title": "Oefening 1",
-          "path": "labo8/oef1/voorbeeld1.html"
-        },
-        {
-          "title": "Oefening 2",
-          "path": "labo8/oef2/voorbeeld1.html"
-        },
-        {
-          "title": "Oefening 3",
-          "path": "labo8/oef3/voorbeeld2.html"
-        },
-        {
-          "title": "Oefening 4",
-          "path": "labo8/oef4/voorbeeld3.html"
-        },
-        {
-          "title": "Oefening 5",
-          "path": "labo8/oef5/voorbeeld4.html"
-        },
-        {
-          "title": "Lorem Ipsum",
-          "path": "labo8/LoremIpsum/index.html"
-        },
-        {
-          "title": "Lorem Ipsum Extra",
-          "path": "labo8/LoremIpsumExtra/index.html"
-        },
-        {
-          "title": "Cocktail bar",
-          "path": "labo8/CocktailBar/index.html"
-        }
-      ]
-    },
-    {
-      "title": "Labo 9",
-      "subtitle": "CSS Deel 5",
-      "exercises": [
-        {
-          "title": "Oefening 1",
-          "path": "labo9/oef1/index.html"
-        },
-        {
-          "title": "Airbus",
-          "path": "labo9/airbus/airbus.html"
-        }
-      ]
-    },
-    {
-      "title": "Labo 9",
-      "subtitle": "CSS Deel 5",
-      "exercises": [
-        {
-          "title": "Oefening 1",
-          "path": "labo9/oef1/index.html"
-        },
-        {
-          "title": "Airbus",
-          "path": "labo9/airbus/airbus.html"
-        }
-      ]
-    },
-    {
-      "title": "Labo 10",
-      "subtitle": "CSS Deel 6 - Boostrap 1",
-      "exercises": [
-        {
-          "title": "Media Query Demo",
-          "path": "labo10/oef1/oef1.html"
-        },
-        {
-          "title": "Oefening 1",
-          "path": "labo10/oef2/index.htm"
-        },
-        {
-          "title": "Oefening 2",
-          "path": "labo10/oef3/index.htm"
-        },
-        {
-          "title": "Oefening 3",
-          "path": "labo10/oef4/index.htm"
-        },
-        {
-          "title": "Homepage Boostrap",
-          "path": "labo10/homepage/index.html"
-        }
-      ]
-    },
-    {
-      "title": "Labo 11",
-      "subtitle": "CSS Deel 7 - CSS grid",
-      "exercises": [
-        {
-          "title": "Oefening 1",
-          "path": "labo11/oef1/exercise1.html"
-        },
-        {
-          "title": "Oefening 2",
-          "path": "labo11/oef2/exercise2.html"
-        },
-        {
-          "title": "Oefening 3",
-          "path": "labo11/oef3/exercise3.html"
-        },
-        {
-          "title": "Oefening 4",
-          "path": "labo11/oef4/exercise4.html"
-        },
-        {
-          "title": "Oefening 5",
-          "path": "labo11/oef5/exercise5.html"
-        },
-        {
-          "title": "Oefening 6",
-          "path": "labo11/oef6/exercise6.html"
-        },
-        {
-          "title": "Extra",
-          "path": "labo11/oef7/index.html"
-        }
-      ]
-    },
-    {
-      "title": "Labo 12",
-      "subtitle": "CSS Deel 8 - FlexBox",
-      "exercises": [
-        {
-          "title": "Oefening 2",
-          "path": "labo12/oef2/index.html"
-        },
-        {
-          "title": "Oefening 3",
-          "path": "labo12/oef3/index.html"
-        },
-        {
-          "title": "Oefening 4",
-          "path": "labo12/oef4/index.html"
-        }
-      ]
-    },
-    {
-      "title": "Herhaling",
-      "subtitle": "Herhaling HTML",
-      "exercises": [
-        {
-          "title": "Oefening 1",
-          "path": "herhalingsoefeningen/oef1/index.html"
-        },
-        {
-          "title": "Cocktail bar Boostrap",
-          "path": "herhalingsoefeningen/CocktailBar/index.html"
-        },
-        {
-          "title": "Kitchn",
-          "path": "herhalingsoefeningen/kitchn/start.html"
-        }
-      ]
-    },
-    {
-      "title": "JavaScript 1",
-      "subtitle": "Intro",
-      "exercises": [
-        {
-          "title": "Oefening 2",
-          "path": "js1/oef2/index.html"
         }
       ]
     }
