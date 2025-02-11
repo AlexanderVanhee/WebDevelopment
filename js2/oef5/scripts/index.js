@@ -4,7 +4,7 @@ const setup = () => {
 
 const button = () => {
   let pElement = document.getElementById("txtOutput");
-  pElement.innerHTML = "Welkom!";
+  pElement.textContent = "Welkom!";
 };
 
 window.addEventListener("load", setup);
