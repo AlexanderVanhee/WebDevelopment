@@ -8,10 +8,15 @@ const calculate = () => {
   const arg1 = document.getElementById("arg1").value;
   const arg2 = document.getElementById("arg2").value;
   let output = document.getElementById("output");
-  const calculation = input.substring(arg1, arg2);
 
-  console.log(calculation);
-  document.getElementById("output").textContent = calculation;
+  if (arg1 === "" || arg2 === "" || input === "") {
+    output.textContent = "Enter both function arguments";
+    return;
+  }
+
+  const calculation = input.substring(arg1, arg2);
+  output.textContent = calculation;
 };
+
 
 window.addEventListener("load", setup);
