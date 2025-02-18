@@ -1,6 +1,6 @@
 const setup = () => {
-  let buttons = Array.from(document.getElementsByTagName("button"));
-  buttons.forEach((element) => {
+  let buttons = document.getElementsByTagName("button");
+  Array.prototype.forEach.call(buttons, (element) => {
     element.addEventListener("click", () => toggle(element));
   });
   console.log(buttons);
