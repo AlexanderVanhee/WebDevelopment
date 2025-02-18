@@ -1,0 +1,50 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: darkgray solid 1px;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+div > span {
+  display: flex;
+  flex-direction: row;
+  width: 100px;
+  justify-content: end;
+}
+
+.sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sliders > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+}
+
+#color-box {
+  width: 150px;
+  height: 150px;
+  border: darkgray solid 2px;
+
+  border-radius: 20px;
+}

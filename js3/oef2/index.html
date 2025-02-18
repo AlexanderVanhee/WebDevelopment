@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Demonstratie slider</title>
+    <script
+      type="text/javascript"
+      charset="utf-8"
+      src="scripts/code.js"
+    ></script>
+    <link rel="stylesheet" href="styles/styles.css" />
+  </head>
+  <body>
+    <p>1. In setup wordt change en input aan de slider gekoppeld.</p>
+    <p>
+      2. Omdat Chrome en Safari "change" en "input" verwarren. "Input" moet live
+      de waarde volgen en "change" moet alleen triggeren bij mousedown. Maar
+      deze 2 doen hetzelfde in Chrome en Safari
+    </p>
+    <p>
+      3. door de Javascript regel de de style toevoegd.
+      <code>colorDemos[0].style.backgroundColor="red";</code>
+    </p>
+    <p>
+      <code>getElementsByClassName</code> geeft een Collection terug, meerdere
+      HTML elementen kunnen dezelfde klasse hebben. Hier heeft iedere class maar
+      1 element dus kunnen we de eerste waarde gewoon nemen.
+    </p>
+    <hr />
+    <section>
+      <p>
+        Open het console venster, versleep daarna de slider hieronder en kijk
+        welke berichten er komen
+      </p>
+      <input type="range" class="slider" value="50" min="0" max="100" />
+    </section>
+    <section>
+      <p>Een gekleurd blokje :</p>
+      <div class="colorDemo"></div>
+    </section>
+  </body>
+</html>

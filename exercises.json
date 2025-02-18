@@ -1,6 +1,32 @@
 {
   "tasks": [
     {
+      "title": "JavaScript 3",
+      "subtitle": "",
+      "exercises": [
+        {
+          "title": "Oefening 1",
+          "path": "js3/oef1/index.html"
+        },
+        {
+          "title": "Oefening 2",
+          "path": "js3/oef2/index.html"
+        },
+        {
+          "title": "Colorpicker",
+          "path": "js3/oef3/index.html"
+        },
+        {
+          "title": "Oefening 4",
+          "path": "js3/oef4/index.html"
+        },
+        {
+          "title": "Oefening 5",
+          "path": "js3/oef5/index.html"
+        }
+      ]
+    },
+    {
       "title": "JavaScript 2",
       "subtitle": "",
       "exercises": [
