@@ -1,6 +1,28 @@
 {
   "tasks": [
     {
+      "title": "JavaScript 4",
+      "subtitle": "",
+      "exercises": [
+        {
+          "title": "Oefening 1",
+          "path": "js4/oef1/index.html"
+        },
+        {
+          "title": "Oefening 2",
+          "path": "js4/oef2/index.html"
+        },
+        {
+          "title": "Oefening 3",
+          "path": "js4/oef3/index.html"
+        },
+        {
+          "title": "Oefening 4",
+          "path": "js4/oef4/index.html"
+        }
+      ]
+    },
+    {
       "title": "JavaScript 3",
       "subtitle": "",
       "exercises": [
