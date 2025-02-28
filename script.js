@@ -1,4 +1,4 @@
-function generateExerciseLists(data) {
+const generateExerciseLists = (data) => {
   const container = document.getElementById("exercises-container");
   const sidebarNav = document.getElementById("sidebarNav");
 
@@ -22,34 +22,31 @@ function generateExerciseLists(data) {
     task.exercises.forEach((exercise) => {
       const card = document.createElement("div");
       card.className = "bg-neutral-900 rounded-lg shadow-md p-4";
+
+      // Create card content without inline onClick
       card.innerHTML = `
                   <div class="flex items-center justify-between w-full">
                       <p class="text-left text-lg font-semibold">
                           ${exercise.title}
                       </p>
                       <div class="flex items-center space-x-2">
-                          <a aria-label="Open external link to exercise" role="button" href="${
-                            exercise.path
-                          }" class="flex items-center justify-center w-10 h-10 bg-gray-600 text-white rounded-full">
+                          <a aria-label="Open external link to exercise" role="button" href="${exercise.path}" class="flex items-center justify-center w-10 h-10 bg-gray-600 text-white rounded-full">
                               <i class="ti ti-external-link"></i>
                           </a>
   
-                          <button aria-label="Open exercise in embedded view" class="flex items-center justify-center w-10 h-10 bg-gray-600 text-white rounded-full hidden sm:block" onclick="loadIframe('${
-                            exercise.path
-                          }')">
+                          <button aria-label="Open exercise in embedded view" class="embedded-view-btn flex items-center justify-center w-10 h-10 bg-gray-600 text-white rounded-full hidden sm:block" data-path="${exercise.path}">
                               <i class="ti ti-arrow-right"></i>
                           </button>
                       </div>
                   </div>
-                  ${
-                    exercise.note
-                      ? `
+                  ${exercise.note
+          ? `
                       <p class="text-blue-600 flex items-center font-bold">
                           <span class="font-bold"><i class="ti ti-arrow-right mr-2 align-middle"></i>${exercise.note}</span>
                       </p>
                   `
-                      : ""
-                  }
+          : ""
+        }
               `;
 
       accordion.appendChild(card);
@@ -58,9 +55,17 @@ function generateExerciseLists(data) {
     taskDiv.appendChild(accordion);
     container.appendChild(taskDiv);
   });
+
+  // Add event listeners after DOM is populated
+  document.querySelectorAll('.embedded-view-btn').forEach(button => {
+    button.addEventListener('click', function () {
+      const path = this.getAttribute('data-path');
+      loadIframe(path);
+    });
+  });
 }
 
-function loadIframe(path) {
+const loadIframe = (path) => {
   const container = document.getElementById("iframeContainer");
   const iframe = document.getElementById("iframeViewer");
   const sourceViewer = document.getElementById("sourceViewer");
@@ -141,6 +146,11 @@ function loadIframe(path) {
     viewSourceBtn.classList.toggle("bg-gray-600", showContent);
   };
 
+  // Remove existing event listeners to prevent duplicates
+  viewContentBtn.removeEventListener("click", () => toggleView(true));
+  viewSourceBtn.removeEventListener("click", () => toggleView(false));
+
+  // Add event listeners properly
   viewContentBtn.addEventListener("click", () => toggleView(true));
   viewSourceBtn.addEventListener("click", () => toggleView(false));
 
@@ -151,11 +161,11 @@ const fetchAndDisplayFile = (fileURL, fileType, content = null) => {
   const fetchFile = content
     ? Promise.resolve(content)
     : fetch(fileURL).then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.text();
-      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.text();
+    });
 
   fetchFile
     .then((fileContent) => {
@@ -203,7 +213,7 @@ const displayFileContent = (fileURL, fileType, content) => {
     `;
 };
 
-function adjustMainContentWidth() {
+const adjustMainContentWidth = () => {
   const iframeContainer = document.getElementById("iframeContainer");
   const mainContent = document.getElementById("mainContent");
   const containerWidth = iframeContainer.offsetWidth;
