@@ -1,30 +1,27 @@
 const setup = () => {
-  const redSlider = document.getElementById("red-slider");
-  const greenSlider = document.getElementById("green-slider");
-  const blueSlider = document.getElementById("blue-slider");
-
-  const redValue = document.getElementById("red-value");
-  const greenValue = document.getElementById("green-value");
-  const blueValue = document.getElementById("blue-value");
+  const sliders = ['red', 'green', 'blue'].map(color => ({
+    slider: document.getElementById(`${color}-slider`),
+    value: document.getElementById(`${color}-value`)
+  }));
 
   const colorBox = document.getElementById("color-box");
 
-  function updateColor() {
-    const red = redSlider.value;
-    const green = greenSlider.value;
-    const blue = blueSlider.value;
+  const updateColor = () => {
+    const rgb = sliders.map(({ slider, value }) => {
+      const colorValue = slider.value;
+      value.textContent = colorValue;
+      return colorValue;
+    });
 
-    redValue.textContent = red;
-    greenValue.textContent = green;
-    blueValue.textContent = blue;
+    colorBox.style.backgroundColor = `rgb(${rgb.join(', ')})`;
+  };
 
-    colorBox.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
-  }
+  // Add an update to the 3 sliders.
+  sliders.forEach(({ slider }) => {
+    slider.addEventListener("input", updateColor);
+  });
 
-  redSlider.addEventListener("input", updateColor);
-  greenSlider.addEventListener("input", updateColor);
-  blueSlider.addEventListener("input", updateColor);
-  // fixes issue were color is wrong after reload
+  // Initialize with current values
   updateColor();
 };
 

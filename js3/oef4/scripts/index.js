@@ -1,11 +1,9 @@
 const setup = () => {
-  let buttons = document.getElementsByTagName("button");
-  Array.prototype.forEach.call(buttons, (element) => {
-    element.addEventListener("click", () => toggle(element));
+  // Doing [...collection] is the simplest way to turn a collection into an array.
+  // the "..."" are known as a spread operator.
+  [...document.getElementsByTagName("button")].forEach(button => {
+    button.addEventListener("click", () => button.classList.toggle("pressed"));
   });
-  console.log(buttons);
 };
-
-const toggle = (button) => button.classList.toggle("pressed");
 
 window.addEventListener("load", setup);
