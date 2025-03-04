@@ -1,0 +1,118 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.gutter {
+    background-color: #edf2f7;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    cursor: col-resize;
+}
+
+.gutter.gutter-horizontal {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+}
+
+/* Verbergt scrollbar op Chrome */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/*Voor Firefox en IE*/
+.scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+
+@media (max-width: 800px) {
+    .desktop-view {
+        display: none !important;
+    }
+}
+
+@media (min-width: 800px) {
+    .mobile-view {
+        display: none !important;
+    }
+}
+
+code {
+    white-space: pre-wrap !important;
+}
+
+.code-container {
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+}
+
+/* Console styling */
+.console-log {
+    padding: 4px 8px;
+    border-bottom: 1px solid #eee;
+    font-family: monospace;
+}
+
+.console-error {
+    background-color: #fff0f0;
+    color: #d32f2f;
+}
+
+.console-warn {
+    background-color: #fffde7;
+    color: #ff8f00;
+}
+
+.console-info {
+    color: #1976d2;
+}
+
+.console-container {
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+    background-color: #f8f8f8;
+}
+
+#console-content {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.9rem;
+}
+
+.console-timestamp {
+    color: #aaa;
+    font-size: 0.8rem;
+    margin-right: 8px;
+}
+
+.console-clear-button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 10;
+}
+
+button,
+.exercise-item {
+    transition: color 0.5s ease, border-color 0.5s ease;
+    user-select: none;
+}
+
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#chapter-content>* {
+    animation: fadeInSlide 0.3s ease-in-out;
+}
+
+.chapter-tab {
+    user-select: none;
+}

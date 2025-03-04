@@ -1,74 +1,195 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="nl">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oefeningen - Alexander Vanhee</title>
-  <link rel="stylesheet" href="tailwind/output.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://cdn.jsdelivr.net/npm/tabler-icons@1.35.0/iconfont/tabler-icons.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oefeningen Alexander</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.32.0/tabler-icons.min.css"
+        integrity="sha384-hKf8bxWbjGj0vXnqSvOgIvmikptZJXndc1JAIYppfy/F0I9Wr5D/Pz17VKfEWaCj" crossorigin="anonymous">
+    <link rel="stylesheet" href="./index/highlight/atom-one-light.min.css">
+    <script src="./index/highlight/highlight.min.js"></script>
+    <script src="./index/highlight/javascript.min.js"></script>
+    <script src="./index/highlight/css.min.js"></script>
+    <script src="./index/highlight/xml.min.js"></script>
+    <link rel="stylesheet" href="./index/styles.css">
+    <link rel="stylesheet" href="./index/shared_styles.css">
+    <link href="./tailwind/output.css" rel="stylesheet">
 </head>
 
-<body class="min-h-screen bg-neutral-900 text-gray-300">
-  <div class="grid-background fixed inset-0 -z-10"></div>
-  <nav class="fixed top-8 left-8 w-48 bg-neutral-900 rounded-lg p-4 shadow-lg hidden sm:block" id="sidebar">
-    <ul class="space-y-2" id="sidebarNav">
-      <!-- Sidebar content populated dynamically -->
-    </ul>
-  </nav>
-  <!-- Content Section and Viewer -->
-  <main id="mainContent" class="md:ml-64 p-8 max-w-4xl mx-auto transition-all duration-200">
-    <h1 class="text-5xl font-bold">Oefeningen</h1>
-    <h2 class="text-1xl font-bold">Alexander Vanhee <a class="ti ti-brand-github"
-        href="https://github.com/alexandervanhee"></a></h2>
-    <div id="exercises-container" class="space-y-6 mt-6">
-      <!-- Exercises content populated dynamically -->
+<body class="bg-gray-50 text-gray-800">
+    <!-- Mobile -->
+    <div class="mobile-view w-full min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex items-center justify-between px-4 py-3">
+                <h1 class="text-xl font-bold  items-center justify-between">
+                    <span class="flex items-center">
+                        <i class="ti ti-book text-grey-500 mr-2"></i><span class="mr-4">Oefeningen Web Dev</span>
+                    </span>
+                    <span class="text-gray-500 italic font-serif font-light">Alexander Vanhee - 1TiA</span>
+                </h1>
+            </div>
+            <div id="mobile-exercises-list" class="space-y-4"></div>
+        </div>
     </div>
-  </main>
 
-  <!-- Right-side iframe viewer -->
-  <div id="iframeContainer" class="fixed top-0 right-0 w-1/3 h-screen bg-neutral-900" style="display: none">
-    <div class="resize-handle flex items-center justify-center">
-      <i class="ti ti-grip-vertical"></i>
+    <!-- Desktop  -->
+    <div class="desktop-view w-full min-h-screen flex flex-col">
+        <div class="sticky top-0 bg-white border-b border-gray-200 z-10 shadow-sm">
+            <div class="flex items-center justify-between px-4 py-3">
+                <h1 class="text-xl font-bold flex items-center justify-between">
+                    <span class="flex items-center">
+                        <i class="ti ti-book text-grey-500 mr-2"></i><span class="mr-4">Oefeningen Web Dev</span>
+                    </span>
+                    <span class="text-gray-500 italic font-serif font-light">Alexander Vanhee - 1TiA</span>
+                </h1>
+                <a href="https://github.com/AlexanderVanhee/WebDevelopment" target="_blank"
+                    class="ml-auto p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors flex items-center justify-center">
+                    <i class="ti ti-brand-github"></i>
+                </a>
+            </div>
+
+
+            <!-- Chapter tabs -->
+            <div class="relative">
+                <div class="absolute left-0 top-0 bottom-0 flex items-center pl-1 z-10">
+                    <button id="scroll-left" class="p-1 rounded-full bg-white shadow-md hover:bg-gray-100">
+                        <i class="ti ti-chevron-left text-gray-600"></i>
+                    </button>
+                </div>
+                <div id="chapter-tabs" class="flex overflow-x-auto scrollbar-hide py-2 px-8">
+                    <!-- JS insert spot-->
+                </div>
+                <div class="absolute right-0 top-0 bottom-0 flex items-center pr-1 z-10">
+                    <button id="scroll-right" class="p-1 rounded-full bg-white shadow-md hover:bg-gray-100">
+                        <i class="ti ti-chevron-right text-gray-600"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content-->
+        <div class="flex flex-1 overflow-hidden">
+            <!-- Sidebar -->
+            <aside id="sidebar" class="w-1/4 overflow-y-auto bg-white border-r border-gray-200">
+                <div id="chapter-content" class="p-4">
+                    <!-- JS insert spot-->
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main id="main-content" class="w-3/4 flex flex-col overflow-hidden">
+                <!-- Empty State -->
+                <div id="empty-state" class="flex-1 flex items-center justify-center">
+                    <div class="text-center p-8">
+                        <i class="ti ti-file-code text-gray-300 text-[12rem] mb-4"></i>
+                        <h2 class="text-xl font-semibold text-gray-600 mb-2">Nog geen oefening geselecteerd.</h2>
+                        <p class="text-gray-500">Selecteer een oefening uit de zijbalk om te beginnen.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise Content -->
+                <div id="exercise-content" class="flex-1 flex flex-col hidden overflow-hidden">
+                    <!-- Header -->
+                    <header class="bg-white border-b border-gray-200 p-4">
+                        <h2 id="exercise-title" class="text-xl font-bold"></h2>
+                        <div class="flex items-center text-sm text-gray-500 mt-1">
+                            <span id="chapter-name"></span>
+                            <i class="ti ti-chevron-right mx-2"></i>
+                            <span id="exercise-name"></span>
+                        </div>
+                        <h3 id="exercise-note-span" class="font-bold text-blue-600 flex items-center space-x-2 hidden">
+                            <i class="ti ti-info-hexagon text-xl "></i>
+                            <span id="exercise-note">This is a note</span>
+                        </h3>
+
+                    </header>
+
+                    <!-- tabs -->
+                    <div class="bg-white border-b border-gray-200">
+                        <div class="flex">
+                            <button id="preview-tab"
+                                class="px-4 py-2 border-b-2 border-blue-500 font-medium text-blue-600">
+                                <i class="ti ti-device-desktop mr-1"></i>Preview
+                            </button>
+                            <button id="html-tab" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                                <i class="ti ti-code mr-1"></i>HTML
+                            </button>
+                            <button id="css-tab" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                                <i class="ti ti-brand-css3 mr-1"></i>CSS
+                            </button>
+                            <button id="js-tab" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                                <i class="ti ti-brand-javascript mr-1"></i>JavaScript
+                            </button>
+                            <button id="console-tab" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                                <i class="ti ti-terminal mr-1"></i>Console
+                            </button>
+                            <button id="validator-tab" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                                <i class="ti ti-file-search mr-1"></i>Validator
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="flex-1 overflow-hidden">
+                        <div id="preview-content" class="h-full">
+                            <iframe id="preview-iframe" class="w-full h-full border-0" allowfullscreen></iframe>
+                        </div>
+                        <div id="html-content" class="h-full hidden overflow-hidden relative">
+                            <button
+                                class="copy-button absolute top-2 right-4 px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-sm flex items-center z-10"
+                                data-target="html-code">
+                                <i class="ti ti-copy mr-1"></i>Copy
+                            </button>
+                            <div class="code-container">
+                                <pre><code id="html-code" class="language-html"></code></pre>
+                            </div>
+                        </div>
+                        <div id="css-content" class="h-full hidden overflow-hidden relative">
+                            <button
+                                class="copy-button absolute top-2 right-4 px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-sm flex items-center z-10"
+                                data-target="css-code">
+                                <i class="ti ti-copy mr-1"></i>Copy
+                            </button>
+                            <div class="code-container">
+                                <pre><code id="css-code" class="language-css"></code></pre>
+                            </div>
+                        </div>
+                        <div id="js-content" class="h-full hidden overflow-hidden relative">
+                            <button
+                                class="copy-button absolute top-2 right-4 px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-sm flex items-center z-10"
+                                data-target="js-code">
+                                <i class="ti ti-copy mr-1"></i>Copy
+                            </button>
+                            <div class="code-container">
+                                <pre><code id="js-code" class="language-javascript"></code></pre>
+                            </div>
+                        </div>
+                        <div id="console-content" class="h-full hidden overflow-hidden relative">
+                            <button id="clear-console"
+                                class="console-clear-button px-2 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">
+                                <i class="ti ti-eraser mr-1"></i>Clear
+                            </button>
+                            <div class="console-container p-2">
+                                <div id="console-logs">
+                                    <div class="console-log">
+                                        <span class="console-timestamp">[00:00:00]</span>Console ready
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="validator-content" class="h-full hidden overflow-hidden relative code-container">
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
     </div>
-    <div class="m-4">
-      <div class="bg-white border shadow-sm border-gray-400 rounded-lg resize" style="height: 93vh">
-        <iframe id="iframeViewer" style="height: 93vh; display: none" class="w-full rounded-lg"></iframe>
-        <div id="sourceViewer" style="
-              height: 93vh;
-              display: none;
-              padding: 1rem;
-              overflow-y: scroll;
-              font-size: 0.875rem;
-            " class="w-full rounded-lg bg-neutral-900"></div>
-      </div>
-      <div class="flex mt-2">
-        <button id="viewContentBtn"
-          class="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-l-lg">
-          <i class="ti ti-photo"></i>
-        </button>
-        <button id="viewSourceBtn"
-          class="flex items-center justify-center w-10 h-10 bg-gray-600 text-white rounded-r-lg">
-          <i class="ti ti-code"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-  <div id="resize-overlay" style="
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: 999;
-        background: transparent;
-      "></div>
-  <script src="script.js"></script>
+
+    <!-- Split.js for the resizable panels -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.5/split.min.js"></script>
+    <script src="./index/script.js"></script>
+    <script src="./index/validator.js"></script>
 </body>
 
 </html>
