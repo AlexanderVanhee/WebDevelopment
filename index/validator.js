@@ -1,5 +1,5 @@
 // Function to validate HTML using W3C Validator API
-async function validateHTML(html) {
+export const validateHTML = async (html) => {
     try {
         // W3C validator API endpoint - note the ?out=json parameter in the URL
         const validatorUrl = 'https://validator.w3.org/nu/?out=json';
@@ -27,7 +27,7 @@ async function validateHTML(html) {
 }
 
 // Proxy
-async function validateHTMLViaCorsProxy(html) {
+const validateHTMLViaCorsProxy = async (html) => {
     try {
         const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/https://validator.w3.org/nu/?out=json';
 
@@ -53,7 +53,7 @@ async function validateHTMLViaCorsProxy(html) {
 }
 
 // Function to display validation results in the validator tab
-function displayValidationResults(results) {
+export const displayValidationResults = (results, selectedExercise) => {
     const validatorContent = document.getElementById('validator-content');
     validatorContent.innerHTML = '';
 
@@ -165,12 +165,12 @@ function displayValidationResults(results) {
     validatorContent.appendChild(resultsContainer);
 
     document.getElementById('revalidate-button').addEventListener('click', () => {
-        validateCurrentExercise();
+        validateCurrentExercise(selectedExercise);
     });
 }
 
 // Escape with entitites
-function escapeHTML(str) {
+const escapeHTML = (str) => {
     if (!str) return '';
     return str
         .replace(/&/g, '&amp;')
@@ -181,7 +181,7 @@ function escapeHTML(str) {
 }
 
 // Function to validate the current exercise
-async function validateCurrentExercise() {
+export const validateCurrentExercise = async (selectedExercise) => {
     if (!selectedExercise) return;
 
     // Loader
@@ -197,13 +197,5 @@ async function validateCurrentExercise() {
 
     const htmlCode = document.getElementById('html-code').textContent;
     const validationResults = await validateHTML(htmlCode);
-    displayValidationResults(validationResults);
-}
-
-function initValidatorTab() {
-    document.getElementById('validator-tab').addEventListener('click', () => {
-        if (selectedExercise) {
-            validateCurrentExercise();
-        }
-    });
+    displayValidationResults(validationResults, selectedExercise);
 }

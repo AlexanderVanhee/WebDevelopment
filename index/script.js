@@ -1,3 +1,8 @@
+import { getExercisesFromPage } from "./getExercisesFromPage.js";
+import { openSettingsPopUp } from "./settingsPopUp.js";
+import { validateCurrentExercise } from "./validator.js";
+
+
 let exercisesData = [];
 let selectedChapter = 0;
 let selectedExercise = null;
@@ -8,10 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
         Split(['#sidebar', '#main-content'], {
             sizes: [25, 75],
             minSize: [300, 700],
-            gutterSize: 8,
+            gutterSize: 5,
         });
     }
-    loadExercisesData();
+    loadExercisesData('./index/exercises.json');
 
     document.getElementById('scroll-left').addEventListener('click', scrollChaptersLeft);
     document.getElementById('scroll-right').addEventListener('click', scrollChaptersRight);
@@ -27,23 +32,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupCopyButtons();
     initValidatorTab();
+
+    document.getElementById('settings-button').addEventListener('click', () => {
+        openSettingsPopUp();
+    });
 });
+
+const initValidatorTab = () => {
+    document.getElementById('validator-tab').addEventListener('click', () => {
+        if (selectedExercise) {
+            validateCurrentExercise(selectedExercise);
+        }
+    });
+}
 
 
 // Load exercises data from exercises.json file
-async function loadExercisesData() {
+export const loadExercisesData = async (location) => {
     try {
-        const response = await fetch('./index/exercises.json');
-        if (!response.ok) {
-            throw new Error('Failed to load exercises data');
-        }
-        const data = await response.json();
-        exercisesData = data.tasks;
+        // Determine data source and load accordingly
+        exercisesData = location.endsWith('.json')
+            ? await loadJsonExercises(location)
+            : await getExercisesFromPage(location);
 
+        // Setup UI with loaded exercises
         buildChapterTabs(exercisesData);
         buildMobileExercisesList(exercisesData);
 
-        // Show the first chapter by default
+        let creditTitle = document.getElementById('creditTitle');
+        let consoleTab = document.getElementById(`console-tab`);
+
+        // Hide console in external mode as CORS doesn't allow console intercepting there.
+        if (location.endsWith('.json')) {
+            consoleTab.classList.remove("hidden");
+            creditTitle.textContent = '';
+        } else {
+            consoleTab.classList.add("hidden");
+            let ghUsername = getGitHubUsername(location);
+
+            if (ghUsername) {
+                creditTitle.innerHTML = `Oefeningen van <a class="text-gray-700" href="https://github.com/${ghUsername}" target="_blank" rel="noopener noreferrer">${ghUsername}</a>`;
+            } else {
+                creditTitle.textContent = 'Oefeningen van John Doe';
+            }
+        }
+
+        // Show first chapter if exercises exist
         if (exercisesData.length > 0) {
             showChapterExercises(0);
         }
@@ -53,8 +87,31 @@ async function loadExercisesData() {
     }
 }
 
+const getGitHubUsername = (url) => {
+    try {
+        let hostname = new URL(url).hostname;
+        if (hostname.endsWith("github.io")) {
+            let username = hostname.split(".github.io")[0];
+            return username.charAt(0).toUpperCase() + username.slice(1);
+        }
+    } catch (e) {
+        console.error("Invalid URL");
+    }
+    return null;
+}
+
+
+const loadJsonExercises = async (location) => {
+    const response = await fetch(location);
+    if (!response.ok) {
+        throw new Error('Failed to load exercises data');
+    }
+    const data = await response.json();
+    return data.tasks;
+}
+
 /*-----Chapters-----*/
-function buildChapterTabs(chapters) {
+const buildChapterTabs = (chapters) => {
     const chapterTabs = document.getElementById('chapter-tabs');
     chapterTabs.innerHTML = '';
 
@@ -70,10 +127,10 @@ function buildChapterTabs(chapters) {
         tab.addEventListener('click', () => {
             // Update selected tab styling
             document.querySelectorAll('.chapter-tab').forEach(t => {
-                t.classList.remove('bg-blue-100', 'text-blue-700');
+                t.classList.remove('bg-blue-100', 'text-blue-700', 'shadow-sm');
                 t.classList.add('hover:bg-gray-100');
             });
-            tab.classList.add('bg-blue-100', 'text-blue-700');
+            tab.classList.add('bg-blue-100', 'text-blue-700', 'shadow-sm');
             tab.classList.remove('hover:bg-gray-100');
 
             // Show exercises for the selected chapter
@@ -86,7 +143,7 @@ function buildChapterTabs(chapters) {
 }
 
 /*-----Exercises-----*/
-function showChapterExercises(chapterIndex) {
+const showChapterExercises = (chapterIndex) => {
     const chapterContent = document.getElementById('chapter-content');
     chapterContent.innerHTML = '';
 
@@ -107,15 +164,19 @@ function showChapterExercises(chapterIndex) {
     // Add exercises to the lista
     chapter.exercises.forEach((exercise, exIndex) => {
         const exerciseItem = document.createElement('div');
-        exerciseItem.className = 'exercise-item flex items-center p-3 rounded border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors duration-150';
+        exerciseItem.className = 'exercise-item shadow-sm flex items-center p-3 rounded border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors duration-150';
         exerciseItem.dataset.chapterIndex = chapterIndex;
         exerciseItem.dataset.exerciseIndex = exIndex;
         exerciseItem.dataset.path = exercise.path;
+
         const contentContainer = document.createElement('div');
         contentContainer.className = 'flex-1';
         contentContainer.innerHTML = /*html*/`
-<div class="font-medium">${exercise.title}</div>
-<div class="text-xs text-gray-500 mt-1 truncate">${exercise.path}</div>`;
+        <div class="font-medium">${exercise.title.length > 15 ? exercise.title.substring(0, 15) + '...' : exercise.title}</div>
+        <div class="text-xs text-gray-500 mt-1 max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+          ${exercise.path.length > 25 ? '...' + exercise.path.slice(-25) : exercise.path}
+        </div>`;
+
         const divider = document.createElement('div');
         divider.className = 'w-[1.5px] h-12 bg-gray-200 mx-3';
 
@@ -132,6 +193,7 @@ function showChapterExercises(chapterIndex) {
         exerciseItem.appendChild(divider);
         exerciseItem.appendChild(linkContainer);
         exerciseItem.addEventListener('click', () => handleExerciseClick(chapter, exercise, chapterIndex, exIndex));
+
         exercisesList.appendChild(exerciseItem);
     });
 
@@ -142,17 +204,17 @@ function showChapterExercises(chapterIndex) {
 }
 
 // Scroll chapter list
-function scrollChaptersLeft() {
+const scrollChaptersLeft = () => {
     const tabsContainer = document.getElementById('chapter-tabs');
     tabsContainer.scrollBy({ left: -200, behavior: 'smooth' });
 }
-function scrollChaptersRight() {
+const scrollChaptersRight = () => {
     const tabsContainer = document.getElementById('chapter-tabs');
     tabsContainer.scrollBy({ left: 200, behavior: 'smooth' });
 }
 
 // Seperatly builds a simplified mobile list because mobile has only so much screen real-estate.
-function buildMobileExercisesList(chapters) {
+const buildMobileExercisesList = (chapters) => {
     const mobileList = document.getElementById('mobile-exercises-list');
     mobileList.innerHTML = '';
 
@@ -187,7 +249,7 @@ function buildMobileExercisesList(chapters) {
 }
 
 // Function when pressing an exercise.
-function handleExerciseClick(chapter, exercise, chapterIndex, exerciseIndex) {
+const handleExerciseClick = (chapter, exercise, chapterIndex, exerciseIndex) => {
     selectedExercise = {
         chapter,
         exercise,
@@ -233,7 +295,7 @@ function handleExerciseClick(chapter, exercise, chapterIndex, exerciseIndex) {
 }
 
 /*-----Virtual Console-----*/
-function setupConsoleInterceptor() {
+const setupConsoleInterceptor = () => {
     const iframe = document.getElementById('preview-iframe');
     if (!iframe.contentWindow) return;
 
@@ -258,7 +320,7 @@ function setupConsoleInterceptor() {
 }
 
 // Add a console log the custom log
-function addConsoleLog(type, args) {
+const addConsoleLog = (type, args) => {
     const logElement = document.createElement('div');
     logElement.className = `console-log ${type !== 'log' ? 'console-' + type : ''}`;
 
@@ -301,7 +363,7 @@ function addConsoleLog(type, args) {
 }
 
 // Clear the console
-function clearConsole() {
+const clearConsole = () => {
     document.getElementById('console-logs').innerHTML = '';
     consoleLogs = [];
 
@@ -319,7 +381,7 @@ function clearConsole() {
 }
 
 /*-----Source Files-----*/
-async function loadSourceFiles(path) {
+const loadSourceFiles = async (path) => {
     try {
         const tabs = ['html', 'css', 'js'];
         tabs.forEach(tab => document.getElementById(`${tab}-tab`).classList.add('hidden'));
@@ -393,7 +455,7 @@ async function loadSourceFiles(path) {
     }
 }
 
-function resolvePath(path, directory) {
+const resolvePath = (path, directory) => {
     if (path.startsWith('./')) {
         return directory + path.substring(2);
     } else if (!path.startsWith('/')) {
@@ -402,7 +464,7 @@ function resolvePath(path, directory) {
     return path;
 }
 
-async function updateCodeDisplay(type, content) {
+const updateCodeDisplay = async (type, content) => {
     if (!content || content.trim() === '') return false;
 
     const codeElement = document.getElementById(`${type}-code`);
@@ -415,7 +477,7 @@ async function updateCodeDisplay(type, content) {
     return true;
 }
 
-function setupCopyButtons() {
+const setupCopyButtons = () => {
     document.querySelectorAll('.copy-button').forEach(button => {
         let isProcessing = false;
 
@@ -452,8 +514,7 @@ function setupCopyButtons() {
     });
 }
 
-
-function ensureTabSelection() {
+const ensureTabSelection = () => {
     const tabs = ['html', 'css', 'js'];
     const hasVisibleTabs = tabs.some(tab =>
         !document.getElementById(`${tab}-tab`).classList.contains('hidden')
@@ -464,7 +525,6 @@ function ensureTabSelection() {
         switchTab('preview');
     }
 }
-
 
 /*-----TABS-----*/
 const tabs = [
@@ -480,7 +540,7 @@ tabs.forEach(tab => {
     document.getElementById(`${tab.name}-tab`).addEventListener('click', () => switchTab(tab.name));
 });
 
-function switchTab(tabName) {
+const switchTab = (tabName) => {
     tabs.forEach(tab => {
         document.getElementById(`${tab.name}-content`).classList.add('hidden');
     });
@@ -497,14 +557,12 @@ function switchTab(tabName) {
     document.getElementById(`${tabName}-tab`).className = `px-4 py-2 border-b-2 font-medium ${selectedTab.color}`;
 }
 
-
-function resetTabStates() {
+const resetTabStates = () => {
     switchTab('preview');
 }
 
-
 // Display error message
-function displayErrorMessage(message) {
+const displayErrorMessage = (message) => {
     const errorAlert = document.createElement('div');
     errorAlert.className = 'fixed bottom-4 right-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-md';
     errorAlert.innerHTML = /*html*/`
@@ -517,5 +575,3 @@ function displayErrorMessage(message) {
         errorAlert.remove();
     }, 10000);
 }
-
-
