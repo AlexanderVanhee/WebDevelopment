@@ -1,3 +1,4 @@
+import { patterns } from './validator_patterns.js';
 // Function to validate HTML using W3C Validator API
 export const validateHTML = async (html) => {
     try {
@@ -52,6 +53,88 @@ const validateHTMLViaCorsProxy = async (html) => {
     }
 }
 
+// Function to validate JavaScript code locally
+export const validateJS = (jsCode) => {
+    // Initialize results object similar to W3C validator format
+    const results = {
+        messages: []
+    };
+
+    // Skip validation if no JS code provided
+    if (!jsCode || jsCode.trim() === '') {
+        results.messages.push({
+            type: 'info',
+            message: 'No JavaScript code to validate.'
+        });
+        return results;
+    }
+
+
+
+
+    // Process each line to find issues
+    const lines = jsCode.split('\n');
+
+    lines.forEach((line, lineIndex) => {
+        // Check each pattern on this line
+        patterns.forEach(pattern => {
+            const matches = [...line.matchAll(pattern.regex)];
+
+            matches.forEach(match => {
+                results.messages.push({
+                    type: pattern.type,
+                    message: pattern.message,
+                    lastLine: lineIndex + 1,
+                    lastColumn: match.index + 1,
+                    extract: line.trim(),
+                    source: 'JS',
+
+                });
+            });
+        });
+    });
+
+    // Check for code structure issues
+    try {
+        // Simple parsing check - will throw on syntax errors
+        new Function(jsCode);
+    } catch (error) {
+        // Extract line and column if available
+        const errorMatch = error.message.match(/at line (\d+) column (\d+)/i);
+        let errorLine = null;
+        let errorColumn = null;
+
+        if (errorMatch) {
+            errorLine = parseInt(errorMatch[1]);
+            errorColumn = parseInt(errorMatch[2]);
+        }
+
+        results.messages.push({
+            type: 'error',
+            message: `JavaScript syntax error: ${error.message}`,
+            lastLine: errorLine,
+            lastColumn: errorColumn,
+            extract: errorLine ? lines[errorLine - 1] : null,
+            source: 'JS'
+        });
+    }
+
+    return results;
+};
+
+// Helper function to concatenate validation results
+export const concatValidationResults = (htmlResults, jsResults) => {
+    if (!htmlResults) return jsResults;
+    if (!jsResults) return htmlResults;
+
+    return {
+        messages: [
+            ...htmlResults.messages,
+            ...jsResults.messages
+        ]
+    };
+};
+
 // Function to display validation results in the validator tab
 export const displayValidationResults = (results, selectedExercise) => {
     const validatorContent = document.getElementById('validator-content');
@@ -72,7 +155,7 @@ export const displayValidationResults = (results, selectedExercise) => {
                 <i class="ti ti-circle-check text-2xl mr-2"></i>
                 <h3 class="text-lg font-bold">Document is geldig!</h3>
             </div>
-            <p class="text-gray-600">Geen fouten of waarschuwingen gevonden in het HTML-bestand.</p>
+            <p class="text-gray-600">Geen fouten of waarschuwingen gevonden in het HTML of JS-bestand.</p>
         `;
     } else {
         header.innerHTML = /* html */
@@ -82,7 +165,7 @@ export const displayValidationResults = (results, selectedExercise) => {
                 <h3 class="text-lg font-bold">Validatie ${errorCount > 0 ? 'mislukt' : 'gelukt met waarschuwingen'}</h3>
 
             </div>
-            <p class="text-gray-600">${errorCount} fouten en ${warningCount} waarschuwingen gevonden in het HTML-bestand.</p>
+            <p class="text-gray-600">${errorCount} fouten en ${warningCount} waarschuwingen gevonden in het HTML en JS-bestand.</p>
         `;
     }
 
@@ -114,8 +197,12 @@ export const displayValidationResults = (results, selectedExercise) => {
 
             // Create message content with line and column information if available
             let locationInfo = '';
+
             if (message.lastLine) {
-                locationInfo = /* html */`<span class="text-gray-600">Line ${message.lastLine}`;
+                let icon = (message.source === 'JS') ? 'ti-brand-javascript' : 'ti-html';
+                locationInfo = ` <span class="text-gray-600"><i class="ti ${icon} mr-2"></i>`;
+                locationInfo += `Line ${message.lastLine}`;
+
                 if (message.lastColumn) {
                     locationInfo += `, Column ${message.lastColumn}`;
                 }
@@ -190,12 +277,21 @@ export const validateCurrentExercise = async (selectedExercise) => {
         <div class="flex items-center justify-center h-full">
             <div class="text-center">
                 <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mb-3"></div>
-                <p class="text-gray-600">HTML aan het valideren...</p>
+                <p class="text-gray-600">HTML en JS aan het valideren...</p>
             </div>
         </div>
     `;
 
     const htmlCode = document.getElementById('html-code').textContent;
-    const validationResults = await validateHTML(htmlCode);
+    let validationResults = await validateHTML(htmlCode);
+
+    // Get JS code and check if it exists and isn't empty
+    const jsCodeElement = document.getElementById('js-code');
+    if (jsCodeElement && jsCodeElement.textContent && jsCodeElement.textContent.trim() !== '') {
+        const jsCode = jsCodeElement.textContent;
+        const jsValidationResults = validateJS(jsCode);
+        validationResults = concatValidationResults(validationResults, jsValidationResults);
+    }
+
     displayValidationResults(validationResults, selectedExercise);
 }

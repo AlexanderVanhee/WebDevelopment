@@ -3,6 +3,7 @@ import { openSettingsPopUp } from "./settingsPopUp.js";
 import { validateCurrentExercise } from "./validator.js";
 
 
+
 let exercisesData = [];
 let selectedChapter = 0;
 let selectedExercise = null;

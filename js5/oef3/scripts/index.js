@@ -10,7 +10,7 @@ const addGemeentes = () => {
   while (keepGoing) {
     let gemeente = prompt("Voeg een gemeente toe");
     if (gemeente && gemeente !== "stop") {
-      var option = document.createElement("option");
+      let option = document.createElement("option");
       option.text = option.value = gemeente;
       dropdown.add(option, 0);
     } else {
