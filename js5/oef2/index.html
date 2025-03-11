@@ -1,12 +1,50 @@
 <!DOCTYPE html>
 <html lang="nl">
-  <head>
-    <title>Oefening</title>
-    <link rel="stylesheet" type="text/css" href="styles/index.css">
-  </head>
 
-  <body>
+<head>
+  <title>De naar het - oef2</title>
+  <link rel="stylesheet" type="text/css" href="styles/index.css">
+</head>
+
+<body>
+  <h1>De naar het</h1>
+
+  <div>
+    <label for="inputText">Te bewerken tekst:</label><br>
+    <textarea id="inputText" rows="5"
+      cols="50">Gisteren zat de jongen op de stoep en at de helft van de appel</textarea>
+  </div>
+
+  <div>
+    <label for="searchString">Van:</label>
+    <input type="text" id="searchString" value="de">
+    <label for="replacementString">naar:</label>
+    <input type="text" id="replacementString" value="het">
+  </div>
+
+  <div>
+    <label>
+      <input type="checkbox" id="respectCase" checked>
+      Behoud hoofdletters
+    </label>
+  </div>
+
+  <div>
+    <label>
+      <input type="checkbox" id="onlyWords">
+      Verander alleen echte woorden.
+    </label>
+  </div>
+
+  <div>
+    <button id="replaceButton">Uitvoeren</button>
+  </div>
+
+  <div>
+    <h3>Resultaat:</h3>
     <p id="text"></p>
-    <script src="scripts/index.js"></script>
-  </body>
+  </div>
+  <script src="scripts/index.js"></script>
+</body>
+
 </html>

@@ -17,8 +17,12 @@
           "path": "js5/oef3/index.html"
         },
         {
-          "title": "Formvalidaties",
+          "title": "Formwaarden",
           "path": "js5/oef4/index.html"
+        },
+        {
+          "title": "Formvalidaties",
+          "path": "js5/oef5/index.html"
         }
       ]
     },

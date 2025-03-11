@@ -1,35 +1,68 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head> 
+
+<head>
 	<title>Oefening</title>
 	<link rel="stylesheet" type="text/css" href="styles/index.css">
-</head> 
+</head>
 
-<body> 
-	<form>
-		<label for="first-name">Voornaam:</label>
-		<!-- Max 30 chars-->
-		<input type="text" id="first-name" name="first-name" placeholder="John" autofocus pattern="[a-zA-Z\s'-]{1,30}" title="Maximum 30 karakters" ><br >
+<body>
+	<form id="mijnFormulier">
+		<table>
+			<tr>
+				<td><label for="roker">Is roker:</label></td>
+				<td><input type="checkbox" id="roker" name="roker"></td>
+			</tr>
 
-		<label for="last-name">Achternaam:</label>
-		<!-- Max 50 chars-->
-		<input type="text" id="last-name" name="last-name" placeholder="Doe" required pattern="[a-zA-Z\s'-]{1,50}" title="Maximum 50 karakters" ><br >
-	
+			<tr>
+				<td>
+					<p>Moedertaal:</p>
+				</td>
+				<td>
+					<input type="radio" id="nl" name="moedertaal" value="nl">
+					<label for="nl">Nederlands</label><br>
 
-		<label for="date">Geboortedatum:</label>
-		<!-- verplicht, iso formaat, error "formaat is niet jjjj-mm-dd"-->
-		<input type="text" id="date" name="date" placeholder="2005-22-02" required  pattern="^(?:(?:19|20)\d{2})-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02-(?:0[1-9]|1\d|2[0-8])|02-29(?=(?:19|20)(?:[02468][048]|[13579][26])))$" title="formaat is niet jjjj-mm-dd of is geen valide datum"><br >
-	
-		<label for="email">Email:</label>
-		<!-- verplicht, exact 1 @ en 1 char voor en achter, error :"geen geldig email adress"-->
-		<input type="text" id="email" name="email" placeholder="john.doe@example.com" pattern=".+@.+\..+" title="geen geldig email adress" required ><br >
-	
-		<label for="children">Aantal kinderen:</label>
-		<!-- "is geen positief getal" of "is te vruchtbaar" boven de 99-->
-		<input type="text" id="children" name="children" placeholder="3" required >
-	
-		<button type="submit">Submit</button>
-	  </form>
-	<script src="scripts/index.js"></script> 
-</body> 
-</html> 
+					<input type="radio" id="fr" name="moedertaal" value="fr">
+					<label for="fr">Frans</label><br>
+
+					<input type="radio" id="en" name="moedertaal" value="en">
+					<label for="en">Engels</label>
+				</td>
+			</tr>
+
+			<tr>
+				<td><label for="buurland">Favoriete buurland:</label></td>
+				<td>
+					<select id="buurland" name="buurland">
+						<option value="nederland">Nederland</option>
+						<option value="frankrijk">Frankrijk</option>
+						<option value="duitsland">Duitsland</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr>
+				<td><label for="bestelling">Bestelling:</label></td>
+				<td>
+					<select id="bestelling" name="bestelling" multiple size="6">
+						<option value="aardappelen">aardappelen</option>
+						<option value="brood">brood</option>
+						<option value="melk">melk</option>
+						<option value="biefstuk">biefstuk</option>
+						<option value="chips">chips</option>
+						<option value="krant">krant</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr class="knop-rij">
+				<td colspan="1">
+					<button type="button" id="toonResultaat">Toon resultaat</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<script src="scripts/index.js"></script>
+</body>
+
+</html>

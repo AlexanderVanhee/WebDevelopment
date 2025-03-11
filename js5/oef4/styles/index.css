@@ -1,0 +1,37 @@
+td {
+    padding: 10px;
+    vertical-align: top;
+}
+
+p {
+    margin-top: 0;
+}
+
+/* Geen randen voor de tabel */
+table,
+tr,
+td {
+    border: none;
+}
+
+/* Breedte voor de multi-select */
+#bestelling {
+    width: 200px;
+}
+
+
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+td input[type="radio"],
+td label {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+td br {
+    display: none;
+}
