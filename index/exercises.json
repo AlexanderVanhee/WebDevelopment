@@ -1,6 +1,28 @@
 {
   "tasks": [
     {
+      "title": "JavaScript 5",
+      "subtitle": "Strings",
+      "exercises": [
+        {
+          "title": "Triagrams",
+          "path": "js5/oef1/index.html"
+        },
+        {
+          "title": "De en het",
+          "path": "js5/oef2/index.html"
+        },
+        {
+          "title": "Gemeentes",
+          "path": "js5/oef3/index.html"
+        },
+        {
+          "title": "Formvalidaties",
+          "path": "js5/oef4/index.html"
+        }
+      ]
+    },
+    {
       "title": "JavaScript 4",
       "subtitle": "Forms",
       "exercises": [

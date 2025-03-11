@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head> 
+	<title>Oefening</title>
+	<link rel="stylesheet" type="text/css" href="styles/index.css">
+</head> 
+
+<body> 
+	<form>
+		<label for="first-name">Voornaam:</label>
+		<!-- Max 30 chars-->
+		<input type="text" id="first-name" name="first-name" placeholder="John" autofocus pattern="[a-zA-Z\s'-]{1,30}" title="Maximum 30 karakters" ><br >
+
+		<label for="last-name">Achternaam:</label>
+		<!-- Max 50 chars-->
+		<input type="text" id="last-name" name="last-name" placeholder="Doe" required pattern="[a-zA-Z\s'-]{1,50}" title="Maximum 50 karakters" ><br >
+	
+
+		<label for="date">Geboortedatum:</label>
+		<!-- verplicht, iso formaat, error "formaat is niet jjjj-mm-dd"-->
+		<input type="text" id="date" name="date" placeholder="2005-22-02" required  pattern="^(?:(?:19|20)\d{2})-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02-(?:0[1-9]|1\d|2[0-8])|02-29(?=(?:19|20)(?:[02468][048]|[13579][26])))$" title="formaat is niet jjjj-mm-dd of is geen valide datum"><br >
+	
+		<label for="email">Email:</label>
+		<!-- verplicht, exact 1 @ en 1 char voor en achter, error :"geen geldig email adress"-->
+		<input type="text" id="email" name="email" placeholder="john.doe@example.com" pattern=".+@.+\..+" title="geen geldig email adress" required ><br >
+	
+		<label for="children">Aantal kinderen:</label>
+		<!-- "is geen positief getal" of "is te vruchtbaar" boven de 99-->
+		<input type="text" id="children" name="children" placeholder="3" required >
+	
+		<button type="submit">Submit</button>
+	  </form>
+	<script src="scripts/index.js"></script> 
+</body> 
+</html> 
