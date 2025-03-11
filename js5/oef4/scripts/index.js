@@ -1,15 +1,15 @@
 const setup = () => {
-	document.getElementById("children").addEventListener("input", function () {
-		let value = this.value;
+	document.getElementById("children").addEventListener("input", (event) => {
+		let value = event.target.value;
 		
 		if (!/^\d+$/.test(value)) {
-			this.setCustomValidity("Voer alleen cijfers in.");
+			event.target.setCustomValidity("Voer alleen cijfers in.");
 		} else if (value < 1 || value > 99) {
-			this.setCustomValidity("Is te vruchtbaar");
+			event.target.setCustomValidity("Is te vruchtbaar");
 		} else {
-			this.setCustomValidity("");
+			event.target.setCustomValidity("");
 		}
 	});
-}
+};
 
 window.addEventListener("load", setup);
