@@ -1,27 +1,38 @@
 const setup = () => {
   document
     .getElementById("startButton")
-    .addEventListener("click", addGemeentes);
+    .addEventListener("click", addMunicipalities);
 };
 
-const addGemeentes = () => {
+const addMunicipalities = () => {
   const dropdown = document.getElementById("gemeente");
-  let array = [];
-  let keepGoing = true;
-  while (keepGoing) {
-    let gemeente = prompt("Voeg een gemeente toe");
-    if (gemeente && gemeente !== "stop") {
-        array.push(gemeente);
+  const municipalities = collectMunicipalities();
+
+  municipalities.sort().reverse();
+
+  municipalities.forEach((municipality) => {
+    const option = document.createElement("option");
+    option.text = municipality;
+    option.value = municipality;
+    dropdown.add(option, 0);
+  });
+};
+
+const collectMunicipalities = () => {
+  const municipalities = [];
+  let keepCollecting = true;
+
+  while (keepCollecting) {
+    const input = prompt("Voeg een gemeente toe");
+
+    if (input && input !== "stop") {
+      municipalities.push(input);
     } else {
-      keepGoing = false;
+      keepCollecting = false;
     }
   }
-  array.sort().reverse();
-  array.forEach((gemeente) => {
-    let option = document.createElement("option");
-    option.text = option.value = gemeente;
-    dropdown.add(option, 0);
-  })
+
+  return municipalities;
 };
 
 window.addEventListener("load", setup);

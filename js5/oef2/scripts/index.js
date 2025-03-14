@@ -18,10 +18,6 @@ const performReplace = () => {
   );
 };
 
-
-
-
-
 // Extend the actual object like in Java
 String.prototype.customReplace = function (criteria, replacement, respectCase = true, onlyWords = false) {
   if (!criteria || !replacement) {

@@ -1,37 +1,10 @@
-td {
-    padding: 10px;
-    vertical-align: top;
+.form-group {
+    display: grid;
+    grid-template-columns: auto 85%;
+    margin-bottom: 10px;
 }
 
-p {
-    margin-top: 0;
-}
-
-/* Geen randen voor de tabel */
-table,
-tr,
-td {
-    border: none;
-}
-
-/* Breedte voor de multi-select */
+#buurland,
 #bestelling {
     width: 200px;
-}
-
-
-
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-td input[type="radio"],
-td label {
-    display: inline-block;
-    margin-right: 5px;
-}
-
-td br {
-    display: none;
 }

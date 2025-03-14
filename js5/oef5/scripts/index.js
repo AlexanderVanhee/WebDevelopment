@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-	const valideerBtn = document.getElementById('valideerBtn');
-	valideerBtn.addEventListener('click', valideerFormulier);
+	const validateBtn = document.getElementById('validateBtn');
+	validateBtn.addEventListener('click', validateForm);
 });
 
-const showError = (element, bericht) => {
+const showError = (element, message) => {
 	element.classList.add('invalid');
-	document.getElementById(`${element.id}-error`).textContent = bericht;
+	document.getElementById(`${element.id}-error`).textContent = message;
 };
 
-const resetValidatie = () => {
+const resetValidation = () => {
 	const inputs = document.querySelectorAll('input');
 	inputs.forEach(input => {
 		input.classList.remove('invalid');
@@ -16,42 +16,42 @@ const resetValidatie = () => {
 	});
 };
 
-const valideerVoornaam = () => {
-	const voornaam = document.getElementById('voornaam');
-	if (voornaam.value.length > 30) {
-		showError(voornaam, 'max. 30 karakters');
+const validateFirstName = () => {
+	const firstName = document.getElementById('firstName');
+	if (firstName.value.length > 30) {
+		showError(firstName, 'max. 30 karakters');
 		return false;
 	}
 	return true;
 };
 
-const valideerFamilienaam = () => {
-	const familienaam = document.getElementById('familienaam');
-	if (familienaam.value.length === 0) {
-		showError(familienaam, 'verplicht veld');
+const validateLastName = () => {
+	const lastName = document.getElementById('lastName');
+	if (lastName.value.length === 0) {
+		showError(lastName, 'verplicht veld');
 		return false;
 	}
-	if (familienaam.value.length > 50) {
-		showError(familienaam, 'max 50 karakters');
-		return false;
-	}
-	return true;
-};
-
-const valideerGeboortedatum = () => {
-	const geboortedatum = document.getElementById('geboortedatum');
-	if (geboortedatum.value.length === 0) {
-		showError(geboortedatum, 'verplicht veld');
-		return false;
-	}
-	if (!/^\d{4}-\d{2}-\d{2}$/.test(geboortedatum.value)) {
-		showError(geboortedatum, 'formaat is niet jjjj-mm-dd');
+	if (lastName.value.length > 50) {
+		showError(lastName, 'max 50 karakters');
 		return false;
 	}
 	return true;
 };
 
-const valideerEmail = () => {
+const validateBirthDate = () => {
+	const birthDate = document.getElementById('birthDate');
+	if (birthDate.value.length === 0) {
+		showError(birthDate, 'verplicht veld');
+		return false;
+	}
+	if (!/^\d{4}-\d{2}-\d{2}$/.test(birthDate.value)) {
+		showError(birthDate, 'formaat is niet jjjj-mm-dd');
+		return false;
+	}
+	return true;
+};
+
+const validateEmail = () => {
 	const email = document.getElementById('email');
 	if (email.value.length === 0) {
 		showError(email, 'verplicht veld');
@@ -68,30 +68,30 @@ const valideerEmail = () => {
 	return true;
 };
 
-const valideerKinderen = () => {
-	const kinderen = document.getElementById('kinderen');
-	const kinderenValue = parseInt(kinderen.value);
-	if (isNaN(kinderenValue) || kinderenValue < 0) {
-		showError(kinderen, 'is geen positief getal');
+const validateChildren = () => {
+	const children = document.getElementById('children');
+	const childrenValue = parseInt(children.value);
+	if (isNaN(childrenValue) || childrenValue < 0) {
+		showError(children, 'is geen positief getal');
 		return false;
 	}
-	if (kinderenValue >= 99) {
-		showError(kinderen, 'is te vruchtbaar');
+	if (childrenValue >= 99) {
+		showError(children, 'is te vruchtbaar');
 		return false;
 	}
 	return true;
 };
 
-const valideerFormulier = () => {
-	resetValidatie();
+const validateForm = () => {
+	resetValidation();
 
-	const voornaamValid = valideerVoornaam();
-	const familienaamValid = valideerFamilienaam();
-	const geboortedatumValid = valideerGeboortedatum();
-	const emailValid = valideerEmail();
-	const kinderenValid = valideerKinderen();
+	const firstNameValid = validateFirstName();
+	const lastNameValid = validateLastName();
+	const birthDateValid = validateBirthDate();
+	const emailValid = validateEmail();
+	const childrenValid = validateChildren();
 
-	if (voornaamValid && familienaamValid && geboortedatumValid && emailValid && kinderenValid) {
+	if (firstNameValid && lastNameValid && birthDateValid && emailValid && childrenValid) {
 		alert('Proficiat!');
 	}
 };

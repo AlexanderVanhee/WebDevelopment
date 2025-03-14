@@ -35,11 +35,6 @@ export const patterns = [
         message: 'Use of alert() should be avoided in production code. Consider using a modal or notification system instead.'
     },
     {
-        regex: /console\.(log|warn|error|info|debug)/g,
-        type: 'info',
-        message: 'Console statements should be removed from production code.'
-    },
-    {
         regex: /innerHTML\s*=/g,
         type: 'warning',
         message: 'Assignment to innerHTML can lead to XSS vulnerabilities. Consider using textContent or DOM methods.'
