@@ -1,6 +1,36 @@
 {
   "tasks": [
     {
+      "title": "JavaScript 6",
+      "subtitle": "DOM",
+      "exercises": [
+        {
+          "title": "Demo Events",
+          "path": "js6/DemoEvents/index.html"
+        },
+        {
+          "title": "DOM tree nodes",
+          "path": "js6/DOMTreeNodes/index.html"
+        },
+        {
+          "title": "Oefening 1",
+          "path": "js6/oef1/index.html"
+        },
+        {
+          "title": "Oefening 2",
+          "path": "js6/oef2/index.html"
+        },
+        {
+          "title": "Oefening 3",
+          "path": "js6/oef3/index.html"
+        },
+        {
+          "title": "Colorpicker",
+          "path": "js6/ColorPicker/index.html"
+        }
+      ]
+    },
+    {
       "title": "JavaScript 5",
       "subtitle": "Strings",
       "exercises": [

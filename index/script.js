@@ -173,10 +173,7 @@ const showChapterExercises = (chapterIndex) => {
         const contentContainer = document.createElement('div');
         contentContainer.className = 'flex-1';
         contentContainer.innerHTML = /*html*/`
-        <div class="font-medium">${exercise.title.length > 15 ? exercise.title.substring(0, 15) + '...' : exercise.title}</div>
-        <div class="text-xs text-gray-500 mt-1 max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
-          ${exercise.path.length > 25 ? '...' + exercise.path.slice(-25) : exercise.path}
-        </div>`;
+        <div class="font-medium">${exercise.title.length > 15 ? exercise.title.substring(0, 15) + '...' : exercise.title}</div>`;
 
         const divider = document.createElement('div');
         divider.className = 'w-[1.5px] h-12 bg-gray-200 mx-3';

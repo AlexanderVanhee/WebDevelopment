@@ -1,0 +1,105 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+  margin: 0;
+}
+
+body > div{
+  width: 500px;
+}
+
+.container {
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: darkgray solid 1px;
+  padding: 20px;
+  border-radius: 20px;
+  justify-content: center;
+}
+
+div > span {
+  display: flex;
+  flex-direction: row;
+  width: 100px;
+  justify-content: end;
+}
+
+.sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sliders > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+}
+
+#swatch-group {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
+}
+
+
+#color-box {
+  width: 150px;
+  height: 150px;
+  border: darkgray solid 2px;
+  border-radius: 20px;
+}
+#save-button{
+  background-color: white;
+  border: darkgray solid 2px;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 5px;
+}
+
+
+#swatch-box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 500px;
+  justify-content: center;
+
+}
+
+.swatch-item {
+  width: 75px;
+  height: 75px;
+  margin: 10px;
+  border: darkgray solid 2px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.remove-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 3px 8px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 0px 8.2px 0px 4px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-bottom: 2px solid darkgray;
+  border-left: 2px solid darkgray;
+}
