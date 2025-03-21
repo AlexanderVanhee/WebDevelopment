@@ -2,13 +2,19 @@ const global = {
   currentColor: "rgb(128, 128, 0128)"
 };
 
+const setColor = (color) => {
+  const colorBox = document.getElementById("color-box");
+  global.currentColor = color;
+  colorBox.style.backgroundColor = global.currentColor;
+}
+
 const setup = () => {
   const sliders = ['red', 'green', 'blue'].map(color => ({
     slider: document.getElementById(`${color}-slider`),
     value: document.getElementById(`${color}-value`)
   }));
 
-  const colorBox = document.getElementById("color-box");
+
 
   const updateColor = () => {
     const rgb = sliders.map(({ slider, value }) => {
@@ -17,8 +23,7 @@ const setup = () => {
       return colorValue;
     });
 
-    global.currentColor = `rgb(${rgb.join(', ')})`;
-    colorBox.style.backgroundColor = global.currentColor;
+    setColor(`rgb(${rgb.join(', ')})`);
   };
 
   sliders.forEach(({ slider }) => {
@@ -36,10 +41,16 @@ const addToSwatch = () => {
   box.classList.add("swatch-item");
   box.style.backgroundColor = global.currentColor; 
 
+  box.addEventListener("click", (event) => {
+    setColor(event.target.style.backgroundColor);
+  } )
+
   const button = document.createElement("button");
 
   const removeSwatch = (event) => {
+    event.stopPropagation();
     event.target.parentElement.remove();
+
   };
   
   button.addEventListener("click", removeSwatch);
