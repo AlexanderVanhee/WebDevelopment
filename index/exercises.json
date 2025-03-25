@@ -1,6 +1,44 @@
 {
   "tasks": [
     {
+      "title": "JavaScript 7",
+      "subtitle": "Timers",
+      "exercises": [
+        {
+          "title": "Voorbeeld 1",
+          "path": "js7/vb1/index.html"
+        },
+        {
+          "title": "Demo 1",
+          "path": "js7/demo1/index.html"
+        },
+        {
+          "title": "Demo 2",
+          "path": "js7/demo2/index.html"
+        },
+        {
+          "title": "Demo 3",
+          "path": "js7/demo3/index.html"
+        },
+        {
+          "title": "Demo sprites",
+          "path": "js7/demoSprites/index.html"
+        },
+        {
+          "title": "Demo Sprites Animations",
+          "path": "js7/demoSpritesAnimatie/index.html"
+        },
+        {
+          "title": "Hit an Object",
+          "path": "js7/HitAnObject/index.html"
+        },
+        {
+          "title": "Matching game",
+          "path": "js7/MatchingGame/index.html"
+        }
+      ]
+    },
+    {
       "title": "JavaScript 6",
       "subtitle": "DOM",
       "exercises": [
