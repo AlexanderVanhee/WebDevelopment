@@ -1,7 +1,8 @@
 const g = {
 	IMAGE_SUBFOLDER: 'assets/images/',
-	AUDIO_SUBFOLDER: '',
-	MAX_IMAGES: 48,
+	AUDIO_SUBFOLDER: 'assets/music/',
+	MAX_IMAGES: 19,
+	MAX_SOUNDS: 19,
 	CORRECT_TIMEOUT: 250,
 	WRONG_TIMEOUT: 500,
 	matchCount: 2,
@@ -11,10 +12,12 @@ const g = {
 	WRONG_SOUND: new Audio('assets/wrong.mp3'),
 	selectedCards: [],
 	processing: false,
+	isAudioMode: false,
 	cardCountSlider: document.querySelector('#cardCountSlider'),
 	cardCountDisplay: document.querySelector('#cardCountDisplay'),
 	matchCountSlider: document.querySelector('#matchCountSlider'),
 	matchCountDisplay: document.querySelector('#matchCountDisplay'),
+	audisModeToggle: document.querySelector('#audioModeToggle'),
 	gameBoard: document.querySelector('#game-board'),
 	winModal: null
 };
@@ -75,7 +78,13 @@ const createWinModal = () => {
 
 	g.winModal.appendChild(modalContent);
 	document.body.appendChild(g.winModal);
+};
 
+// Workaround zodat het geluid altijd afspeeld.
+const playSound = (audioElement) => {
+	if (g.isAudioMode) { return; }
+	const newSound = audioElement.cloneNode(true);
+	newSound.play();
 };
 
 const setup = () => {
@@ -90,27 +99,38 @@ const setup = () => {
 	const { cols, rows } = calculateGridDimensions(g.cardCount);
 	g.gameBoard.style.gridTemplateColumns = `repeat(${cols}, 100px)`;
 
-	const availableImages = Array.from({ length: g.MAX_IMAGES }, (_, i) => `image${i}.jpg`);
-	const selectedImages = [];
+	const availableContent = g.isAudioMode
+		? Array.from({ length: g.MAX_SOUNDS }, (_, i) => `${i}.mp3`)
+		: Array.from({ length: g.MAX_IMAGES }, (_, i) => `image${i}.jpg`);
+
+	const selectedContent = [];
 
 	for (let i = 0; i < g.cardCount; i++) {
-		const randomIndex = Math.floor(Math.random() * availableImages.length);
-		selectedImages.push(availableImages.splice(randomIndex, 1)[0]);
+		const randomIndex = Math.floor(Math.random() * availableContent.length);
+		selectedContent.push(availableContent.splice(randomIndex, 1)[0]);
 	}
 
 	const CardsSet = [];
-	selectedImages.forEach(image => {
+	selectedContent.forEach(content => {
 		for (let j = 0; j < g.matchCount; j++) {
-			CardsSet.push(image);
+			CardsSet.push(content);
 		}
 	});
 
 	shuffleCards(CardsSet);
 
-	CardsSet.forEach((image, index) => {
+	CardsSet.forEach((content, index) => {
 		const Card = document.createElement('div');
 		Card.classList.add('card');
-		Card.dataset.image = g.IMAGE_SUBFOLDER + image;
+
+		if (g.isAudioMode) {
+			Card.dataset.audio = g.AUDIO_SUBFOLDER + content;
+			Card.dataset.contentType = 'audio';
+		} else {
+			Card.dataset.image = g.IMAGE_SUBFOLDER + content;
+			Card.dataset.contentType = 'image';
+		}
+
 		Card.addEventListener('click', turnCard);
 		g.gameBoard.appendChild(Card);
 	});
@@ -122,9 +142,15 @@ const turnCard = (event) => {
 		Card.classList.contains('revealed') ||
 		Card.classList.contains('matched')) return;
 
-	g.TURN_SOUND.play();
+	playSound(g.TURN_SOUND);
 	Card.classList.add('revealed');
-	Card.style.backgroundImage = `url(${Card.dataset.image})`;
+
+	if (Card.dataset.contentType === 'image') {
+		Card.style.backgroundImage = `url(${Card.dataset.image})`;
+	} else if (Card.dataset.contentType === 'audio') {
+		const audio = new Audio(Card.dataset.audio);
+		audio.play();
+	}
 
 	g.selectedCards.push(Card);
 
@@ -136,11 +162,18 @@ const turnCard = (event) => {
 const processCardGroup = () => {
 	g.processing = true;
 
-	const firstImage = g.selectedCards[0].dataset.image;
-	const allMatch = g.selectedCards.every(card => card.dataset.image === firstImage);
+	const firstContent = g.selectedCards[0].dataset.contentType === 'image'
+		? g.selectedCards[0].dataset.image
+		: g.selectedCards[0].dataset.audio;
+
+	const allMatch = g.selectedCards.every(card =>
+		(g.selectedCards[0].dataset.contentType === 'image'
+			? card.dataset.image
+			: card.dataset.audio) === firstContent
+	);
 
 	if (allMatch) {
-		g.CORRECT_SOUND.play();
+		playSound(g.CORRECT_SOUND);
 		g.selectedCards.forEach(card => {
 			card.classList.add('matched');
 		});
@@ -150,14 +183,16 @@ const processCardGroup = () => {
 			checkFinish();
 		}, g.CORRECT_TIMEOUT);
 	} else {
-		g.WRONG_SOUND.play();
+		playSound(g.WRONG_SOUND);
 		g.selectedCards.forEach(card => {
 			card.classList.add('wrong-match');
 		});
 		setTimeout(() => {
 			g.selectedCards.forEach(card => {
 				card.classList.remove('revealed', 'wrong-match');
-				card.style.backgroundImage = ``;
+				if (card.dataset.contentType === 'image') {
+					card.style.backgroundImage = ``;
+				}
 			});
 			g.selectedCards = [];
 			g.processing = false;
@@ -169,11 +204,8 @@ const checkFinish = () => {
 	const matchedCards = document.querySelectorAll('.matched');
 
 	if (matchedCards.length === g.cardCount * g.matchCount) {
-		// Create win modal if not exists
 		createWinModal();
 
-
-		// Show win modal
 		setTimeout(() => {
 			g.winModal.classList.add('show');
 		}, g.CORRECT_TIMEOUT);
@@ -187,8 +219,14 @@ const shuffleCards = (array) => {
 	}
 };
 
+const toggleAudioMode = () => {
+	g.isAudioMode = g.audisModeToggle.checked;
+	setup();
+};
+
 window.addEventListener("load", () => {
 	setup();
 });
 g.cardCountSlider.addEventListener('input', setup);
 g.matchCountSlider.addEventListener('input', setup);
+g.audisModeToggle.addEventListener('change', toggleAudioMode);

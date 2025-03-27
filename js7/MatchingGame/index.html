@@ -10,15 +10,19 @@
 <body>
 	<div id="game-controls">
 		<label for="cardCountSlider">Aantal kaarten:</label>
-		<input type="range" id="cardCountSlider" min="3" max="24" value="6" step="1">
+		<input type="range" id="cardCountSlider" min="3" max="19" value="6" step="1">
 		<span id="cardCountDisplay">6</span>
 
 		<label for="matchCountSlider">Aantal matching kaarten:</label>
 		<input type="range" id="matchCountSlider" min="2" max="5" value="2" step="1">
 		<span id="matchCountDisplay">2</span>
+
+		<div class="audio-mode-toggle">
+			<input type="checkbox" id="audioModeToggle">
+			<label for="audioModeToggle">Audio Mode</label>
+		</div>
 	</div>
 	<div id="game-board"></div>
-
 	<script src="scripts/index.js"></script>
 </body>
 

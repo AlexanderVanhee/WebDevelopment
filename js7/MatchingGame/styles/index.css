@@ -32,11 +32,14 @@ body {
 }
 
 .card.matched {
-    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.9s ease;
 }
 
 .card.revealed {
     background-image: none;
+    background-color: greenyellow;
+    transition: color 0.3s ease;
 }
 
 .card.wrong-match {
@@ -116,4 +119,14 @@ body {
 
 #play-again-btn:hover {
     background-color: #2776ec;
+}
+
+.audio-mode-toggle {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.audio-mode-toggle input[type="checkbox"] {
+    margin-right: 10px;
 }
