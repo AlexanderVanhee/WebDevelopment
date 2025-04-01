@@ -1,6 +1,24 @@
 {
   "tasks": [
     {
+      "title": "JavaScript 8",
+      "subtitle": "Date, Objecten en JSON",
+      "exercises": [
+        {
+          "title": "Voorbeeld 1",
+          "path": "js8/oef1/index.html"
+        },
+        {
+          "title": "Demo 1",
+          "path": "js8/oef2/index.html"
+        },
+        {
+          "title": "Contact Manager",
+          "path": "js8/contactManager/index.html"
+        }
+      ]
+    },
+    {
       "title": "JavaScript 7",
       "subtitle": "Timers",
       "exercises": [
