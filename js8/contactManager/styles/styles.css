@@ -1,16 +1,97 @@
-.errorMessage {
-	color:red;
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	margin: 0;
+	font-family: Arial, sans-serif;
+	background-color: #f0f0f0;
+	gap: 10px;
+	overflow: auto;
+
 }
 
-input.invalid {
-	border : solid 1px red;
+body>div {
+	padding: 50px 0;
 }
+
+select {
+	border: 1px solid #e5e7eb;
+}
+
 
 form label {
-	display : inline-block;
-	width : 6em;
+	display: inline-block;
+	width: 8em;
+	font-weight: bold;
 }
 
 #lstPersonen {
-	width:400px;
+	width: 400px;
+}
+
+button {
+	background-color: #2b7fff;
+	color: #ececec;
+	border: none;
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+	transition: background-color 0.1s ease;
+}
+
+#btnVerwijder {
+	background-color: red;
+}
+
+#btnNieuw {
+	background-color: #286c34;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	border-top: 1px solid #e2e8f0;
+	padding-top: 20px;
+	margin-top: 10px;
+}
+
+#btnRow {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	gap: 10px;
+	padding: 10px 0px;
+}
+
+#btnRow button {
+	flex: 1;
+	text-align: center;
+
+}
+
+.line {
+	display: flex;
+	flex-direction: column;
+}
+
+input {
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+.errorMessage {
+	color: red;
+	font-size: 0.9em;
+	margin-bottom: 5px;
+}
+
+input.invalid {
+	border: 2px solid red;
+	background-color: #ffe6e6;
 }

@@ -1,48 +1,53 @@
-<!DOCTYPE html> 
-<html lang="nl"> 
-<head> 
-	<title>Contact manager</title>
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Contact Manager</title>
 	<link rel="stylesheet" href="styles/styles.css">
-	<script  src="scripts/code.js"></script>
-	<script  src="scripts/validatie.js"></script>
+	<script defer src="scripts/code.js"></script>
+	<script defer src="scripts/validatie.js"></script>
+</head>
 
-</head> 
-
-<body> 
+<body>
 	<div>
-		<select id="lstPersonen" size="10">
-		</select>
-		<input type="button" id="btnNieuw" value="Nieuw">
-		<input type="button" id="btnVerwijder" value="Verwijder">
+		<div>
+			<select id="lstPersonen" size="10"></select>
+		</div>
+		<div id="btnRow">
+			<button id="btnNieuw">Nieuw</button>
+			<button id="btnVerwijder">Verwijder</button>
+		</div>
+		<form>
+			<div class="line">
+				<span class="errorMessage" id="errVoornaam"></span>
+				<label for="txtVoornaam">Voornaam</label>
+				<input placeholder="John" type="text" id="txtVoornaam">
+			</div>
+			<div class="line">
+				<span class="errorMessage" id="errFamilienaam"></span>
+				<label for="txtFamilienaam">Familienaam</label>
+				<input placeholder="Doe" type="text" id="txtFamilienaam">
+			</div>
+			<div class="line">
+				<span class="errorMessage" id="errGeboorteDatum"></span>
+				<label for="txtGeboorteDatum">Geboortedatum</label>
+				<input placeholder="1970-01-01" type="text" id="txtGeboorteDatum">
+			</div>
+			<div class="line">
+				<span class="errorMessage" id="errEmail"></span>
+				<label for="txtEmail">Email</label>
+				<input placeholder="John@example.com" type="text" id="txtEmail">
+			</div>
+			<div class="line">
+				<span class="errorMessage" id="errAantalKinderen"></span>
+				<label for="txtAantalKinderen">Aantal kinderen</label>
+				<input placeholder="3" type="text" id="txtAantalKinderen">
+			</div>
+			<button id="btnBewaar" type="submit">Bewaar</button>
+		</form>
 	</div>
-	<form>
-		<div class="line">
-			<label for="txtVoornaam">Voornaam</label>
-			<input type="text" id="txtVoornaam" value="">
-			<span class="errorMessage" id="errVoornaam"></span>
-		</div>
-		<div class="line">
-			<label for="txtFamilienaam">Familienaam</label>
-			<input type="text" id="txtFamilienaam" value="">
-			<span class="errorMessage" id="errFamilienaam"></span>
-		</div>
-		<div class="line">
-			<label for="txtGeboorteDatum">Geboortedatum</label>
-			<input type="text" id="txtGeboorteDatum" value="">
-			<span class="errorMessage" id="errGeboorteDatum"></span>
-		</div>
-		<div class="line">
-			<label for="txtEmail">Email</label>
-			<input type="text" id="txtEmail" value="">
-			<span class="errorMessage" id="errEmail"></span>
-		</div>
-		<div class="line">
-			<label for="txtAantalKinderen">Aantal kinderen</label>
-			<input type="text" id="txtAantalKinderen" value="">
-			<span class="errorMessage" id="errAantalKinderen"></span>
-		</div>
-		<input type="button" id="btnBewaar" value="Bewaar">
-	</form>
+</body>
 
-</body> 
-</html> 
+</html>
