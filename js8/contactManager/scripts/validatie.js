@@ -154,7 +154,7 @@ const reportError = (element, message) => {
 	let errElementId="err"+elementId.substring(3, elementId.length); // bv. errVoornaam
 	let errElement=document.getElementById(errElementId);
 	element.className="invalid";
-	errElement.innerHTML = message;
+	errElement.textContent = message;
 };
 
 const clearError = (element) => {
@@ -162,7 +162,7 @@ const clearError = (element) => {
 	let errElementId="err"+elementId.substring(3, elementId.length); // bv. errVoornaam
 	let errElement=document.getElementById(errElementId);
 	element.className="";
-	errElement.innerHTML = "";
+	errElement.replaceChildren();
 };
 
 const clearAllErrors = () => {
