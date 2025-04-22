@@ -1,147 +1,166 @@
-const global = {
-  currentColor: '',
-  localStorageKey: 'colorPicker.colors',
-  sliderLocalStorageKey: 'colorPicker.sliderValues'
-};
+class StorageUtil { // Abstractie van localStorage voor objecten.
+  static get(key) {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : null;
+  }
 
-const colors = ['red', 'green', 'blue'];
-const updateSliders = (r, g, b) => {
-  const values = [r, g, b];
-  colors.forEach((color, index) => {
-    const slider = document.getElementById(`${color}-slider`);
-    const valueDisplay = document.getElementById(`${color}-value`);
-    
-    if (slider && valueDisplay) {
-      slider.value = values[index];
-      valueDisplay.textContent = values[index];
+  static set(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  static remove(key) {
+    localStorage.removeItem(key);
+  }
+
+  static has(key) {
+    return localStorage.getItem(key) !== null;
+  }
+}
+
+// Heb beslist om de code te refactoren naar een klasse, voor een eenvoudigere state management.
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+class ColorPicker {
+  constructor() {
+    this.state = {
+      currentColor: '',
+      colors: ['red', 'green', 'blue']
+    };
+
+    this.storage = {
+      swatchesKey: 'colorPicker.colors',
+      currentColorKey: 'colorPicker.sliderValues'
+    };
+
+    this.elements = {};
+    this.init();
+  }
+
+  init() {
+    this.initElements();
+    this.loadSavedColor();
+    this.loadSavedSwatches();
+    this.setupEventListeners();
+    this.updateColorFromSliders();
+  }
+
+  initElements() {
+    this.elements.colorBox = document.querySelector('#color-box');
+    this.elements.swatchBox = document.querySelector('#swatch-box');
+    this.elements.saveButton = document.querySelector('#save-button');
+
+    this.elements.sliders = this.state.colors.map(color => ({
+      color,
+      slider: document.querySelector(`#${color}-slider`),
+      value: document.querySelector(`#${color}-value`)
+    }));
+  }
+
+
+  setupEventListeners() {
+    // Sliders
+    this.elements.sliders.forEach(({ slider }) => {
+      slider.addEventListener('input', () => this.updateColorFromSliders());
+    });
+    // Add button for the swatches
+    this.elements.saveButton.addEventListener('click', () => this.saveCurrentColor());
+  }
+
+  setColor(color) {
+    this.state.currentColor = color;
+    this.elements.colorBox.style.backgroundColor = color;
+
+    const rgbValues = ColorPicker.parseRGB(color);
+    if (rgbValues) {
+      this.updateSliders(...rgbValues);
     }
-  });
 
-
-};
-
-const parseRGB = (color) => {
-  const rgbMatch = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
-  return rgbMatch ? [rgbMatch[1], rgbMatch[2], rgbMatch[3]] : null;
-};
-
-const setColor = (color) => {
-  const colorBox = document.getElementById("color-box");
-  global.currentColor = color;
-  colorBox.style.backgroundColor = global.currentColor;
-  
-  const rgbValues = parseRGB(color);
-  if (rgbValues) {
-    updateSliders(...rgbValues);
-  }
-};
-
-const setup = () => {
-  const storedColor = loadSlidersFromLocalStorage();
-  if (storedColor) {
-    setColor(storedColor);
+    StorageUtil.set(this.storage.currentColorKey, color);
   }
 
-
-  const sliders = colors.map(color => ({
-    slider: document.getElementById(`${color}-slider`),
-    value: document.getElementById(`${color}-value`)
-  }));
-  
-  const updateColor = () => {
-    const rgb = sliders.map(({ slider, value }) => {
+  updateColorFromSliders() {
+    const rgbValues = this.elements.sliders.map(({ slider, value }) => {
       const colorValue = slider.value;
       value.textContent = colorValue;
       return colorValue;
     });
-    var color = `rgb(${rgb.join(', ')})`
-    setColor(color);
-    saveSliderToLocalStorage(color);
 
-  };
-  
-  sliders.forEach(({ slider }) => {
-    slider.addEventListener("input", updateColor);
-  });
-
-  updateColor();
-  
-
-  document.querySelector("#save-button").addEventListener("click", () => {
-    addToSwatch( global.currentColor);
-    addToLocalStorage(global.currentColor);
-  });
-  var colorList = loadLocalStorage(global.localStorageKey);
-  colorList.forEach((color) => addToSwatch(color) );
-  
-};
-
-const addToSwatch = (newColor) => {
-  const swatchBox = document.querySelector("#swatch-box");
-  const box = document.createElement("div");
-  box.classList.add("swatch-item");
-  box.style.backgroundColor = newColor;
-  box.addEventListener("click", (event) => {
-    setColor(event.target.style.backgroundColor);
-  });
-  
-  const button = document.createElement("button");
-  button.classList.add("remove-button");
-  button.textContent = "✖";
-
-  button.addEventListener("click", (event) => deleteButton(event));
-  
-  box.appendChild(button);
-  swatchBox.appendChild(box);
-};
-
-
-const deleteButton = (event) => {
-  console.log("deleting");
-  event.stopPropagation();
-  removeFromLocalStorage(getNodeIndex(event.target.parentElement));
-  event.target.parentElement.remove();
-}
-
-const getNodeIndex = (element) => {
-  return Array.from(element.parentNode.childNodes).indexOf(element);
-}
-
-const loadLocalStorage = (key) =>{
-  const jsonData = localStorage.getItem(key);
-  var value;
-  if (jsonData != null){
-    return JSON.parse(jsonData);
+    const color = `rgb(${rgbValues.join(', ')})`;
+    this.setColor(color);
   }
-  return value;
-}
 
-const addToLocalStorage = (color) => {
-  var colorList = loadLocalStorage(global.localStorageKey);
-  colorList.push(color);
-  localStorage.setItem(global.localStorageKey, JSON.stringify(colorList));
-}
-
-const removeFromLocalStorage = (index) => {
-  console.log(index);
-  var colorList = loadLocalStorage(global.localStorageKey);
-  colorList.splice(index,1);
-  localStorage.setItem(global.localStorageKey, JSON.stringify(colorList));
-}
-
-const loadSlidersFromLocalStorage =() => {
-  const sliders = loadLocalStorage(global.sliderLocalStorageKey);
-  if (sliders != null){
-    console.log("Loading", sliders);
-    return sliders;
+  updateSliders(r, g, b) {
+    const values = [r, g, b];
+    this.elements.sliders.forEach(({ slider, value }, index) => {
+      if (slider && value) {
+        slider.value = values[index];
+        value.textContent = values[index];
+      }
+    });
   }
-  console.log("returning default value");
-  return JSON.parse(sliders);
-} 
 
-const saveSliderToLocalStorage = (color) => {
-  
-  localStorage.setItem(global.sliderLocalStorageKey,JSON.stringify(color));
+  static parseRGB(color) {
+    const rgbMatch = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+    return rgbMatch ? [rgbMatch[1], rgbMatch[2], rgbMatch[3]] : null;
+  }
+
+  saveCurrentColor() {
+    this.addToSwatches(this.state.currentColor);
+    this.addSwatchToStorage(this.state.currentColor);
+  }
+
+  addToSwatches(color) {
+    const swatchItem = document.createElement('div');
+    swatchItem.classList.add('swatch-item');
+    swatchItem.style.backgroundColor = color;
+    swatchItem.addEventListener('click', () => this.setColor(color));
+
+    const removeButton = document.createElement('button');
+    removeButton.classList.add('remove-button');
+    removeButton.textContent = '✖';
+    removeButton.addEventListener('click', (event) => this.removeSwatch(event));
+
+    swatchItem.appendChild(removeButton);
+    this.elements.swatchBox.appendChild(swatchItem);
+  }
+
+  removeSwatch(event) {
+    event.stopPropagation();
+    const swatchItem = event.target.parentElement;
+    const index = ColorPicker.getNodeIndex(swatchItem);
+
+    this.removeSwatchFromStorage(index);
+    swatchItem.remove();
+  }
+
+  static getNodeIndex(element) {
+    return Array.from(element.parentNode.childNodes).indexOf(element);
+  }
+
+  loadSavedColor() {
+    const savedColor = StorageUtil.get(this.storage.currentColorKey);
+    if (savedColor) {
+      this.setColor(savedColor);
+    } else {
+      this.setColor('rgb(0, 0, 0)');
+    }
+  }
+
+  loadSavedSwatches() {
+    const swatches = StorageUtil.get(this.storage.swatchesKey) || [];
+    swatches.forEach(color => this.addToSwatches(color));
+  }
+
+  addSwatchToStorage(color) {
+    const colors = StorageUtil.get(this.storage.swatchesKey) || [];
+    colors.push(color);
+    StorageUtil.set(this.storage.swatchesKey, colors);
+  }
+
+  removeSwatchFromStorage(index) {
+    const colors = StorageUtil.get(this.storage.swatchesKey) || [];
+    colors.splice(index, 1);
+    StorageUtil.set(this.storage.swatchesKey, colors);
+  }
 }
 
-window.addEventListener("load", setup);
+window.addEventListener('load', () => new ColorPicker());

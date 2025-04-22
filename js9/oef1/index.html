@@ -1,28 +1,40 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head> 
+
+<head>
 	<title>Oefening</title>
 	<link rel="stylesheet" type="text/css" href="styles/index.css">
-</head> 
+</head>
 
-<body> 
-	<h1>Opdracht - demo storage 1</h1>
-	<p>Blijft de data behouden als je de pagina herlaadt? Nee</p>
-	<p>Blijft de data behouden als je het tabblad sluit en de pagina opnieuw opent? Nee</p>
-	<p>Gebruiken twee tabbladen die dezelfde pagina tonen, dezelfde data? Nee</p>
+<body>
+	<h1>Opdracht - demo storage 1 - globale objecten</h1>
+	<div class="numbered">
+		<p>Blijft de data behouden als je de pagina herlaadt? <span class="nee">Nee</span></p>
+		<p>Blijft de data behouden als je het tabblad sluit en de pagina opnieuw opent? <span class="nee">Nee</span></p>
+		<p>Gebruiken twee tabbladen die dezelfde pagina tonen, dezelfde data? <span class="nee">Nee</span></p>
+	</div>
 
 	<h1>Opdracht - demo storage 2 - session storage</h1>
-	<p>Blijft de data behouden als je het tabblad sluit en de pagina opnieuw opent? Nee</p>
-	<p>Blijft de data behouden als je de pagina herlaadt? Ja</p>
-	<p>Gebruiken twee tabbladen die dezelfde pagina tonen, dezelfde data? Nee</p>
-	<p>Denk je dat een andere pagina (andere file of url) 
-	aan de data geraakt als je ze in hetzelfde tabblad opent? Nee</p>
+	<div class="numbered">
+		<p>Blijft de data behouden als je het tabblad sluit en de pagina opnieuw opent? <span class="nee">Nee</span></p>
+		<p>Blijft de data behouden als je de pagina herlaadt? <span class="ja">Ja</span></p>
+		<p>Gebruiken twee tabbladen die dezelfde pagina tonen, dezelfde data? <span class="nee">Nee</span></p>
+		<p>Denk je dat een andere pagina (andere file of url)
+			aan de data geraakt als je ze in hetzelfde tabblad opent? <span class="nee">Nee</span></p>
+	</div>
+
 	<h1>Opdracht - demo storage 3 - local storage</h1>
-	<p>Blijft de data behouden als je het tabblad sluit en de pagina opnieuw opent? Ja</p>
-	<p>Blijft de data behouden als je de pagina herlaadt? ja</p>
-	<p>Blijft de data behouden als je de browser afsluit, opnieuw start en de pagina weer opent? Ja</p>
-	<p>Blijft de data behouden als je de pagina in een andere browser opent? Nee</p>
-	<p>Wordt de data gedeeld door verschillende tabbladen als je de pagina meermaals opent? Ja</p>
-	<script src="scripts/index.js"></script> 
-</body> 
-</html> 
+	<div class="numbered">
+		<p>Blijft de data behouden als je het tabblad sluit en de pagina opnieuw opent? <span class="ja">Ja</span></p>
+		<p>Blijft de data behouden als je de pagina herlaadt? <span class="ja">Ja</span></p>
+		<p>Blijft de data behouden als je de browser afsluit, opnieuw start en de pagina weer opent? <span
+				class="ja">Ja</span></p>
+		<p>Blijft de data behouden als je de pagina in een andere browser opent? <span class="nee">Nee</span></p>
+		<p>Wordt de data gedeeld door verschillende tabbladen als je de pagina meermaals opent? <span
+				class="ja">Ja</span>
+		</p>
+	</div>
+</body>
+
+
+</html>

@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+
+span.ja {
+    color: #28a745;
+    font-weight: bold;
+}
+
+span.nee {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+p {
+    font-size: 1.1em;
+    margin: 8px 0;
+}
+
+h1+p {
+    margin-top: 10px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.numbered p {
+    counter-increment: section;
+}
+
+.numbered p::before {
+    content: counter(section) ". ";
+    font-weight: bold;
+}

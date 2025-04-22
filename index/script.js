@@ -1,9 +1,6 @@
 import { getExercisesFromPage } from "./getExercisesFromPage.js";
 import { openSettingsPopUp } from "./settingsPopUp.js";
 import { validateCurrentExercise } from "./validator.js";
-
-
-
 let exercisesData = [];
 let selectedChapter = 0;
 let selectedExercise = null;
@@ -12,9 +9,9 @@ let consoleLogs = [];
 document.addEventListener('DOMContentLoaded', () => {
     if (window.innerWidth > 800) {
         Split(['#sidebar', '#main-content'], {
-            sizes: [25, 75],
-            minSize: [300, 700],
+            minSize: [300, 200],
             gutterSize: 5,
+            sizes: [33, 67],
         });
     }
     loadExercisesData('./index/exercises.json');
@@ -173,7 +170,10 @@ const showChapterExercises = (chapterIndex) => {
         const contentContainer = document.createElement('div');
         contentContainer.className = 'flex-1';
         contentContainer.innerHTML = /*html*/`
-        <div class="font-medium">${exercise.title.length > 15 ? exercise.title.substring(0, 15) + '...' : exercise.title}</div>`;
+        <div class="font-medium max-w-[75%] overflow-hidden text-ellipsis whitespace-nowrap">
+            ${exercise.title}
+        </div>
+        `;
 
         const divider = document.createElement('div');
         divider.className = 'w-[1.5px] h-12 bg-gray-200 mx-3';
