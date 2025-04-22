@@ -469,6 +469,7 @@ const updateCodeDisplay = async (type, content) => {
     codeElement.textContent = content;
     codeElement.removeAttribute('data-highlighted');
     hljs.highlightElement(codeElement);
+    hljs.initLineNumbersOnLoad();
 
     // Show tab if we have content
     document.getElementById(`${type}-tab`).classList.remove('hidden');

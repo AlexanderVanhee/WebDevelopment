@@ -94,31 +94,6 @@ export const validateJS = (jsCode) => {
         });
     });
 
-    // Check for code structure issues
-    try {
-        // Simple parsing check - will throw on syntax errors
-        new Function(jsCode);
-    } catch (error) {
-        // Extract line and column if available
-        const errorMatch = error.message.match(/at line (\d+) column (\d+)/i);
-        let errorLine = null;
-        let errorColumn = null;
-
-        if (errorMatch) {
-            errorLine = parseInt(errorMatch[1]);
-            errorColumn = parseInt(errorMatch[2]);
-        }
-
-        results.messages.push({
-            type: 'error',
-            message: `JavaScript syntax error: ${error.message}`,
-            lastLine: errorLine,
-            lastColumn: errorColumn,
-            extract: errorLine ? lines[errorLine - 1] : null,
-            source: 'JS'
-        });
-    }
-
     return results;
 };
 
