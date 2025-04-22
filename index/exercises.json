@@ -1,6 +1,24 @@
 {
   "tasks": [
     {
+      "title": "JavaScript 9",
+      "subtitle": "Storage",
+      "exercises": [
+        {
+          "title": "VragenLijst ",
+          "path": "js9/oef1/index.html"
+        },
+        {
+          "title": "Ultimate Color Picker",
+          "path": "js9/ColorPicker/index.html"
+        },
+        {
+          "title": "Uitbereiding - Tafels",
+          "path": "js9/tafels/index.html"
+        }
+      ]
+    },
+    {
       "title": "JavaScript 8",
       "subtitle": "Date, Objecten en JSON",
       "exercises": [
