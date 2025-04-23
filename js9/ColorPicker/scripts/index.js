@@ -47,6 +47,7 @@ class ColorPicker {
     this.elements.colorBox = document.querySelector('#color-box');
     this.elements.swatchBox = document.querySelector('#swatch-box');
     this.elements.saveButton = document.querySelector('#save-button');
+    this.elements.hexDisplay = document.querySelector('#hexDisplay');
 
     this.elements.sliders = this.state.colors.map(color => ({
       color,
@@ -63,11 +64,14 @@ class ColorPicker {
     });
     // Add button for the swatches
     this.elements.saveButton.addEventListener('click', () => this.saveCurrentColor());
+    // Add copy to clipboard
+    this.elements.colorBox.addEventListener('click', () => this.copyColorToClipboard());
   }
 
   setColor(color) {
     this.state.currentColor = color;
     this.elements.colorBox.style.backgroundColor = color;
+    this.elements.hexDisplay.textContent = ColorPicker.rgbToHex(color);
 
     const rgbValues = ColorPicker.parseRGB(color);
     if (rgbValues) {
@@ -144,6 +148,32 @@ class ColorPicker {
       this.setColor('rgb(0, 0, 0)');
     }
   }
+
+  copyColorToClipboard() {
+    const hexColor = ColorPicker.rgbToHex(this.state.currentColor);
+
+    navigator.clipboard.writeText(hexColor)
+      .then(() => {
+        this.elements.hexDisplay.textContent = "Copied!";
+        setTimeout(() => {
+          this.elements.hexDisplay.textContent = hexColor;
+        }, 1500);
+      })
+      .catch(err => {
+        console.error("Failed to copy color:", err);
+        this.elements.hexDisplay.textContent = "Copy failed!";
+        setTimeout(() => {
+          this.elements.hexDisplay.textContent = hexColor;
+        }, 1500);
+      });
+  }
+  
+
+  static rgbToHex(rgbString) {
+    const result = rgbString.match(/\d+/g).map(Number);
+    return "#" + result.map(x => x.toString(16).padStart(2, '0')).join('');
+  }
+  
 
   loadSavedSwatches() {
     const swatches = StorageUtil.get(this.storage.swatchesKey) || [];
