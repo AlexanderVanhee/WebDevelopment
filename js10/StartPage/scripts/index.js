@@ -96,7 +96,8 @@ class StartPage{
 		const words = input.split(" ").slice(1,-0).join(" ");
 		return input.slice(3,100);
 	}
-
+	
+	// TODO sort by title and then query + sort from a-z and z-a
 	addCard(commandInfo) {
 		const div = document.createElement("div");
 		div.classList.add("card");
