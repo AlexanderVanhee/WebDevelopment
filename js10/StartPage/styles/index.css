@@ -1,0 +1,53 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 0 150px;
+}
+
+.card {
+    border-radius: 5px;
+    padding: 15px;
+    color: white;
+    box-sizing: content-box;
+}
+
+
+.card a{
+    mix-blend-mode: difference;
+    background-color: rgb(255, 255, 255);
+    color: rgb(197, 197, 197);
+    padding: 10px;
+    border-radius: 5px;
+    width: 800px;
+    text-decoration: none;
+}
+
+
+#cards-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 15px;
+
+}
+
+h2 {
+    margin-bottom: 5px;
+    margin-top:5px;
+}
+
+#head p {
+    color: gray;
+}
+
+#head input{
+    padding: 5px;
+    width: 100%;
+}
+
+#go-button {
+    background-color: #208637;
+    color: white;
+    padding:10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+}
