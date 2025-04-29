@@ -3,15 +3,12 @@ class StorageUtil { // Abstractie van localStorage voor objecten.
 	  const data = localStorage.getItem(key);
 	  return data ? JSON.parse(data) : null;
 	}
-  
 	static set(key, value) {
 	  localStorage.setItem(key, JSON.stringify(value));
 	}
-  
 	static remove(key) {
 	  localStorage.removeItem(key);
 	}
-  
 	static has(key) {
 	  return localStorage.getItem(key) !== null;
 	}
@@ -26,10 +23,12 @@ class StartPage{
 		this.state = [
 			{key:"g",name:"Google",color: "#2f70e9",function: (i) =>`https://www.google.com/search?q=${i.replace(" ", "+")}`},
 			{key:"y", name:"Youtube",color: "#FF0000",function: (i) =>`https://www.youtube.com/results?search_query=${i.replace(" ", "+")}`},
-			{key:"t", name:"Twitter",color: "#1d9bf0",function:(i) =>`https://x.com/search?q=${i.replace(" ", "%20")}`}
-		]
+			{key:"x", name:"X",color: "#1d9bf0",function:(i) =>`https://x.com/search?q=${i.replace(" ", "%20")}`},
+			{key:"i", name: "Instagram", color:"#fc0077", function:(i) => `https://www.instagram.com/explore/tags/${i.replace(" ", "")}/`},
+			{key:"d",name:"DuckDuckGo",color: "#de5833",function: (i) =>`https://duckduckgo.com/?t=h_&q=${i.replace(" ", "+")}`},
+			{key:"t", name:"TikTok",color: "#fe2c55",function:(i) =>`https://www.tiktok.com/search?q=${i.replace(" ", "%20")}`},
+		];
 
-	
 		this.elements = {};
 		this.init();
 		this.setupEventListeners();
@@ -50,21 +49,26 @@ class StartPage{
 
 	setupEventListeners() {
 		this.elements.goButton.addEventListener("click", this.submit.bind(this));
+		this.elements.commandInput.addEventListener("keyup", (event) => {
+			if (event.key === "Enter"){
+				this.submit();
+			}
+		});
 	}
 
 	submit() {
 		const inputValue = this.elements.commandInput.value;
 		const commando = this.parseCommando(inputValue); // Name , color, func
-		const query = this.parseQuery(inputValue);
+		const query = StartPage.parseQuery(inputValue);
 
 		// Manipulate to saved object
 		commando.link = commando.function(query);
+		this.openLink(commando.link);
 		commando.query = query;
 		delete commando.function;
 
 		this.addCard(commando);
 		this.saveToStorage(commando);
-
 		this.resetInput();
 	}
 
@@ -72,24 +76,24 @@ class StartPage{
 		if (!input.startsWith("/")){
 			throw new Error("Commando not found");
 		}
-		const commando = input.slice(1,2)
-		if (commando == "g") {
-			return {name:"Google",color: "#2f70e9",function: (i) =>`https://www.google.com/search?q=${i.replace(" ", "+")}`};
-		}
-		if (commando == "y") {
-			return {name:"Youtube",color: "#FF0000",function: (i) =>`https://www.youtube.com/results?search_query=${i.replace(" ", "+")}`};
-		}
+		const commando = input.split(" ")[0].slice(1,2);
 
-		if (commando == "t") {
-			return {name:"Twitter",color: "#1d9bf0",function:(i) =>`https://x.com/search?q=${i.replace(" ", "%20")}`};
+		let returnValue;
+		this.state.forEach(s => {
+			if (s.key === commando){
+				returnValue = s;
+			}
+		})
+
+		if (returnValue == null) {
+			this.resetInput();
+			throw new Error("Invalid commando", commando);
 		}
-
-		this.resetInput();
-		throw new Error("Invalid commando");
-
+		return returnValue;
 	}
 
-	parseQuery(input) {
+	static parseQuery(input) {
+		const words = input.split(" ").slice(1,-0).join(" ");
 		return input.slice(3,100);
 	}
 
@@ -137,7 +141,9 @@ class StartPage{
 		this.elements.commandInput.value = ""
 	}
 
-	
+	openLink(url) {
+		window.open(url,'_blank');
+	}
 }
 
 
