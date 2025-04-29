@@ -204,6 +204,8 @@ class FlappyBird {
 			height: bird.size
 		};
 
+		let gameEnded = false;
+
 		for (const pipe of this.state.pipes) {
 			const pipeWidth = this.config.pipe.width * this.config.pipe.scale;
 			const pipeTopBox = {
@@ -220,10 +222,14 @@ class FlappyBird {
 			};
 
 			if (this.boxIntersect(birdBox, pipeTopBox) || this.boxIntersect(birdBox, pipeBottomBox)) {
-				this.endGame();
-				break;
+				gameEnded = true;
 			}
 		}
+
+		if (gameEnded) {
+			this.endGame();
+		}
+
 	}
 
 	boxIntersect(a, b) {
@@ -343,11 +349,11 @@ class FlappyBird {
 
 		const edge = isTopPipe ? y / pipe.scale : (this.canvas.height - y) / pipe.scale;
 		const remainingHeight = edge - pipeTopHeight;
+
 		const repetitions = Math.ceil(remainingHeight / pipeBodyHeight);
 
-		for (let i = 0; i < repetitions; i++) {
+		for (let i = 0; i < repetitions && (remainingHeight - i * pipeBodyHeight) > 0; i++) {
 			const segmentHeight = Math.min(pipeBodyHeight, remainingHeight - i * pipeBodyHeight);
-			if (segmentHeight <= 0) break;
 
 			const segmentSourceHeight = (segmentHeight / pipeBodyHeight) * pipeBodySourceHeight;
 
@@ -359,6 +365,7 @@ class FlappyBird {
 				pipe.width, segmentHeight
 			);
 		}
+
 		this.ctx.restore();
 	}
 }
