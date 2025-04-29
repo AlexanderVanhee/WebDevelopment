@@ -25,7 +25,7 @@ canvas {
     display: block;
     width: 100vw;
     height: 100vh;
-    pointer-events: none;
+    pointer-events: auto;
 }
 
 #ui {
@@ -38,7 +38,6 @@ canvas {
     pointer-events: none;
     color: white;
     text-align: center;
-    pointer-events: auto;
     z-index: 10;
     text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.7);
 }
@@ -121,4 +120,9 @@ button {
 
 .play-img:hover {
     transform: translate(-2px, -2px);
+}
+
+#start-screen,
+#game-over {
+    pointer-events: auto;
 }

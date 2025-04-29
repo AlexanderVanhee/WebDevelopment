@@ -16,21 +16,21 @@ class FlappyBird {
 				scale: 2,
 				speed: 2,
 				width: 52,
-				gap: 350,
+				gap: 325,
 				imageSrc: 'assets/pipe.png',
 				minHeight: 50
 			},
 			background: {
 				imageSrc: 'assets/background.png',
-				speed: 0.5,
-				scrollX: 0
+				speed: 0.15,
+				scrollX: 15
 			},
 			bird: {
 				size: 60,
 				x: 150,
 				y: 1500,
-				gravity: 0.4,
-				jumpForce: -12,
+				gravity: 0.6,
+				jumpForce: -14,
 				velocity: 0,
 				color: "#FFD700",
 				upflapSrc: 'assets/bird/upflap.png',
