@@ -5,8 +5,12 @@
       "subtitle": "Herhaling",
       "exercises": [
         {
-          "title": "Homepage",
+          "title": "Start Page",
           "path": "js10/StartPage/index.html"
+        },
+        {
+          "title": "Flappy Bird",
+          "path": "js10/FlappyBird/index.html"
         }
       ]
     },

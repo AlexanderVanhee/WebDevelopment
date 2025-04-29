@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Flappy Bird</title>
+	<link rel="stylesheet" type="text/css" href="styles/index.css">
+</head>
+
+<body>
+	<canvas></canvas>
+	<div id="ui">
+		<div id="start-screen">
+			<h1>Flappy Bird</h1>
+			<button id="start-button">
+				<div class="image-wrapper">
+					<img class="play-img" src="assets/playbtn.png" alt="Play Button">
+				</div>
+			</button>
+		</div>
+
+		<div id="score" hidden>0</div>
+
+		<div id="game-over" hidden>
+			<img src="assets/gameover.png">
+			<p>Score: <span id="final-score">0</span></p>
+			<button id="retry-button">
+				<div class="image-wrapper">
+					<img class="play-img" src="assets/playbtn.png" alt="Play Button">
+				</div>
+			</button>
+		</div>
+	</div>
+
+	<script src="scripts/index.js"></script>
+</body>
+
+</html>
