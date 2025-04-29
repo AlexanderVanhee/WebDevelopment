@@ -94,6 +94,7 @@ class FlappyBird {
 	}
 
 	resizeCanvas() {
+
 		this.canvas.width = window.innerWidth;
 		this.canvas.height = window.innerHeight;
 		this.canvas.style.width = `${window.innerWidth}px`;
@@ -103,6 +104,7 @@ class FlappyBird {
 	start() {
 		this.resetGame();
 		this.state.isRunning = true;
+		this.lastTime = performance.now();
 		requestAnimationFrame(this.gameLoop.bind(this));
 	}
 
@@ -146,7 +148,7 @@ class FlappyBird {
 	}
 
 	updateBird(deltaTime) {
-		deltaTime = Math.max(deltaTime, 0.5);
+		deltaTime = Math.min(deltaTime, 100);
 		const bird = this.config.bird;
 		bird.velocity += bird.gravity * deltaTime / 20;
 		bird.y += bird.velocity * deltaTime / 20;
