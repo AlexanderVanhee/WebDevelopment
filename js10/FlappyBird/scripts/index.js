@@ -512,3 +512,7 @@ window.addEventListener('load', () => {
 		scoreElement.hidden = true;
 	};
 });
+
+document.addEventListener('dblclick', function (e) {
+    e.preventDefault();
+  }, { passive: false });
