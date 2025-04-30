@@ -3,18 +3,12 @@ class FlappyBird {
 		this.canvas = document.querySelector("canvas");
 		this.ctx = this.canvas.getContext("2d");
 		this.lastTime = 0;
-
 		// external callbacks
 		this.onGameOver = null;
 		this.onScoreUpdate = null;
-
-
 		// Optional user callbacks
 		this.onPause = null;
 		this.onResume = null;
-
-
-		this.framerateCap = 1000 / 60;
 
 		this.config = {
 			pipe: {
@@ -24,7 +18,8 @@ class FlappyBird {
 				width: 52,
 				gap: 325,
 				imageSrc: 'assets/pipe.png',
-				minHeight: 250
+				minHeightBottom: 250,
+				minHeightTop: 50,
 			},
 			background: {
 				imageSrc: 'assets/background.png',
@@ -44,7 +39,6 @@ class FlappyBird {
 				gravity: 0.6,
 				jumpForce: -14,
 				velocity: 0,
-				color: "#FFD700",
 				upflapSrc: 'assets/bird/upflap.png',
 				midflapSrc: 'assets/bird/midflap.png',
 				downflapSrc: 'assets/bird/downflap.png',
@@ -58,7 +52,7 @@ class FlappyBird {
 			isRunning: false,
 			score: 0,
 			gameOver: false,
-			isPaused:false,
+			isPaused: false,
 		};
 
 		this.assets = {
@@ -79,10 +73,19 @@ class FlappyBird {
 			this.drawBackground();
 		};
 
-		this.assets.ground.onLoad = () => {
+		this.assets.ground.onload = () => {
 			this.drawGround();
 		};
-		
+		this.checkAssetsLoaded();
+	}
+
+	checkAssetsLoaded() {
+		if (this.assets.backgroundImage.complete && this.assets.ground.complete) {
+			this.drawBackground();
+			this.drawGround();
+		} else {
+			setTimeout(() => this.checkAssetsLoaded(), 100);
+		}
 	}
 
 	loadImage(src) {
@@ -106,8 +109,7 @@ class FlappyBird {
 			if (e.code === "Space") this.jump();
 		});
 		this.canvas.addEventListener("pointerdown", () => this.jump());
-
-		if (this.assets.backgroundImage.complete &this.assets.ground) {
+		if (this.assets.backgroundImage.complete && this.assets.ground.complete) {
 			this.drawBackground();
 			this.drawGround();
 		}
@@ -136,6 +138,7 @@ class FlappyBird {
 		this.state.score = 0;
 		this.state.gameOver = false;
 		this.config.background.scrollX = 0;
+		this.config.ground.scrollX = 0;
 	}
 
 	jump() {
@@ -195,19 +198,35 @@ class FlappyBird {
 		}
 	}
 
-
-
 	updatePipes(deltaTime) {
+		const pipes = this.state.pipes;
+		const pipeConfig = this.config.pipe;
+
 		this.state.pipeSpawnTimer += deltaTime;
-		if (this.state.pipeSpawnTimer > this.config.pipe.spawnInterval) {
+		if (this.state.pipeSpawnTimer > pipeConfig.spawnInterval) {
 			this.spawnPipe();
 			this.state.pipeSpawnTimer = 0;
 		}
 
-		this.state.pipes.forEach(pipe => pipe.x -= this.config.pipe.speed);
-		this.state.pipes = this.state.pipes.filter(pipe =>
-			pipe.x + this.config.pipe.width * this.config.pipe.scale > -200
-		);
+		for (let i = pipes.length - 1; i >= 0; i--) {
+			pipes[i].x -= pipeConfig.speed;
+			if (pipes[i].x + pipeConfig.width * pipeConfig.scale < 0) {
+				pipes.splice(i, 1);
+			}
+		}
+	}
+
+	spawnPipe() {
+		const maxTopPipeHeight = this.canvas.height - this.config.pipe.gap - this.config.pipe.minHeightBottom;
+		const minTopPipeHeight = this.config.pipe.minHeightTop;
+		const pipeHeight = Math.floor(Math.random() * (maxTopPipeHeight - minTopPipeHeight)) + minTopPipeHeight;
+
+
+		this.state.pipes.push({
+			x: this.canvas.width,
+			top: pipeHeight,
+			passed: false,
+		});
 	}
 
 	updateBackground(deltaTime) {
@@ -232,10 +251,9 @@ class FlappyBird {
 			width: bird.size,
 			height: bird.size
 		};
-	
+
 		let gameEnded = false;
-	
-		// Pipe collision
+
 		for (const pipe of this.state.pipes) {
 			const pipeWidth = this.config.pipe.width * this.config.pipe.scale;
 			const pipeTopBox = {
@@ -250,27 +268,27 @@ class FlappyBird {
 				width: pipeWidth,
 				height: this.canvas.height - (pipe.top + this.config.pipe.gap)
 			};
-	
+
 			if (this.boxIntersect(birdBox, pipeTopBox) || this.boxIntersect(birdBox, pipeBottomBox)) {
 				gameEnded = true;
 			}
 		}
-	
+
 		const groundImg = this.assets.ground;
 		if (groundImg && groundImg.complete) {
-			const groundHeight = 230; 
+			const groundHeight = 230;
 			const groundY = this.canvas.height - groundHeight + this.config.ground.offset;
-	
+
 			if (birdBox.y + birdBox.height > groundY) {
 				gameEnded = true;
 			}
 		}
-	
+
 		if (gameEnded) {
 			this.endGame();
 		}
 	}
-	
+
 
 	boxIntersect(a, b) {
 		return (
@@ -340,39 +358,24 @@ class FlappyBird {
 
 	drawGround() {
 		const img = this.assets.ground;
-		if (!img.complete) return; 
-	
-		const desiredTileHeight = 230; 
+		if (!img.complete) return;
+
+		const desiredTileHeight = 230;
 		const scale = desiredTileHeight / img.height;
 		const tileWidth = img.width * scale;
 		const tileHeight = desiredTileHeight;
-	
+
 		const scrollPos = this.config.ground.scrollX * scale;
 		let x = -scrollPos;
-		
-		
-		const y = this.canvas.height - tileHeight + this.config.ground.offset; 
-	
+
+
+		const y = this.canvas.height - tileHeight + this.config.ground.offset;
+
 		while (x < this.canvas.width + tileWidth) {
 			this.ctx.drawImage(img, x, y, tileWidth, tileHeight);
 			x += tileWidth;
 		}
 	}
-	
-	
-
-	spawnPipe() {
-		const pipeHeight = Math.floor(
-			Math.random() * (this.canvas.height - this.config.pipe.gap - this.config.pipe.minHeight * 2)
-		) + this.config.pipe.minHeight;
-
-		this.state.pipes.push({
-			x: this.canvas.width,
-			top: pipeHeight,
-			passed: false
-		});
-	}
-
 
 	drawPipes() {
 		if (!this.config.pipe.aspectRatio) return;
@@ -385,33 +388,33 @@ class FlappyBird {
 				x: pipe.x,
 				y: bottomY,
 				renderedPipeHeight,
-				isTopPipe: false
+				isTopPipe: false,
 			});
 			this.drawPipe({
 				x: pipe.x,
 				y: pipe.top,
 				renderedPipeHeight,
-				isTopPipe: true
+				isTopPipe: true,
 			});
 		}
 	}
 
 	drawPipe({ x, y, renderedPipeHeight, isTopPipe }) {
-		const pipe = this.config.pipe;
+		const pipeConfig = this.config.pipe;
 		const pipeImage = this.assets.pipeImage;
 		this.ctx.save();
 		this.ctx.translate(x, y);
 
-		this.ctx.scale(pipe.scale, isTopPipe ? -pipe.scale : pipe.scale);
+		this.ctx.scale(pipeConfig.scale, isTopPipe ? -pipeConfig.scale : pipeConfig.scale);
 
 		const pipeTopHeight = renderedPipeHeight * 0.25;
 		const pipeBodySourceStartY = pipeImage.height * 0.5;
 		const pipeBodySourceHeight = pipeImage.height * 0.5;
 		const pipeBodyHeight = renderedPipeHeight * 0.5;
 
-		this.ctx.drawImage(pipeImage, 0, 0, pipeImage.width, pipeImage.height * 0.25, 0, 0, pipe.width, pipeTopHeight);
+		this.ctx.drawImage(pipeImage, 0, 0, pipeImage.width, pipeImage.height * 0.25, 0, 0, pipeConfig.width, pipeTopHeight);
 
-		const edge = isTopPipe ? y / pipe.scale : (this.canvas.height - y) / pipe.scale;
+		const edge = isTopPipe ? y / pipeConfig.scale : (this.canvas.height - y) / pipeConfig.scale;
 		const remainingHeight = edge - pipeTopHeight;
 
 		const repetitions = Math.ceil(remainingHeight / pipeBodyHeight);
@@ -426,10 +429,9 @@ class FlappyBird {
 				0, pipeBodySourceStartY,
 				pipeImage.width, segmentSourceHeight,
 				0, pipeTopHeight + i * pipeBodyHeight,
-				pipe.width, segmentHeight
+				pipeConfig.width, segmentHeight
 			);
 		}
-
 		this.ctx.restore();
 	}
 
@@ -440,7 +442,7 @@ class FlappyBird {
 			this.onPause();
 		}
 	}
-	
+
 	resume() {
 		if (!this.state.isRunning || !this.state.isPaused) return;
 		this.state.isPaused = false;
@@ -450,7 +452,7 @@ class FlappyBird {
 		}
 		requestAnimationFrame(this.gameLoop.bind(this));
 	}
-	
+
 	togglePause() {
 		if (this.state.isPaused) {
 			this.resume();
@@ -458,10 +460,10 @@ class FlappyBird {
 			this.pause();
 		}
 	}
-	
 }
 
-window.addEventListener('load', () => {
+
+const initial = () => {
 	const game = new FlappyBird();
 
 	const startScreen = document.getElementById("start-screen");
@@ -470,6 +472,7 @@ window.addEventListener('load', () => {
 	const gameOverElement = document.getElementById("game-over");
 	const finalScoreElement = document.getElementById("final-score");
 	const retryButton = document.getElementById("retry-button");
+	const pauseButton = document.getElementById("pause-button");
 
 	game.assets.midflapImage.onload = () => {
 		game.config.bird.flapImage = game.assets.midflapImage;
@@ -477,29 +480,52 @@ window.addEventListener('load', () => {
 
 	const startGame = () => {
 		if (startScreen.hidden) return;
-		console.log("Start game");
 		startScreen.hidden = true;
 		scoreElement.hidden = false;
 		game.start();
+		updatePauseButton();
 	};
 
 	startButton.addEventListener("click", startGame);
 
+	const togglePause = () => {
+		game.togglePause();
+		updatePauseOverlay();
+		updatePauseButton();
+	};
+
+	const updatePauseButton = () => {
+		pauseButton.textContent = game.state.isPaused ? "▶" : "⏸";
+	};
+
+	pauseButton.addEventListener("click", togglePause);
 	window.addEventListener("keydown", (e) => {
-		console.log(e);
 		if (e.key === "Enter") {
 			startGame();
 		} else if (e.key === "Escape") {
-			console.log("Pressing p");
-			game.togglePause();
+			togglePause();
 		}
 	});
-	
+
+	const pause = () => {
+		game.pause();
+		updatePauseOverlay();
+		updatePauseButton();
+	};
+
+	const updatePauseOverlay = () => {
+		const pauseOverlay = document.querySelector("#pause");
+		pauseOverlay.hidden = !game.state.isPaused;
+	};
+	// pause on windows unfocus
+	window.addEventListener("blur", pause);
+
 	retryButton.addEventListener("click", () => {
 		gameOverElement.hidden = true;
 		scoreElement.textContent = "0";
 		scoreElement.hidden = false;
 		game.start();
+		updatePauseButton();
 	});
 
 	game.onScoreUpdate = (score) => {
@@ -511,8 +537,12 @@ window.addEventListener('load', () => {
 		gameOverElement.hidden = false;
 		scoreElement.hidden = true;
 	};
-});
+}
 
+window.addEventListener('load', initial);
+
+
+// Disable double click on Android mobile
 document.addEventListener('dblclick', function (e) {
-    e.preventDefault();
-  }, { passive: false });
+	e.preventDefault();
+}, { passive: false });

@@ -10,6 +10,7 @@ html {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    user-select: none;
 }
 
 img,
@@ -100,8 +101,12 @@ button {
 .play-img {
     width: 20vw;
     max-width: 200px;
-    transition: transform 0.3s ease;
+    transition: transform 0.1s ease;
     z-index: 1;
+}
+
+#pause {
+    font-size: 10em;
 }
 
 .image-wrapper::before {
@@ -115,7 +120,6 @@ button {
     filter: brightness(0%) opacity(0.7);
     background-size: contain;
     z-index: -1;
-    transition: transform 0.3s ease;
 }
 
 .play-img:hover {
@@ -124,5 +128,16 @@ button {
 
 #start-screen,
 #game-over {
+    pointer-events: auto;
+}
+
+#pause-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 3em;
+    /* Decent size for the pause button */
+    cursor: pointer;
+    z-index: 20;
     pointer-events: auto;
 }
