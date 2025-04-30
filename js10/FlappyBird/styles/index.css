@@ -10,7 +10,6 @@ html {
     margin: 0;
     padding: 0;
     overflow: hidden;
-
 }
 
 img,
@@ -39,20 +38,20 @@ canvas {
     color: white;
     text-align: center;
     z-index: 10;
-    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.7);
+    text-shadow: 0.25vw 0.25vw 0 rgba(0, 0, 0, 0.7);
 }
 
 h1 {
-    font-size: 96px;
+    font-size: 8vw;
     font-weight: 500;
 }
 
 #score {
-    font-size: 96px;
+    font-size: 12vw;
     font-weight: 400;
-    margin-top: 20px;
+    margin-top: 2vh;
     color: #FFF;
-    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.7);
+    text-shadow: 0.25vw 0.25vw 0 rgba(0, 0, 0, 0.7);
 }
 
 #game-over {
@@ -60,18 +59,19 @@ h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 30px;
-    border-radius: 10px;
-    font-size: 32px;
+    padding: 4vh;
+    border-radius: 1vh;
+    font-size: 3vh;
 }
 
 #game-over p {
-    font-size: 48px;
-    margin-bottom: 12px;
+    font-size: 4vh;
+    margin-bottom: 1vh;
 }
 
 #game-over img {
-    width: 200px;
+    width: 50vw;
+    max-width: 200px;
 }
 
 #start-screen {
@@ -79,12 +79,11 @@ h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
-    padding: 40px;
-    border-radius: 15px;
+    padding: 5vh;
+    border-radius: 2vh;
     color: white;
     text-align: center;
-    font-size: 32px;
+    font-size: 3vh;
 }
 
 button {
@@ -99,7 +98,8 @@ button {
 }
 
 .play-img {
-    width: 200px;
+    width: 20vw;
+    max-width: 200px;
     transition: transform 0.3s ease;
     z-index: 1;
 }
@@ -107,8 +107,8 @@ button {
 .image-wrapper::before {
     content: '';
     position: absolute;
-    top: 5px;
-    left: 5px;
+    top: 0.5vw;
+    left: 0.5vw;
     width: 100%;
     height: 100%;
     background: url('../assets/playbtn.png') no-repeat center center;
@@ -119,7 +119,7 @@ button {
 }
 
 .play-img:hover {
-    transform: translate(-2px, -2px);
+    transform: translate(-0.2vw, -0.2vw);
 }
 
 #start-screen,
