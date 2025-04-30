@@ -1,42 +1,87 @@
 class StorageUtil { // Abstractie van localStorage voor objecten.
 	static get(key) {
-	  const data = localStorage.getItem(key);
-	  return data ? JSON.parse(data) : null;
+		const data = localStorage.getItem(key);
+		return data ? JSON.parse(data) : null;
 	}
 	static set(key, value) {
-	  localStorage.setItem(key, JSON.stringify(value));
+		localStorage.setItem(key, JSON.stringify(value));
 	}
 	static remove(key) {
-	  localStorage.removeItem(key);
+		localStorage.removeItem(key);
 	}
 	static has(key) {
-	  return localStorage.getItem(key) !== null;
+		return localStorage.getItem(key) !== null;
 	}
 }
 
-class StartPage{
+class Popup {
+	constructor(content, title = null) {
+		this.background = document.createElement('div');
+		this.background.className = 'popup-background';
+		document.body.appendChild(this.background);
+
+		this.element = document.createElement('div');
+		this.element.className = title ? 'popup' : 'popup popup-no-title';
+		if (title) {
+			const header = document.createElement('div');
+			header.className = 'popup-header';
+
+			const titleEl = document.createElement('h3');
+			titleEl.className = 'popup-title';
+			titleEl.textContent = title;
+
+			const closeBtn = document.createElement('button');
+			closeBtn.className = 'close-btn';
+			closeBtn.textContent = '×';
+
+			header.appendChild(titleEl);
+			header.appendChild(closeBtn);
+			this.element.appendChild(header);
+		} else {
+			const closeBtn = document.createElement('button');
+			closeBtn.className = 'close-btn';
+			closeBtn.textContent = '×';
+			this.element.appendChild(closeBtn);
+		}
+
+		const contentDiv = document.createElement('div');
+		contentDiv.innerHTML = content;
+		this.element.appendChild(contentDiv);
+
+		document.body.appendChild(this.element);
+		this.element.querySelector('.close-btn').addEventListener('click', () => this.close());
+	}
+
+	close() {
+		this.element.remove();
+		this.background.remove();
+	}
+}
+
+class StartPage {
 	constructor() {
 		this.storage = {
-			cardKey: "startPage.cardKey"
+			cardKey: "startPage.cardKey",
+			sortDirectionKey: "startPage.sortDirection"
 		};
-
 		this.state = [
-			{key:"g",name:"Google",color: "#2f70e9",function: (i) =>`https://www.google.com/search?q=${i.replace(" ", "+")}`},
-			{key:"y", name:"Youtube",color: "#FF0000",function: (i) =>`https://www.youtube.com/results?search_query=${i.replace(" ", "+")}`},
-			{key:"x", name:"X",color: "#1d9bf0",function:(i) =>`https://x.com/search?q=${i.replace(" ", "%20")}`},
-			{key:"i", name: "Instagram", color:"#fc0077", function:(i) => `https://www.instagram.com/explore/tags/${i.replace(" ", "")}/`},
-			{key:"d",name:"DuckDuckGo",color: "#de5833",function: (i) =>`https://duckduckgo.com/?t=h_&q=${i.replace(" ", "+")}`},
-			{key:"t", name:"TikTok",color: "#fe2c55",function:(i) =>`https://www.tiktok.com/search?q=${i.replace(" ", "%20")}`},
+			{ key: "g", name: "Google", color: "#2f70e9", function: (i) => `https://www.google.com/search?q=${i.replace(" ", "+")}` },
+			{ key: "y", name: "Youtube", color: "#FF0000", function: (i) => `https://www.youtube.com/results?search_query=${i.replace(" ", "+")}` },
+			{ key: "x", name: "X", color: "#1d9bf0", function: (i) => `https://x.com/search?q=${i.replace(" ", "%20")}` },
+			{ key: "i", name: "Instagram", color: "#fc0077", function: (i) => `https://www.instagram.com/explore/tags/${i.replace(" ", "")}/` },
+			{ key: "d", name: "DuckDuckGo", color: "#de5833", function: (i) => `https://duckduckgo.com/?t=h_&q=${i.replace(" ", "+")}` },
+			{ key: "t", name: "TikTok", color: "#fe2c55", function: (i) => `https://www.tiktok.com/search?q=${i.replace(" ", "%20")}` },
 		];
-
+		this.sortAscending = this.loadSortDirection();
 		this.elements = {};
 		this.init();
 		this.setupEventListeners();
-	  }
-	
+	}
+
 	init() {
 		this.initElements();
 		this.loadCards();
+		this.updateSortButtonText();
 	}
 
 	initElements() {
@@ -44,16 +89,18 @@ class StartPage{
 		this.elements.commandInput = document.querySelector('#command-input');
 		this.elements.goButton = document.querySelector('#go-button');
 		this.elements.cardsContainer = document.querySelector('#cards-container');
+		this.elements.changeSort = document.querySelector("#change-sort");
 	}
-
 
 	setupEventListeners() {
 		this.elements.goButton.addEventListener("click", this.submit.bind(this));
 		this.elements.commandInput.addEventListener("keyup", (event) => {
-			if (event.key === "Enter"){
+			if (event.key === "Enter") {
 				this.submit();
 			}
 		});
+
+		this.elements.changeSort.addEventListener("click", this.changeSortDirection.bind(this));
 	}
 
 	submit() {
@@ -61,43 +108,44 @@ class StartPage{
 		const commando = this.parseCommando(inputValue); // Name , color, func
 		const query = StartPage.parseQuery(inputValue);
 
-		// Manipulate to saved object
 		commando.link = commando.function(query);
 		this.openLink(commando.link);
 		commando.query = query;
 		delete commando.function;
 
-		this.addCard(commando);
 		this.saveToStorage(commando);
 		this.resetInput();
+		this.refreshCardDisplay();
 	}
 
 	parseCommando(input) {
-		if (!input.startsWith("/")){
-			throw new Error("Commando not found");
+		if (!input.startsWith("/")) {
+			this.resetInput();
+			new Popup('start your command with /[character]', 'Error');
+			throw new Error("Invalid start", commando);
 		}
-		const commando = input.split(" ")[0].slice(1,2);
+		const commando = input.split(" ")[0].slice(1, 2);
 
 		let returnValue;
 		this.state.forEach(s => {
-			if (s.key === commando){
+			if (s.key === commando) {
 				returnValue = s;
 			}
 		})
 
 		if (returnValue == null) {
 			this.resetInput();
+			new Popup(`Unkown commando "${commando}"`, 'Error');
 			throw new Error("Invalid commando", commando);
 		}
 		return returnValue;
 	}
 
 	static parseQuery(input) {
-		const words = input.split(" ").slice(1,-0).join(" ");
-		return input.slice(3,100);
+		const words = input.split(" ").slice(1, -0).join(" ");
+		return input.slice(3, 100);
 	}
-	
-	// TODO sort by title and then query + sort from a-z and z-a
+
 	addCard(commandInfo) {
 		const div = document.createElement("div");
 		div.classList.add("card");
@@ -108,7 +156,7 @@ class StartPage{
 		queryText.textContent = commandInfo.query;
 		const link = document.createElement("a");
 		link.setAttribute("href", commandInfo.link);
-		link.setAttribute("target" , "_blank")
+		link.setAttribute("target", "_blank")
 		link.textContent = "GO!"
 
 		div.appendChild(queryTitle);
@@ -117,25 +165,68 @@ class StartPage{
 		this.elements.cardsContainer.appendChild(div);
 	}
 
-	saveToStorage (command) {
-		if(StorageUtil.has(this.storage.cardKey)){
+	changeSortDirection() {
+		this.sortAscending = !this.sortAscending;
+		this.saveSortDirection();
+		this.updateSortButtonText();
+		this.refreshCardDisplay();
+	}
+
+	updateSortButtonText() {
+		this.elements.changeSort.textContent = this.sortAscending ? "Sort: A → Z" : "Sort: Z → A";
+	}
+
+	saveSortDirection() {
+		StorageUtil.set(this.storage.sortDirectionKey, this.sortAscending);
+	}
+
+	loadSortDirection() {
+		return StorageUtil.has(this.storage.sortDirectionKey)
+			? StorageUtil.get(this.storage.sortDirectionKey)
+			: true;
+	}
+
+	saveToStorage(command) {
+		if (StorageUtil.has(this.storage.cardKey)) {
 			const list = StorageUtil.get(this.storage.cardKey);
-			list.push( command);
+			list.push(command);
 			StorageUtil.set(this.storage.cardKey, list);
 			return;
 		}
-		const list= [];
+		const list = [];
 		list.push(command);
 		StorageUtil.set(this.storage.cardKey, list);
 	}
 
 	loadCards() {
-		if(StorageUtil.has(this.storage.cardKey)){
-			const list = StorageUtil.get(this.storage.cardKey);
-			list.forEach(element => {
-				this.addCard(element);
-			});
+		this.refreshCardDisplay();
+	}
+
+	getSortedCards() {
+		if (!StorageUtil.has(this.storage.cardKey)) {
+			return [];
 		}
+		const list = StorageUtil.get(this.storage.cardKey);
+
+		return list.sort((a, b) => {
+			const nameComparison = a.name.localeCompare(b.name);
+			if (nameComparison === 0) {
+				return a.query.localeCompare(b.query);
+			}
+
+			return nameComparison;
+		});
+	}
+
+	refreshCardDisplay() {
+		this.elements.cardsContainer.innerHTML = '';
+		let sortedCards = this.getSortedCards();
+		if (!this.sortAscending) {
+			sortedCards = sortedCards.reverse();
+		}
+		sortedCards.forEach(card => {
+			this.addCard(card);
+		});
 	}
 
 	resetInput() {
@@ -143,9 +234,8 @@ class StartPage{
 	}
 
 	openLink(url) {
-		window.open(url,'_blank');
+		window.open(url, '_blank');
 	}
 }
-
 
 window.addEventListener('load', () => new StartPage());
