@@ -24,7 +24,7 @@ class FlappyBird {
 			background: {
 				imageSrc: 'assets/background.png',
 				speed: 0.15,
-				scrollX: 15
+				scrollX: 0
 			},
 			ground: {
 				groundSrc: 'assets/base.png',
@@ -346,7 +346,7 @@ class FlappyBird {
 
 		const scale = this.canvas.height / img.height;
 		const tileWidth = img.width * scale;
-		const overlap = 15;
+		const overlap = 0.5;
 		const scrollPos = this.config.background.scrollX * scale;
 		let x = -scrollPos;
 
