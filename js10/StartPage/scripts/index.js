@@ -45,7 +45,7 @@ class Popup {
 		}
 
 		const contentDiv = document.createElement('div');
-		contentDiv.innerHTML = content;
+		contentDiv.textContent = content;
 		this.element.appendChild(contentDiv);
 
 		document.body.appendChild(this.element);
@@ -133,7 +133,7 @@ class StartPage {
 			}
 		})
 
-		if (returnValue == null) {
+		if (returnValue === null) {
 			this.resetInput();
 			new Popup(`Unkown commando "${commando}"`, 'Error');
 			throw new Error("Invalid commando", commando);
