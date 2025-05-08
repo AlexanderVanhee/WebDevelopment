@@ -6,7 +6,6 @@ class IsometricCanvas {
         this.originY = 100;
         this.tileWidth = 30;
         this.tileHeight = 15;
-
         this.offsetX = 0;
         this.offsetY = 0;
         this.isDragging = false;
@@ -122,7 +121,7 @@ class IsometricCanvas {
             ctx.fill();
         }
 
-        //TOp
+        //Top
         ctx.fillStyle = this.shadeColor(color, 0.1);
         ctx.beginPath();
         ctx.moveTo(topCenter.x, topCenter.y);
@@ -195,7 +194,6 @@ class IsometricCanvas {
         this.canvas.addEventListener('mouseup', this._handleMouseUp.bind(this));
         this.canvas.addEventListener('mouseleave', this._handleMouseUp.bind(this));
         this.canvas.addEventListener('wheel', this._handleWheel.bind(this));
-        this.canvas.addEventListener('click', this._handleClick.bind(this));
         this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
         this.canvas.addEventListener('touchstart', this._handleTouchStart.bind(this), { passive: false });
         this.canvas.addEventListener('touchmove', this._handleTouchMove.bind(this), { passive: false });
@@ -247,14 +245,11 @@ class IsometricCanvas {
             [cuboid.corners[4], cuboid.corners[5], cuboid.corners[6], cuboid.corners[7]], // Top 
             [cuboid.corners[0], cuboid.corners[1], cuboid.corners[2], cuboid.corners[3]], // Bottom 
         ];
-
-
         for (let face of faces) {
             if (this._isPointInPolygon(mouseX, mouseY, face)) {
                 return true; // If click is inside any face, return true
             }
         }
-
         return false; // No face contains the point
     }
 
@@ -296,8 +291,8 @@ class IsometricCanvas {
 
     _handleMouseDown(e) {
         this.isDragging = true;
-        this.lastMouseX = e.offsetX;
-        this.lastMouseY = e.offsetY;
+        this.startMouseX = this.lastMouseX = e.offsetX;
+        this.startMouseY = this.lastMouseY = e.offsetY;
         this.canvas.style.cursor = 'grabbing';
     }
 
@@ -313,20 +308,26 @@ class IsometricCanvas {
         this.lastMouseX = e.offsetX;
         this.lastMouseY = e.offsetY;
 
-        // Trigger redraw, handled by consumer
         if (this.onViewChanged) {
             this.onViewChanged();
         }
     }
 
-    _handleMouseUp() {
+    _handleMouseUp(e) {
         this.isDragging = false;
-        this.canvas.style.cursor = 'grab';
+        this.canvas.style.cursor = 'default';
+
+        const dx = e.offsetX - this.startMouseX;
+        const dy = e.offsetY - this.startMouseY;
+        const moved = Math.sqrt(dx * dx + dy * dy);
+
+        if (moved < 5 && !('ontouchstart' in window)) {
+            this._handleClick(e);
+        }
     }
 
     _handleWheel(e) {
         e.preventDefault();
-
         const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
         const rect = this.canvas.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
