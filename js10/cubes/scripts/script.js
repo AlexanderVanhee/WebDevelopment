@@ -298,7 +298,6 @@ class IsometricCanvas {
     }
 
 
-
     resetView() {
         this.offsetX = 0;
         this.offsetY = 0;
@@ -329,10 +328,21 @@ const iso = new IsometricCanvas(canvas);
 const infoBox = document.getElementById('infoBox');
 
 const resizeCanvas = () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    iso.originX = canvas.width / 2;
-    iso.originY = canvas.height / 2;
+    const dpr = window.devicePixelRatio || 1;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+
+    iso.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    iso.ctx.scale(dpr, dpr);
+
+    iso.originX = width / 2;
+    iso.originY = height / 2;
+
     drawScene();
 };
 
