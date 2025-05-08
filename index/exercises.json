@@ -11,6 +11,10 @@
         {
           "title": "Flappy Bird",
           "path": "js10/FlappyBird/index.html"
+        },
+        {
+          "title": "Cube world",
+          "path": "js10/cubes/index.html"
         }
       ]
     },
