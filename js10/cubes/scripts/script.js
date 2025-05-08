@@ -103,6 +103,9 @@ class IsometricCanvas {
         this.canvas.addEventListener('wheel', this._handleWheel.bind(this));
         this.canvas.addEventListener('click', this._handleClick.bind(this));
         this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+        this.canvas.addEventListener('touchstart', this._handleTouchStart.bind(this), { passive: false });
+        this.canvas.addEventListener('touchmove', this._handleTouchMove.bind(this), { passive: false });
+        this.canvas.addEventListener('touchend', this._handleTouchEnd.bind(this));
     }
 
     _handleClick(e) {
@@ -220,6 +223,81 @@ class IsometricCanvas {
             }
         }
     }
+
+    _handleTouchStart(e) {
+        if (e.touches.length === 1) {
+            this.isDragging = true;
+            const touch = e.touches[0];
+            this.lastMouseX = touch.clientX - this.canvas.getBoundingClientRect().left;
+            this.lastMouseY = touch.clientY - this.canvas.getBoundingClientRect().top;
+        } else if (e.touches.length === 2) {
+            this._startPinchZoom(e);
+        }
+    }
+
+    _handleTouchMove(e) {
+        e.preventDefault();
+
+        if (e.touches.length === 1 && this.isDragging) {
+            const touch = e.touches[0];
+            const x = touch.clientX - this.canvas.getBoundingClientRect().left;
+            const y = touch.clientY - this.canvas.getBoundingClientRect().top;
+
+            const deltaX = x - this.lastMouseX;
+            const deltaY = y - this.lastMouseY;
+
+            this.offsetX += deltaX;
+            this.offsetY += deltaY;
+
+            this.lastMouseX = x;
+            this.lastMouseY = y;
+
+            if (this.onViewChanged) this.onViewChanged();
+        } else if (e.touches.length === 2) {
+            this._handlePinchZoom(e);
+        }
+    }
+
+    _handleTouchEnd(e) {
+        this.isDragging = false;
+    }
+
+    _startPinchZoom(e) {
+        const [t1, t2] = e.touches;
+        this._initialPinchDistance = Math.hypot(
+            t2.clientX - t1.clientX,
+            t2.clientY - t1.clientY
+        );
+        this._initialScale = this.scale;
+    }
+
+    _handlePinchZoom(e) {
+        const [t1, t2] = e.touches;
+        const distance = Math.hypot(
+            t2.clientX - t1.clientX,
+            t2.clientY - t1.clientY
+        );
+
+        if (!this._initialPinchDistance) return;
+
+        const scaleFactor = distance / this._initialPinchDistance;
+        const newScale = Math.max(this.minScale, Math.min(this.maxScale, this._initialScale * scaleFactor));
+
+        const rect = this.canvas.getBoundingClientRect();
+        const centerX = (t1.clientX + t2.clientX) / 2 - rect.left;
+        const centerY = (t1.clientY + t2.clientY) / 2 - rect.top;
+
+        const dx = centerX - this.originX - this.offsetX;
+        const dy = centerY - this.originY - this.offsetY;
+
+        this.offsetX += dx - dx * (newScale / this.scale);
+        this.offsetY += dy - dy * (newScale / this.scale);
+        this.scale = newScale;
+
+        if (this.onViewChanged) this.onViewChanged();
+    }
+
+
 
     resetView() {
         this.offsetX = 0;
