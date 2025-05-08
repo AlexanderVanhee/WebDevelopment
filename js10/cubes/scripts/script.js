@@ -18,6 +18,7 @@ class IsometricCanvas {
         this.maxScale = 3;
 
         this.cuboids = [];
+        this.cylinders = [];
         this._setupEventListeners();
     }
 
@@ -41,21 +42,8 @@ class IsometricCanvas {
             corners: [A, B, C, D, E, F, G, H]
         };
         this.cuboids.push(cuboid);
-
-        // Helper to shade a color
-        const shadeColor = (hex, percent) => {
-            let num = parseInt(hex.slice(1), 16),
-                r = (num >> 16),
-                g = (num >> 8) & 0x00FF,
-                b = num & 0x0000FF;
-            r = Math.min(255, Math.floor(r * (1 + percent)));
-            g = Math.min(255, Math.floor(g * (1 + percent)));
-            b = Math.min(255, Math.floor(b * (1 + percent)));
-            return `rgb(${r},${g},${b})`;
-        };
-
         // Draw right face
-        ctx.fillStyle = shadeColor(color, -0.2);
+        ctx.fillStyle = this.shadeColor(color, -0.2);
         ctx.beginPath();
         ctx.moveTo(B.x, B.y);
         ctx.lineTo(C.x, C.y);
@@ -65,7 +53,7 @@ class IsometricCanvas {
         ctx.fill();
 
         // Draw left face
-        ctx.fillStyle = shadeColor(color, -0.4);
+        ctx.fillStyle = this.shadeColor(color, -0.4);
         ctx.beginPath();
         ctx.moveTo(A.x, A.y);
         ctx.lineTo(D.x, D.y);
@@ -75,7 +63,7 @@ class IsometricCanvas {
         ctx.fill();
 
         // Draw top face
-        ctx.fillStyle = shadeColor(color, 0.1);
+        ctx.fillStyle = this.shadeColor(color, 0.1);
         ctx.beginPath();
         ctx.moveTo(E.x, E.y);
         ctx.lineTo(F.x, F.y);
@@ -85,7 +73,7 @@ class IsometricCanvas {
         ctx.fill();
 
         // Draw front face (bottom)
-        ctx.fillStyle = shadeColor(color, -0.3);
+        ctx.fillStyle = this.shadeColor(color, -0.3);
         ctx.beginPath();
         ctx.moveTo(D.x, D.y);
         ctx.lineTo(C.x, C.y);
@@ -93,6 +81,112 @@ class IsometricCanvas {
         ctx.lineTo(H.x, H.y);
         ctx.closePath();
         ctx.fill();
+    }
+
+    drawIsometricCylinder(x, y, z, radius, height, segments = 10, color = '#4CAF50', id = null) {
+        const ctx = this.ctx;
+        const p = (dx, dy, dz) => this.isoProject(x + dx, y + dy, z + dz);
+        const topCenter = p(0, 0, height);
+        const bottomCenter = p(0, 0, 0);
+        const angleStep = (Math.PI * 2) / segments;
+
+        let topCircle = [];
+        let bottomCircle = [];
+        for (let i = 0; i < segments; i++) {
+            const angle = i * angleStep;
+            const dx = Math.cos(angle) * radius;
+            const dy = Math.sin(angle) * radius;
+
+            topCircle.push(p(dx, dy, height));
+            bottomCircle.push(p(dx, dy, 0));
+        }
+
+        const cylinder = {
+            id,
+            x, y, z, radius, height,
+            topCircle,
+            bottomCircle
+        };
+        this.cylinders.push(cylinder);
+
+
+        ctx.fillStyle = this.shadeColor(color, -0.2);
+        for (let i = 0; i < segments; i++) {
+            const next = (i + 1) % segments;
+            ctx.beginPath();
+            ctx.moveTo(bottomCircle[i].x, bottomCircle[i].y);
+            ctx.lineTo(bottomCircle[next].x, bottomCircle[next].y);
+            ctx.lineTo(topCircle[next].x, topCircle[next].y);
+            ctx.lineTo(topCircle[i].x, topCircle[i].y);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        //TOp
+        ctx.fillStyle = this.shadeColor(color, 0.1);
+        ctx.beginPath();
+        ctx.moveTo(topCenter.x, topCenter.y);
+        for (let i = 0; i < segments; i++) {
+            ctx.lineTo(topCircle[i].x, topCircle[i].y);
+        }
+        // Ensure the last point connects to the first
+        ctx.lineTo(topCircle[0].x, topCircle[0].y);
+        ctx.closePath();
+        ctx.fill();
+
+        // Bottom
+        ctx.fillStyle = this.shadeColor(color, -0.2);
+        ctx.beginPath();
+        ctx.moveTo(bottomCenter.x, bottomCenter.y);
+        for (let i = 0; i < segments; i++) {
+            ctx.lineTo(bottomCircle[i].x, bottomCircle[i].y);
+        }
+        // Closing
+        ctx.lineTo(bottomCircle[0].x, bottomCircle[0].y);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    shadeColor(hex, percent) {
+        let num = parseInt(hex.slice(1), 16),
+            r = (num >> 16),
+            g = (num >> 8) & 0x00FF,
+            b = num & 0x0000FF;
+        r = Math.min(255, Math.floor(r * (1 + percent)));
+        g = Math.min(255, Math.floor(g * (1 + percent)));
+        b = Math.min(255, Math.floor(b * (1 + percent)));
+        return `rgb(${r},${g},${b})`;
+    };
+
+
+    drawText(x, y, z, text, options = {}) {
+        const { x: screenX, y: screenY } = this.isoProject(x, y, z);
+        const baseFontSize = options.fontSize || 14;
+        const fontSize = baseFontSize * this.scale;
+        const ctx = this.ctx;
+
+        ctx.save();
+        ctx.translate(screenX, screenY);
+        ctx.transform(1, 0.5, -1, 0.5, 0, 0);
+
+        if (typeof options.rotation === 'number') {
+            ctx.rotate(options.rotation);
+        }
+
+        ctx.font = `${fontSize}px ${options.fontFamily || 'sans-serif'}`;
+        ctx.fillStyle = options.color || 'black';
+        ctx.textAlign = options.align || 'center';
+        ctx.textBaseline = options.baseline || 'middle';
+
+        if (options.shadow) {
+            ctx.shadowColor = options.shadow.color || 'rgba(0, 0, 0, 0.3)';
+            ctx.shadowBlur = options.shadow.blur || 4;
+            ctx.shadowOffsetX = options.shadow.offsetX || 2;
+            ctx.shadowOffsetY = options.shadow.offsetY || 2;
+        }
+
+        ctx.fillText(text, 0, 0);
+        ctx.restore();
     }
 
     _setupEventListeners() {
@@ -119,16 +213,28 @@ class IsometricCanvas {
             const cuboid = this.cuboids[i];
             if (this._isPointInCuboid(mouseX, mouseY, cuboid)) {
                 clickedCuboid = cuboid;
-                if (this.onCuboidClick) {
-                    this.onCuboidClick(cuboid.id); // callback
+                if (this.onObjectClick) {
+                    this.onObjectClick(cuboid.id); // callback
                 }
                 break;
             }
         }
 
-        // no found callback
-        if (!clickedCuboid && this.onGroundClick) {
-            this.onNothingClick();
+        if (!clickedCuboid) {
+            for (let i = this.cylinders.length - 1; i >= 0; i--) {
+                const cylinder = this.cylinders[i];
+                if (this._isPointInCylinder(mouseX, mouseY, cylinder)) {
+                    if (this.onCylinderClick) {
+                        this.onObjectClick(cylinder.id);
+                    }
+                    return;
+                }
+            }
+
+            // Call ground click if nothing matched
+            if (this.onGroundClick) {
+                this.onGroundClick();
+            }
         }
     }
 
@@ -151,6 +257,28 @@ class IsometricCanvas {
 
         return false; // No face contains the point
     }
+
+    _isPointInCylinder(mouseX, mouseY, cylinder) {
+        const { topCircle, bottomCircle } = cylinder;
+
+        if (this._isPointInPolygon(mouseX, mouseY, topCircle)) return true;
+        if (this._isPointInPolygon(mouseX, mouseY, bottomCircle)) return true;
+        for (let i = 0; i < topCircle.length; i++) {
+            const next = (i + 1) % topCircle.length;
+
+            const quad = [
+                bottomCircle[i],
+                bottomCircle[next],
+                topCircle[next],
+                topCircle[i]
+            ];
+
+            if (this._isPointInPolygon(mouseX, mouseY, quad)) return true;
+        }
+
+        return false;
+    }
+
 
     // Ray casting algorithm
     _isPointInPolygon(mouseX, mouseY, polygon) {
@@ -318,8 +446,8 @@ class IsometricCanvas {
     }
 
     // callback
-    setCuboidClickCallback(callback) {
-        this.onCuboidClick = callback;
+    setObjectClickCallback(callback) {
+        this.onObjectClick = callback;
     }
 }
 
@@ -348,6 +476,7 @@ const resizeCanvas = () => {
 
 const drawScene = () => {
     iso.clear();
+    iso.cuboids = []; // Clear cuboids array before redrawing
 
     // Ground
     const groundColor = '#8BC34A';
@@ -388,6 +517,29 @@ const drawScene = () => {
     iso.drawCuboid(14, 3, 1, 0.5, 0.5, 3, cactusColor, 'cactus3');
     iso.drawCuboid(12, 4, 1, 0.5, 0.5, 3, cactusColor, 'cactus4');
     iso.drawCuboid(9, 2, 1, 0.5, 0.5, 3, cactusColor, 'cactus5');
+
+
+    iso.drawText(2, 6.25, 2, 'Plains', {
+        color: 'white',
+        fontSize: 24,
+        fontFamily: "'PixelFont', monospace",
+    });
+
+    iso.drawText(17.25, 1, 2, 'Desert', {
+        color: 'black',
+        fontSize: 24,
+        fontFamily: "'PixelFont', monospace",
+        rotation: -Math.PI / 2
+    });
+
+    const colors = ['#FF5722', '#4cb4be', '#286c34', '#f44336', '#9c27b0', '#3f51b5', '#00bcd4'];
+    const heights = [3, 4, 5, 6, 7, 8, 9];
+    const ids = ['cylinder1', 'cylinder2', 'cylinder3', 'cylinder4', 'cylinder5', 'cylinder6', 'cylinder7'];
+
+    for (let i = 0; i < 7; i++) {
+        iso.drawIsometricCylinder(-5 + i * 3, -12, 0, 1, heights[i], 3 + i, colors[i], ids[i]);
+    }
+    iso.drawIsometricCylinder(16, -12, 0, 1, 11, 50, '#ffff40', 'cylinder3');
 };
 
 const initialize = () => {
@@ -396,10 +548,9 @@ const initialize = () => {
 
     iso.setViewChangeCallback(drawScene);
 
-    iso.setCuboidClickCallback(cuboidId => {
-        infoBox.innerText = `Cuboid clicked: ${cuboidId}`;
+    iso.setObjectClickCallback(cuboidId => {
+        infoBox.innerText = `Object clicked: ${cuboidId}`;
     });
 };
 
 window.addEventListener('load', initialize);
-

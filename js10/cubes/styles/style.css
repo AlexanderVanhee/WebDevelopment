@@ -23,3 +23,8 @@ canvas {
     font-size: 14px;
     border-radius: 5px;
 }
+
+@font-face {
+    font-family: 'PixelFont';
+    src: url('font.ttf') format('truetype');
+}
