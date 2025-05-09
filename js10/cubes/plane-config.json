@@ -1,10 +1,10 @@
 {
     "classes": {
       "Business": {
-        "seatCount":32
+        "seatCount":16
       },
       "Economy": {
-        "seatCount": 500
+        "seatCount": 85
       }
     },
     "occupiedSeatIds": [2, 5, 7, 14, 21, 34, 38, 40, 46, 55, 58, 59, 61, 67, 69]
