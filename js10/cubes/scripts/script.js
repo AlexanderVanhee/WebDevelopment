@@ -222,7 +222,7 @@ class IsometricCanvas {
             for (let i = this.cylinders.length - 1; i >= 0; i--) {
                 const cylinder = this.cylinders[i];
                 if (this._isPointInCylinder(mouseX, mouseY, cylinder)) {
-                    if (this.onCylinderClick) {
+                    if (this.onObjectClick) {  // Fixed: Use onObjectClick, not onCylinderClick
                         this.onObjectClick(cylinder.id);
                     }
                     return;
@@ -478,6 +478,7 @@ const resizeCanvas = () => {
 const drawScene = () => {
     iso.clear();
     iso.cuboids = []; // Clear cuboids array before redrawing
+    iso.cylinders = []; // Clear cylinder array before redrawing
 
     // Ground
     const groundColor = '#8BC34A';
@@ -540,7 +541,7 @@ const drawScene = () => {
     for (let i = 0; i < 7; i++) {
         iso.drawIsometricCylinder(-5 + i * 3, -12, 0, 1, heights[i], 3 + i, colors[i], ids[i]);
     }
-    iso.drawIsometricCylinder(16, -12, 0, 1, 11, 50, '#ffff40', 'cylinder3');
+    iso.drawIsometricCylinder(16, -12, 0, 1, 11, 50, '#ffff40', 'cylinder-big');
 };
 
 const initialize = () => {
@@ -549,8 +550,8 @@ const initialize = () => {
 
     iso.setViewChangeCallback(drawScene);
 
-    iso.setObjectClickCallback(cuboidId => {
-        infoBox.innerText = `Object clicked: ${cuboidId}`;
+    iso.setObjectClickCallback(objectId => {
+        infoBox.innerText = `Object clicked: ${objectId}`;
     });
 };
 
