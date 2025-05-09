@@ -1,13 +1,9 @@
 {
   "tasks": [
     {
-      "title": "JavaScript 10",
-      "subtitle": "Herhaling",
+      "title": "Extra",
+      "subtitle": "Extra dingen",
       "exercises": [
-        {
-          "title": "Start Page",
-          "path": "js10/StartPage/index.html"
-        },
         {
           "title": "Flappy Bird",
           "path": "js10/FlappyBird/index.html"
@@ -15,6 +11,20 @@
         {
           "title": "Cube world",
           "path": "js10/cubes/index.html"
+        },
+        {
+          "title": "Airplane",
+          "path": "js10/cubes/plane.html"
+        }
+      ]
+    },
+    {
+      "title": "JavaScript 10",
+      "subtitle": "Herhaling",
+      "exercises": [
+        {
+          "title": "Start Page",
+          "path": "js10/StartPage/index.html"
         }
       ]
     },
