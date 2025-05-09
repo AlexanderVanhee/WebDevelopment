@@ -75,9 +75,10 @@ export default class IsometricCanvas {
     }
 
     _handleClick(e) {
-        const mouseX = e.clientX - this.canvas.getBoundingClientRect().left;
-        const mouseY = e.clientY - this.canvas.getBoundingClientRect().top;
-
+        const rect = this.canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+    
         // Check objects in reverse
         for (let i = this.objects.length - 1; i >= 0; i--) {
             const object = this.objects[i];
@@ -88,12 +89,12 @@ export default class IsometricCanvas {
                 return;
             }
         }
-
-        // Call ground click if nothing matched
+    
         if (this.onGroundClick) {
             this.onGroundClick();
         }
     }
+    
 
     // Ray casting algorithm
     _isPointInPolygon(mouseX, mouseY, polygon) {
@@ -209,8 +210,17 @@ export default class IsometricCanvas {
 
     _handleTouchEnd(e) {
         this.isDragging = false;
+    
+        if (e.changedTouches.length === 1) {
+            const touch = e.changedTouches[0];
+            const rect = this.canvas.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+    
+            this._handleClick({ clientX: touch.clientX, clientY: touch.clientY });
+        }
     }
-
+    
     _startPinchZoom(e) {
         const [t1, t2] = e.touches;
         this._initialPinchDistance = Math.hypot(
